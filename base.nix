@@ -163,6 +163,7 @@
   environment.systemPackages = with pkgs; [
     networkmanagerapplet
     neovim
+    helix
     xclip
     clipmenu
     fish
