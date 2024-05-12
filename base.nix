@@ -1,31 +1,22 @@
-# ----- * NixOS Default Config* - base.nix ----- 
+# ----- * NixOS Default Config* - base.nix -----
 
-{
-  inputs,
-  config,
-  pkgs,
-  lib,
-  ...
-}:
-{
+{ inputs, config, pkgs, lib, ... }: {
   imports = [
-#   inputs.nixvim.nixosModules.nixvim
-#   ./modules/nixvim.nix
+    #   inputs.nixvim.nixosModules.nixvim
+    #   ./modules/nixvim.nix
   ];
 
   # Variables
-  environment.sessionVariables = {
-    FLAKE = "/home/ca/.nixos";
-  };
+  environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+    generic-extlinux-compatible.configurationLimit = 15;
+  };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Network Settings
   hardware.bluetooth.enable = true;
@@ -40,9 +31,7 @@
         enable = true;
         settings = {
           IPv6.Enabled = true;
-          Settings = {
-            AutoConnect = true;
-          };
+          Settings = { AutoConnect = true; };
         };
       };
     };
@@ -53,12 +42,8 @@
     xserver = {
       enable = true;
       autorun = false;
-      desktopManager = {
-        wallpaper.mode = "fill";
-      };
-      windowManager.qtile = {
-        enable = true;
-      };
+      desktopManager = { wallpaper.mode = "fill"; };
+      windowManager.qtile = { enable = true; };
       xkb = {
         layout = "us";
         variant = "";
@@ -69,8 +54,8 @@
         autoLogin = {
           enable = true;
           user = "ca";
-        };  
-#       job.prestart = "sleep 3";
+        };
+        #       job.prestart = "sleep 3";
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
@@ -108,11 +93,7 @@
   # Define a user account. 
   users.users.ca = {
     isNormalUser = true;
-    extraGroups = [
-      "sudo"
-      "networkmanager"
-      "wheel"
-    ];
+    extraGroups = [ "sudo" "networkmanager" "wheel" ];
   };
 
   # Set your time zone.
@@ -154,9 +135,7 @@
   fonts.packages = with pkgs; [ ];
 
   # Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config = { allowUnfree = true; };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -212,4 +191,4 @@
 
   # DO NOT ALTER OR DELETE
   system.stateVersion = "24.05";
-} 
+}
