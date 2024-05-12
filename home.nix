@@ -5,22 +5,19 @@
     stateVersion = "24.05";
     username = "ca";
     homeDirectory = lib.mkForce "/home/ca";
-    
-    sessionVariables = {
-    };
 
-    packages = [
-    ];
-    
-    file = {
-    };
+    sessionVariables = { };
+
+    packages = [ ];
+
+    file = { };
   };
 
   programs = {
     home-manager = {
       enable = true;
-#     backupFileExtension = "backup";
-    };  
+      #     backupFileExtension = "backup";
+    };
     bash = {
       enable = true;
       bashrcExtra = ''
@@ -30,13 +27,13 @@
         fi
       '';
     };
-    
+
     git = {
       enable = true;
       userName = "cabbott008";
       userEmail = "curtisabbott@me.com";
     };
-    
+
     helix = {
       enable = true;
       settings = {
@@ -47,7 +44,17 @@
             insert = "bar";
             select = "underline";
           };
+          lsp = { display-messages = true; };
           line-number = "relative";
+          true-color = true;
+        };
+        keys.normal = {
+          G = "goto_file_end";
+          ret = [ "move_line_down" "goto_line_start" ];
+          space = {
+            q = ":quit";
+            w = ":write";
+          };
         };
       };
       languages.language = [{
