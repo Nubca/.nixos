@@ -65,27 +65,21 @@
         options = "caps:escape";
       };
       displayManager = {
+        gdm.enable = true;
+        autoLogin = {
+          enable = true;
+          user = "ca";
+        };  
+#       job.prestart = "sleep 3";
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
       };
       excludePackages = with pkgs; [ xterm ];
-      };
+    };
     libinput = {
       touchpad.naturalScrolling = true;
       mouse.naturalScrolling = true;
-    };
-    displayManager = {
-      sddm = {
-        enable = true;
-        autoLogin.relogin = true;
-        settings = {
-          Autologin = {
-            Session = "none+qtile";
-            User = "ca";
-	  };
-	};
-      };
     };
   };
 
