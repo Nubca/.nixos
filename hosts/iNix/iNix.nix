@@ -12,11 +12,11 @@
 
     networking.hostName = "iNix";
 
-  # Services
-    services.xserver = {
-      displayManager = {
-        lightdm.background = /home/wa/.config/lightdm;
-      };
+    home-manager = {
+      extraSpecialArgs = { inherit inputs; };
+      users = { "ca" = import ../../home.nix; };
+      users = { "ct" = import ../../home.nix; };
+      users = { "wa" = import ../../home.nix; };
     };
 
   # Define additional user accounts. 

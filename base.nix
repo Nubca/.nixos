@@ -48,10 +48,6 @@
       };
       displayManager = {
         gdm.enable = true;
-        autoLogin = {
-          enable = true;
-          user = "ca";
-        };
         #       job.prestart = "sleep 3";
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &

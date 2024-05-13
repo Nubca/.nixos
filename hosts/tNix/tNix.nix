@@ -12,11 +12,9 @@
 
     networking.hostName = "tNix";
 
-  # Services
-    services.xserver = {
-      displayManager = {
-        lightdm.background = /home/ct/.config/lightdm;
-      };
+    home-manager = {
+      extraSpecialArgs = { inherit inputs; };
+      users = { "ct" = import ./thome.nix; };
     };
 
   # Define additional user accounts. 

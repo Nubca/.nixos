@@ -12,6 +12,10 @@
 
   networking.hostName = "mpNix";
 
+        # autoLogin = {
+        #   enable = true;
+        #   user = "ca";
+        # };
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = { "ca" = import ../../home.nix; };

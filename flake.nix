@@ -12,16 +12,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    #   nixvim = {
-    #     url = "github:nix-community/nixvim";
-    #     inputs.nixpkgs.follows = "nixpkgs";
-    #   };
-
-    #   nix-colors = {
-    #     url = "github:misterio77/nix-colors";
-    #     inputs.nixpkgs.follows = "nixpkgs";
-    #   };
   };
 
   outputs = inputs:
@@ -36,7 +26,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = false;
+              home-manager.useUserPackages = true;
             }
           ];
         };
@@ -44,13 +34,27 @@
         iNix = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
-          modules = [ ./hosts/iNix/iNix.nix ];
+          modules = [
+            ./hosts/iNix/iNix.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+          ];
         };
 
         tNix = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
-          modules = [ ./hosts/tNix/tNix.nix ];
+          modules = [
+            ./hosts/tNix/tNix.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+          ];
         };
 
         xiso = nixpkgs.lib.nixosSystem {
