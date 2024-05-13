@@ -1,10 +1,7 @@
 # ----- * NixOS Default Config* - base.nix -----
 
 { inputs, config, pkgs, lib, ... }: {
-  imports = [
-    #   inputs.nixvim.nixosModules.nixvim
-    #   ./modules/nixvim.nix
-  ];
+  imports = [ ];
 
   # Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
