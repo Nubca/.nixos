@@ -16,6 +16,8 @@
 
   outputs = inputs:
     with inputs; {
+      homeManagerModules.default = import
+        ./modules/home-manager/default.nix; # Arbitrary name pointing to default.nix
       nixosConfigurations = {
 
         mpNix = nixpkgs.lib.nixosSystem {
@@ -25,6 +27,9 @@
             ./hosts/mpNix/mpNix.nix
             home-manager.nixosModules.home-manager
             {
+              home-manager.sharedModules = [
+                self.homeManagerModules.default
+              ]; # Arbitrary name bringing in the above declared import
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }
@@ -38,6 +43,7 @@
             ./hosts/iNix/iNix.nix
             home-manager.nixosModules.home-manager
             {
+              home-manager.sharedModules = [ self.homeManagerModules.default ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }
@@ -51,6 +57,7 @@
             ./hosts/tNix/tNix.nix
             home-manager.nixosModules.home-manager
             {
+              home-manager.sharedModules = [ self.homeManagerModules.default ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }

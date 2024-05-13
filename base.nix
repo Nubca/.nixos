@@ -48,7 +48,6 @@
       };
       displayManager = {
         gdm.enable = true;
-        #       job.prestart = "sleep 3";
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
