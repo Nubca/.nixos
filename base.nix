@@ -164,6 +164,7 @@
     btop
     eza
     ripgrep
+    ripdrag
     ffmpeg
     flameshot
     nh
