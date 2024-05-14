@@ -12,11 +12,18 @@
 
     networking.hostName = "iNix";
 
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "wa";
+    };
+
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
-      users = { "ca" = import ../../home.nix; };
-      users = { "ct" = import ../../home.nix; };
-      users = { "wa" = import ../../home.nix; };
+      users = {
+        "ca" = import ../../users/cahome.nix;
+        "ct" = import ../../users/cthome.nix;
+        "wa" = import ../../users/wahome.nix;
+      };
     };
 
   # Define additional user accounts. 

@@ -12,12 +12,13 @@
 
   networking.hostName = "mpNix";
 
-  # autoLogin = {
-  #   enable = true;
-  #   user = "ca";
-  # };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "ca";
+  };
+  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = { "ca" = import ./mphome.nix; };
+    users = { "ca" = import ../../users/cahome.nix; };
   };
 }

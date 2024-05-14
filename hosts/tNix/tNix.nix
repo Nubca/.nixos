@@ -12,9 +12,18 @@
 
   networking.hostName = "tNix";
 
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "ct";
+  };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users = { "ct" = import ./thome.nix; };
+    users = {
+      "ca" = import ../../users/cahome.nix;
+      "ct" = import ../../users/cthome.nix;
+      "wa" = import ../../users/wahome.nix;
+    };
   };
 
   # Define additional user accounts. 

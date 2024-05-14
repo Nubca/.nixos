@@ -3,8 +3,8 @@
 {
   home = {
     stateVersion = "24.05";
-    username = "ct";
-    homeDirectory = lib.mkForce "/home/ct";
+    username = "wa";
+    homeDirectory = lib.mkForce "/home/wa";
 
     sessionVariables = { };
 
@@ -12,3 +12,10 @@
 
     file = { };
   };
+
+  programs = {
+    home-manager = {
+      enable = true;
+    };
+  };
+}
