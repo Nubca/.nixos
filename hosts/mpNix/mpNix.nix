@@ -18,7 +18,7 @@
   };
   
   home-manager = {
-    extraspecialargs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; };
     users = { "ca" = import ../../users/cahome.nix; };
   };
 }
