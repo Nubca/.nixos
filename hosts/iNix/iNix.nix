@@ -12,10 +12,10 @@
   
   networking.hostName = "iNix";
 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "wa";
-  };
+  # services.displayManager.autoLogin = {
+  #   enable = true;
+  #   user = "wa";
+  # };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

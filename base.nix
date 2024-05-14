@@ -88,11 +88,6 @@
     extraGroups = [ "sudo" "networkmanager" "wheel" ];
   };
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    # backupFileExtension = "bak";
-  };
-  
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
