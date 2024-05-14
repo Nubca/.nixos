@@ -1,6 +1,6 @@
 # ----- * NixOS Default Config* - base.nix -----
 
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, home-manager, ... }: {
   imports = [ ];
 
   # Variables
@@ -88,6 +88,11 @@
     extraGroups = [ "sudo" "networkmanager" "wheel" ];
   };
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    # backupFileExtension = "bak";
+  };
+  
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
