@@ -60,17 +60,8 @@
     };
   };
 
-  # Misc. Services 
-  services = {
-    gnome.gnome-keyring.enable = true;
-    openssh.enable = true;
-    printing.enable = true;
-    udisks2.enable = true;
-    devmon.enable = true;
-    gvfs.enable = true;
-    clipmenu.enable = true;
-  };
-
+  xdg.portal.enable = true;
+  
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -110,6 +101,14 @@
     enable = true;
     #     powertop.enable = true;
   };
+
+  # Allow unfree packages
+  nixpkgs.config = { allowUnfree = true; };
+
+  # Fonts
+  fonts.packages = with pkgs; [ ];
+
+  # Misc. Services 
   services = {
     logind = {
       powerKey = "hybrid-sleep";
@@ -121,13 +120,24 @@
       enable = true;
       ignoreLid = true;
     };
+    gnome.gnome-keyring.enable = true;
+    openssh.enable = true;
+    printing.enable = true;
+    udisks2.enable = true;
+    devmon.enable = true;
+    gvfs.enable = true;
+    clipmenu.enable = true;
+    flatpak = {
+      enable = true;
+      uninstallUnmanaged = true;
+      update.auto = {
+        enable = true;
+        onCalendar = "weekly";
+      };
+      packages = [
+      ];
+    };
   };
-
-  # Fonts
-  fonts.packages = with pkgs; [ ];
-
-  # Allow unfree packages
-  nixpkgs.config = { allowUnfree = true; };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -148,7 +158,6 @@
     rofimoji
     trash-cli
     vivaldi
-    obsidian
     audacity
     kitty
     fzf
@@ -159,11 +168,13 @@
     ripdrag
     ffmpeg
     flameshot
+    obsidian
     nh
     nix-output-monitor
     nvd
     pavucontrol
     libqalculate
+    ttyper
     bluez
     bluez-tools
     bluetuith
@@ -173,7 +184,6 @@
     audacity
     dunst
     mpv
-    flatpak
     obs-studio
     pcmanfm
     gimp

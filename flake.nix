@@ -8,6 +8,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +35,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }
+            nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
@@ -47,6 +50,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }
+            nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
@@ -61,6 +65,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
             }
+            nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
