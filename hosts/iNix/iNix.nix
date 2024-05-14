@@ -4,36 +4,36 @@
 
 {
   imports = [
-      ./ihardware.nix
-      inputs.disko.nixosModules.default
-        (import ./idisko.nix { device = "/dev/sda"; })  
-      ../../base.nix
-    ];
+    ./ihardware.nix
+    inputs.disko.nixosModules.default
+      (import ./idisko.nix { device = "/dev/sda"; })  
+    ../../base.nix
+  ];
+  
+  networking.hostName = "iNix";
 
-    networking.hostName = "iNix";
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "wa";
+  };
 
-    services.displayManager.autoLogin = {
-      enable = true;
-      user = "wa";
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "ca" = import ../../users/cahome.nix;
+      "ct" = import ../../users/cthome.nix;
+      "wa" = import ../../users/wahome.nix;
     };
-
-    home-manager = {
-      extraSpecialArgs = { inherit inputs; };
-      users = {
-        "ca" = import ../../users/cahome.nix;
-        "ct" = import ../../users/cthome.nix;
-        "wa" = import ../../users/wahome.nix;
-      };
-    };
-
-  # Define additional user accounts. 
-    users.users.ct = {
-      isNormalUser = true;
-      extraGroups = [ "networkmanager" ]; 
-    };
-
-    users.users.wa = {
-      isNormalUser = true;
-      extraGroups = [ "networkmanager" ]; 
-    };
+  };
+  
+# Define additional user accounts. 
+  users.users.ct = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" ]; 
+  };
+  
+  users.users.wa = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" ]; 
+  };
 }
