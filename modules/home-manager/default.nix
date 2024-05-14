@@ -5,6 +5,7 @@
     ./bash.nix
     ./helix.nix
     ./kitty.nix
+    ./mpv.nix
   ];
   
   options.base.enable = lib.mkOption {
