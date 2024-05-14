@@ -139,57 +139,56 @@
     };
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Packages installed system-wide ($ nix search *)
   environment.systemPackages = with pkgs; [
+    audacity
+    bluetuith
+    bluez
+    bluez-tools
+    btop
+    clipmenu
+    dunst
+    eza
+    fastfetch
+    fd
+    feh
+    ffmpeg
+    fish
+    flameshot
+    fzf
+    gimp
+    git
+    helix
+    kitty
+    libqalculate
+    mpv
     networkmanagerapplet
     neovim
-    helix
-    xclip
-    clipmenu
-    fish
-    wget
-    tree
-    feh
-    git
-    sxhkd
-    vifm
-    rofi
-    rofimoji
-    trash-cli
-    vivaldi
-    audacity
-    kitty
-    fzf
-    fd
-    btop
-    eza
-    ripgrep
-    ripdrag
-    ffmpeg
-    flameshot
-    obsidian
     nh
     nix-output-monitor
     nvd
-    pavucontrol
-    libqalculate
-    ttyper
-    bluez
-    bluez-tools
-    bluetuith
-    zathura
-    vlc
-    yt-dlp
-    audacity
-    dunst
-    mpv
+    obsidian
     obs-studio
+    pavucontrol
     pcmanfm
-    gimp
-    fastfetch
     remmina
+    ripgrep
+    ripdrag
+    rofi
+    rofimoji
+    sxhkd
+    trash-cli
+    tree
+    ttyper
     unzip
+    vifm
+    vivaldi
+    vlc
+    wget
+    xclip
+    yt-dlp
+    zathura
+    zoom-us
   ];
 
   # DO NOT ALTER OR DELETE
