@@ -5,13 +5,13 @@
     enable = true;
     config = {
       autofit-larger = "100%x100%";
-      osd-playing-msg = "File: ${filename}";
-      hwdec = yes;
+      # osd-playing-msg = "File: ${filename}";
+      hwdec = true;
       # The 4 options below from Pseudo Gui Profile
-      terminal = no;
-      force-window = yes;
-      idle = once;
-      screenshot-directory = ~/Pictures/mpv;
+      terminal = false;
+      force-window = true;
+      idle = "once";
+      screenshot-directory = "../../../Pictures";
     };
   };
 }
