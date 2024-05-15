@@ -10,7 +10,9 @@
 
     packages = [ ];
 
-    file = { };
+    file = {
+      *.force = true;
+    }; 
   };
   
   programs = {

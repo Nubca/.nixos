@@ -10,9 +10,11 @@
 
     packages = [ ];
 
-    file = { };
+    file = {
+      *.force = true;
+    }; 
   };
-
+  
   programs = {
     home-manager = {
       enable = true;
