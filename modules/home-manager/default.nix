@@ -6,6 +6,7 @@
     ./helix.nix
     ./kitty.nix
     ./mpv.nix
+    ./clipmenu.nix
   ];
   
   options.base.enable = lib.mkOption {

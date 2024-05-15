@@ -146,7 +146,6 @@
     bluez
     bluez-tools
     btop
-    clipmenu
     dunst
     eza
     fastfetch
