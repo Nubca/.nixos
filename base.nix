@@ -186,6 +186,7 @@
     vlc
     wget
     xclip
+    xsel
     yt-dlp
     zathura
     zoom-us
