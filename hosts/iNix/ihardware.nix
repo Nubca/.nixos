@@ -4,18 +4,36 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" "wl" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-
+  boot = {
+    initrd = {
+      availableKernelModules = [
+        "xhci_pci"
+        "ehci_pci"
+        "ahci"
+        "usb_storage"
+        "usbhid"
+        "sd_mod"
+        "sdhci_pci"
+      ];
+      kernelModules = [ ];
+    };
+    kernelModules = [
+      "kvm-intel"
+      "wl"
+    ];
+    extraModulePackages = [
+      config.boot.kernelPackages.broadcom_sta
+    ];
+  };
+  
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  environment.systemPackages = [
-    pkgs.linuxKernel.packages.linux_6_6.facetimehd
-  ];  
+  
+  hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    facetimehd.enable = true;
+  };
 }
