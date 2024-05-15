@@ -9,10 +9,8 @@
     sessionVariables = { };
 
     packages = [ ];
-
-    file = {
-      *.force = true;
-    }; 
+  
+    file = { };
   };
   
   programs = {

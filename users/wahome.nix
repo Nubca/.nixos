@@ -11,7 +11,6 @@
     packages = [ ];
 
     file = {
-      *.force = true;
     }; 
   };
   

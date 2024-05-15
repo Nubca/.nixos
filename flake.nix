@@ -34,6 +34,7 @@
               ]; # Arbitrary name bringing in the above declared import
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
             }
             nix-flatpak.nixosModules.nix-flatpak
           ];
@@ -46,9 +47,12 @@
             ./hosts/iNix/iNix.nix
             home-manager.nixosModules.home-manager
             {
-              home-manager.sharedModules = [ self.homeManagerModules.default ];
+              home-manager.sharedModules = [
+                self.homeManagerModules.default
+              ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
             }
             nix-flatpak.nixosModules.nix-flatpak
           ];
@@ -61,9 +65,12 @@
             ./hosts/tNix/tNix.nix
             home-manager.nixosModules.home-manager
             {
-              home-manager.sharedModules = [ self.homeManagerModules.default ];
+              home-manager.sharedModules = [
+                self.homeManagerModules.default
+              ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
             }
             nix-flatpak.nixosModules.nix-flatpak
           ];
