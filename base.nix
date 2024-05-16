@@ -170,6 +170,7 @@
     obs-studio
     pavucontrol
     pcmanfm
+    qmk
     remmina
     ripgrep
     ripdrag
