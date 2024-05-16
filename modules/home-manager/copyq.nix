@@ -3,6 +3,6 @@
 {
   services.copyq = {
     enable = true;
-    # systemdTarget = "graphical-session.target";
+    systemdTarget = "graphical-session.target";
   };
 }

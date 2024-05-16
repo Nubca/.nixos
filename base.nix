@@ -175,7 +175,6 @@
     ripdrag
     rofi
     rofimoji
-    sxhkd
     trash-cli
     tree
     ttyper
