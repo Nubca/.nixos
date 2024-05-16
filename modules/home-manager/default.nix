@@ -7,6 +7,7 @@
     ./kitty.nix
     ./mpv.nix
     ./copyq.nix
+    ./sxhkd.nix
   ];
   
   options.base.enable = lib.mkOption {

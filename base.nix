@@ -139,7 +139,7 @@
     };
   };
 
-  # Packages installed system-wide ($ nix search *)
+  # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
     bluetuith
