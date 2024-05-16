@@ -19,7 +19,7 @@
   outputs = inputs:
     with inputs; {
       homeManagerModules.default = import
-        ./modules/home-manager/default.nix; # Arbitrary name pointing to default.nix
+        ./modules/home-manager/default.nix;
       nixosConfigurations = {
 
         mpNix = nixpkgs.lib.nixosSystem {
@@ -31,7 +31,7 @@
             {
               home-manager.sharedModules = [
                 self.homeManagerModules.default
-              ]; # Arbitrary name bringing in the above declared import
+              ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
