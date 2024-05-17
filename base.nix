@@ -180,6 +180,7 @@
     tree
     ttyper
     unzip
+    usbutils
     vifm
     vivaldi
     vlc
