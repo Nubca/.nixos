@@ -41,7 +41,7 @@
           skip-levels = 1;
         };
         lsp = { display-messages = true; };
-        mouse = false;
+        mouse = true;
         cursorline = true;
         bufferline = "always";
         line-number = "relative";
