@@ -40,6 +40,15 @@
           character = "⸽";
           skip-levels = 1;
         };
+        search = {
+          smart-case = true;
+          wrap-around = true;
+        };
+        soft-wrap = {
+          enable = true;
+          max-wrap = 25;
+          max-indent-retain = 40;
+        };
         lsp = { display-messages = true; };
         mouse = true;
         cursorline = true;
