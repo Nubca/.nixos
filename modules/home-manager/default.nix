@@ -8,6 +8,7 @@
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
+    # ./cursors.nix
   ];
   
   options.base.enable = lib.mkOption {

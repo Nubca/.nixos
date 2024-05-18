@@ -154,6 +154,7 @@
     ffmpeg
     fish
     flameshot
+    # fuchsia-cursor
     fzf
     gimp
     git
