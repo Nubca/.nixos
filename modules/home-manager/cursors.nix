@@ -4,9 +4,9 @@
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
-    x11.defaultCursor = "Fuchsia-Red";
-    name = "Fuchsia-Red";
-    size = 48;
-    package = pkgs.fuchsia-cursor;
+    x11.defaultCursor = "Adwaita";
+    name = "Adwaita";
+    # size = 48;
+    package = pkgs.gnome.adwaita-icon-theme;
   };
 }

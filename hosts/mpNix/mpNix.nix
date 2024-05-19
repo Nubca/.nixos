@@ -22,8 +22,9 @@
     user = "ca";
   };
 
+ # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
-  
+ # Necessary for QMK
   environment.systemPackages = [
     pkgs.qmk-udev-rules
   ];

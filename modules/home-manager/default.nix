@@ -9,6 +9,7 @@
     ./copyq.nix
     ./sxhkd.nix
     # ./cursors.nix
+    ./xresources.nix
   ];
   
   options.base.enable = lib.mkOption {

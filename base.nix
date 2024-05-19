@@ -61,7 +61,7 @@
   };
 
   xdg.portal.enable = true;
-  
+    
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -187,6 +187,7 @@
     vlc
     wget
     xclip
+    xorg.xrdb
     yt-dlp
     zathura
     zoom-us
