@@ -8,7 +8,7 @@
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
-    # ./cursors.nix
+    ./cursors.nix
     ./xresources.nix
   ];
   

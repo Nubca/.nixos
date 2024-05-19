@@ -1,17 +1,5 @@
 { config, lib, pkgs, modulesPath, ... }:
 
-# let
-#   # Define your.Xresources content
-#   xresourcesContent = ''
-#     Xft.dpi: 192
-#   '';
-
-#   # Create a.Xresources file in the Nix store
-#   xresourcesFile = pkgs.writeText "Xresources" xresourcesContent;
-
-#   # Ensure xorg.xrdb is available
-#   xorgXRDB = pkgs.xorg.xrdb;
-# in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -54,20 +42,7 @@
       XCURSOR_SIZE = "96"; # Also added Xft.dpi: 192 to .Xresources in ~
     };
   };
-  
-  # Make the.Xresources file available in the user's home directory
-  users.users.ca.home = "/home/ca";
 
-  # # Add a script to.xinitrc to load.Xresources
-  # systemd.services.load-xresources = {
-  #   description = "Load.Xresources";
-  #   wantedBy = [ "multi-user.target" ];
-  #   serviceConfig.Type = "oneshot";
-  #   script = ''
-  #     ${xorgXRDB}/bin/xrdb -merge ${xresourcesFile}
-  #   '';
-  # };
-    
   services.xserver = {
     dpi = 288;
     upscaleDefaultCursor = true;

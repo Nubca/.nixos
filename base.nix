@@ -187,7 +187,6 @@
     vlc
     wget
     xclip
-    xorg.xrdb
     yt-dlp
     zathura
     zoom-us
