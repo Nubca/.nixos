@@ -39,7 +39,7 @@
       GDK_DPI_SCALE = "0.5"; # Effects Obsidian & Vivaldi
       _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-      XCURSOR_SIZE = "96"; # Also added Xft.dpi: 192 to .Xresources in ~
+      XCURSOR_SIZE = "64"; # Also added Xft.dpi: 192 to xresources.nix
     };
   };
 

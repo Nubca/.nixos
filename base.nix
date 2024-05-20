@@ -122,21 +122,43 @@
     };
     gnome.gnome-keyring.enable = true;
     openssh.enable = true;
-    printing.enable = true;
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-    clipmenu.enable = true;
-    flatpak = {
+    # Printing
+    printing = {
       enable = true;
-      uninstallUnmanaged = true;
-      update.auto = {
-        enable = true;
-        onCalendar = "weekly";
-      };
-      packages = [
+      drivers = [
+        (writeTextDir "share/cups/model/HP-LaserJet_Pro_P1102w.ppd" (builtins.readFile ./HP-LaserJet_Pro_P1102w.ppd))
       ];
     };
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      openFirewall = true;
+    };
+    # flatpak = {
+    #   enable = true;
+    #   uninstallUnmanaged = true;
+    #   update.auto = {
+    #     enable = true;
+    #     onCalendar = "weekly";
+    #   };
+    #   packages = [
+    #   ];
+    # };
+  };
+
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "HP-LaserJet";
+        location = "Home";
+        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+        model = "HP-LaserJet_Pro_P1102w.ppd";
+      }
+    ];
+    ensureDefaultPrinter = "HP-LaserJet";
   };
 
   # Packages installed system-wide
@@ -154,7 +176,6 @@
     ffmpeg
     fish
     flameshot
-    # fuchsia-cursor
     fzf
     gimp
     git
@@ -186,6 +207,7 @@
     vivaldi
     vlc
     wget
+    xcb-util-cursor # Needed for Qtile Cursor change
     xclip
     yt-dlp
     zathura
