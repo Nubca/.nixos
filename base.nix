@@ -126,16 +126,9 @@
     devmon.enable = true;
     gvfs.enable = true;
     # Printing
-    printing = {
+    printing = { #1st Setup: sudo hp-setup -i -a
       enable = true;
-      drivers = [
-        (writeTextDir "share/cups/model/HP-LaserJet_Pro_P1102w.ppd" (builtins.readFile ./HP-LaserJet_Pro_P1102w.ppd))
-      ];
-    };
-    avahi = {
-      enable = true;
-      nssmdns = true;
-      openFirewall = true;
+      drivers = [ pkgs.hplipWithPlugin ];
     };
     # flatpak = {
     #   enable = true;
@@ -149,17 +142,17 @@
     # };
   };
 
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "HP-LaserJet";
-        location = "Home";
-        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-        model = "HP-LaserJet_Pro_P1102w.ppd";
-      }
-    ];
-    ensureDefaultPrinter = "HP-LaserJet";
-  };
+  # hardware.printers = {
+  #   ensurePrinters = [
+  #     {
+  #       name = "HP-LaserJet";
+  #       location = "Home";
+  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+  #       model = "HP-LaserJet_Pro_P1102w.ppd";
+  #     }
+  #   ];
+  #   ensureDefaultPrinter = "HP-LaserJet";
+  # };
 
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
@@ -180,6 +173,7 @@
     gimp
     git
     helix
+    hplipWithPlugin
     kitty
     libqalculate
     mpv
@@ -191,6 +185,7 @@
     obsidian
     obs-studio
     pavucontrol
+    pciutils
     pcmanfm
     qmk
     remmina

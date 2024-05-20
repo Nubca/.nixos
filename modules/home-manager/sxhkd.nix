@@ -6,7 +6,7 @@
     keybindings = {
       "control + alt + f" = "flameshot gui &";
       "control + p" = "kitty -e btop";
-      "control + Return" = "kitty";
+      "control + Tab" = "kitty";
       "control + shift + Return" = "pcmanfm";
       "super + b" = "vivaldi";
       "super + shift + e" = "rofimoji";
