@@ -21,9 +21,9 @@
       homeManagerModules.default = import
         ./modules/home-manager/default.nix;
       homeManagerModules.HiDPI = import
-        ./modules/home-manager/HiDPI.nix;
+        ./modules/home-manager/DPI-Hi.nix;
       homeManagerModules.NormDPI = import
-        ./modules/home-manager/NormDPI.nix;
+        ./modules/home-manager/DPI-Low.nix;
       nixosConfigurations = {
 
         mpNix = nixpkgs.lib.nixosSystem {

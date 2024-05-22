@@ -34,19 +34,18 @@
   
   # Variables
   environment = {
-    variables = {
-      GDK_SCALE = "2";
-      GDK_DPI_SCALE = "0.5"; # Effects Obsidian & Vivaldi
-      _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
-      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-      XCURSOR_SIZE = "64"; # Also added Xft.dpi: 192 to xresources.nix
+    variables = { # Also see DPI-Hi.nix
+      # GDK_SCALE = "2"; # Not Needed with DPI-Hi.nix
+      # GDK_DPI_SCALE = "0.5"; # Not Needed with DPI-Hi.nix
+      _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2"; # Unknown effects
+      QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # Unknown effects
     };
   };
 
-  services.xserver = {
-    dpi = 288;
-    upscaleDefaultCursor = true;
-  };
+  # services.xserver = {
+  #   dpi = 288; # Seems to have no effect without the below
+  #   upscaleDefaultCursor = true; # Causes ptr_left to override custom cursor
+  # };
 
   services.mbpfan.enable = true;
   services.fstrim.enable = true;

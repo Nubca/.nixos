@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  xresources.properties = {
-    "Xft.dpi" = 192;
+  xresources.properties = { # Also see mphardware.nix
+    "Xft.dpi" = 192; #HiDPI compensation
     "Xcursor.theme" = "Adwaita";
   };
   
@@ -11,7 +11,7 @@
     x11.enable = true;
     x11.defaultCursor = "Adwaita";
     name = "Adwaita";
-    size = 64;
+    size = 64; # HiDPI compensation 
     package = pkgs.gnome.adwaita-icon-theme;
   };
 

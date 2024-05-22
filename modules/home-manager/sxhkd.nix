@@ -4,10 +4,11 @@
   services.sxhkd = {
     enable = true;
     keybindings = {
+      # Don't use Control + Tab it messes up defaults
       "control + alt + f" = "flameshot gui &";
       "control + p" = "kitty -e btop";
-      "control + Tab" = "kitty";
       "control + shift + Return" = "pcmanfm";
+      "control + q" = "kitty";
       "super + b" = "vivaldi";
       "super + shift + e" = "rofimoji";
       "super + p" = "rofi -show drun";
