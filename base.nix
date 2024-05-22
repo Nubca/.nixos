@@ -27,7 +27,7 @@
       iwd = {
         enable = true;
         settings = {
-          IPv6.Enabled = true;
+          IPv6.Enabled = false;
           Settings = { AutoConnect = true; };
         };
       };
@@ -177,7 +177,6 @@
     kitty
     libqalculate
     mpv
-    networkmanagerapplet
     neovim
     nh
     nix-output-monitor
