@@ -20,6 +20,8 @@
     with inputs; {
       homeManagerModules.default = import
         ./modules/home-manager/default.nix;
+      homeManagerModules.mpNix = import
+        ./hosts/mpNix/xresources.nix;
       nixosConfigurations = {
 
         mpNix = nixpkgs.lib.nixosSystem {
@@ -31,6 +33,7 @@
             {
               home-manager.sharedModules = [
                 self.homeManagerModules.default
+                self.homeManagerModules.mpNix
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
