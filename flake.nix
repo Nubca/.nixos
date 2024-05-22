@@ -20,8 +20,10 @@
     with inputs; {
       homeManagerModules.default = import
         ./modules/home-manager/default.nix;
-      homeManagerModules.mpNix = import
-        ./hosts/mpNix/xresources.nix;
+      homeManagerModules.HiDPI = import
+        ./modules/home-manager/HiDPI.nix;
+      homeManagerModules.NormDPI = import
+        ./modules/home-manager/NormDPI.nix;
       nixosConfigurations = {
 
         mpNix = nixpkgs.lib.nixosSystem {
@@ -33,7 +35,7 @@
             {
               home-manager.sharedModules = [
                 self.homeManagerModules.default
-                self.homeManagerModules.mpNix
+                self.homeManagerModules.HiDPI
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -52,6 +54,7 @@
             {
               home-manager.sharedModules = [
                 self.homeManagerModules.default
+                self.homeManagerModules.NormDPI
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -70,6 +73,7 @@
             {
               home-manager.sharedModules = [
                 self.homeManagerModules.default
+                self.homeManagerModules.NormDPI
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
