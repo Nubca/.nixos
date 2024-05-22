@@ -188,6 +188,7 @@
     pciutils
     pcmanfm
     qmk
+    qutebrowser
     remmina
     ripgrep
     ripdrag
