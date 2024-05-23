@@ -24,13 +24,11 @@
       config.boot.kernelPackages.broadcom_sta
     ];
   };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware = {
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-    enableRedistributableFirmware = lib.mkDefault true;
-    facetimehd.enable = true;
-  };
+  
+  # services.xserver = {
+  #   dpi = 288; # Seems to have no effect without the below
+  #   upscaleDefaultCursor = true; # Causes ptr_left to override custom cursor
+  # };
   
   # Variables
   environment = {
@@ -41,11 +39,6 @@
       QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # Unknown effects
     };
   };
-
-  # services.xserver = {
-  #   dpi = 288; # Seems to have no effect without the below
-  #   upscaleDefaultCursor = true; # Causes ptr_left to override custom cursor
-  # };
 
   services.mbpfan.enable = true;
   services.fstrim.enable = true;

@@ -24,7 +24,7 @@
     };
     useDHCP = lib.mkDefault true;
     wireless = {
-      iwd = {
+      iwd = { # Trouble on tNix
         enable = true;
         settings = {
           IPv6.Enabled = false;
@@ -103,8 +103,11 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config = { allowUnfree = true; };
-
+  nixpkgs.config = {
+    allowUnfree = true;
+    nvidia.acceptLicense = true;
+  };
+  
   # Fonts
   fonts.packages = with pkgs; [ ];
 
