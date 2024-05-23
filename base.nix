@@ -24,7 +24,7 @@
     };
     useDHCP = lib.mkDefault true;
     wireless = {
-      iwd = { # Trouble on tNix
+      iwd = { # Trouble auto-connecting on tNix
         enable = true;
         settings = {
           IPv6.Enabled = false;

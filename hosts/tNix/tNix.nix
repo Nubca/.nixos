@@ -12,6 +12,17 @@
 
   networking.hostName = "tNix";
 
+  networking = {
+    networkmanager = {
+      wifi.backend = lib.mkForce "wpa_supplicant";
+    };
+    wireless = {
+      iwd = { # Trouble auto-connecting on tNix
+        enable = lib.mkForce false;
+      };
+    };
+  };
+  
   services.displayManager.autoLogin = {
     enable = true;
     user = "ct";
