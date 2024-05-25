@@ -123,8 +123,11 @@
       enable = true;
       ignoreLid = true;
     };
+    openssh = {
+      enable = true;
+      settings.X11Forwarding = true;
+    };
     gnome.gnome-keyring.enable = true;
-    openssh.enable = true;
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
@@ -207,6 +210,7 @@
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip
+    xsel
     yt-dlp
     zathura
     zoom-us
