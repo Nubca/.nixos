@@ -47,8 +47,13 @@
         options = "caps:escape";
       };
       displayManager = {
-        gdm.enable = true;
-        gdm.autoLogin.delay = 2;
+        lightdm = {
+          enable = true;
+          autoLogin.timeout = 1;
+          greeters = {
+            slick.enable = true;
+          };
+        };
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
