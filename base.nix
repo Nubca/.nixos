@@ -48,6 +48,7 @@
       };
       displayManager = {
         gdm.enable = true;
+        gdm.autoLogin.delay = 2;
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
