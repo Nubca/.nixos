@@ -17,7 +17,7 @@
     enable = true; 
     defaultSession = "none+qtile";
     autoLogin = {
-      enable = false;
+      enable = true;
       user = "wa";
     };
   };
