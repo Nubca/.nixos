@@ -49,7 +49,7 @@
       displayManager = {
         lightdm = {
           enable = true;
-          autoLogin.timeout = 2;
+          autoLogin.timeout = 5;
           greeters = {
             gtk.enable = true;
           };
