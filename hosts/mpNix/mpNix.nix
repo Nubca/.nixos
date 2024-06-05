@@ -18,11 +18,15 @@
     users = { "ca" = import ../../users/cahome.nix; };
   };
 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "ca";
+  services.displayManager = {
+    enable = true; 
+    defaultSession = "none+qtile";
+    autoLogin = {
+      enable = true;
+      user = "ca";
+    };
   };
-
+   
  # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
  # Necessary for QMK

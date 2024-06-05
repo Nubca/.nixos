@@ -23,10 +23,14 @@
     };
   };
   
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "ct";
-  };
+  services.displayManager = {
+    enable = true; 
+    defaultSession = "none+qtile";
+    autoLogin = {
+      enable = true;
+      user = "ct";
+    };
+  };  
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

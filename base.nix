@@ -49,9 +49,9 @@
       displayManager = {
         lightdm = {
           enable = true;
-          autoLogin.timeout = 1;
+          autoLogin.timeout = 2;
           greeters = {
-            slick.enable = true;
+            gtk.enable = true;
           };
         };
         sessionCommands = ''

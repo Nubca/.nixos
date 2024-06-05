@@ -13,11 +13,15 @@
   
   networking.hostName = "iNix";
 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "wa";
+  services.displayManager = {
+    enable = true; 
+    defaultSession = "none+qtile";
+    autoLogin = {
+      enable = true;
+      user = "wa";
+    };
   };
-
+  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
