@@ -17,5 +17,10 @@
     home-manager = {
       enable = true;
     };
+    git = {
+      enable = true;
+      userName = "thaxer";
+      userEmail = "thaxtonconnie@yahoo.com";
+    };
   };
 }

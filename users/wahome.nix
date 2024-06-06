@@ -18,5 +18,10 @@
     home-manager = {
       enable = true;
     };
+    git = {
+      enable = true;
+      userName = "Willgiam1";
+      userEmail = "willabbott008@gmail.com";
+    };
   };
 }
