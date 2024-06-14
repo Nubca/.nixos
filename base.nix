@@ -173,6 +173,7 @@
     bluez
     bluez-tools
     btop
+    davinci-resolve
     dunst
     eza
     fastfetch
