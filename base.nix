@@ -34,7 +34,7 @@
     };
   };
 
-  # Enable X11 and Desktop Environment
+ # Enable X11 and Desktop Environment
   services = {
     xserver = {
       enable = true;
@@ -60,6 +60,15 @@
       };
       excludePackages = with pkgs; [ xterm ];
     };
+    # greetd = {
+    #   enable = true;
+    #   settings = {
+    #     default_session = {
+    #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd qtile start";
+    #       user = "greeter";
+    #     };
+    #   };
+    # }; 
     libinput = {
       touchpad.naturalScrolling = true;
       mouse.naturalScrolling = true;
@@ -120,14 +129,15 @@
   # Misc. Services 
   services = {
     logind = {
-      powerKey = "hybrid-sleep";
+      powerKey = "suspend";
       powerKeyLongPress = "poweroff";
+      lidSwitch = "suspend-then-hibernate";
     };
     auto-cpufreq.enable = true;
     tlp.enable = true;
     upower = {
       enable = true;
-      ignoreLid = true;
+      # ignoreLid = true;
     };
     openssh = {
       enable = true;
@@ -185,6 +195,8 @@
     fzf
     gimp
     git
+    # greetd.greetd
+    # greetd.tuigreet
     helix
     hplipWithPlugin
     kitty

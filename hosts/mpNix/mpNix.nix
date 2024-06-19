@@ -20,7 +20,7 @@
 
   services.displayManager = {
     enable = true; 
-    defaultSession = "none+qtile";
+    defaultSession = "qtile";
     autoLogin = {
       enable = true;
       user = "ca";
