@@ -129,9 +129,9 @@
   # Misc. Services 
   services = {
     logind = {
-      powerKey = "suspend";
+      powerKey = "ignore";
       powerKeyLongPress = "poweroff";
-      lidSwitch = "suspend-then-hibernate";
+      lidSwitch = "suspend";
     };
     auto-cpufreq.enable = true;
     tlp.enable = true;
@@ -183,7 +183,6 @@
     bluez
     bluez-tools
     btop
-    davinci-resolve
     dunst
     eza
     fastfetch
@@ -207,13 +206,11 @@
     nix-output-monitor
     nvd
     obsidian
-    obs-studio
     pavucontrol
     pciutils
     pcmanfm
     qmk
     qutebrowser
-    remmina
     ripgrep
     ripdrag
     rofi
