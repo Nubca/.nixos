@@ -183,6 +183,8 @@
     bluez
     bluez-tools
     btop
+    # chromedriver
+    # chromium
     dunst
     eza
     fastfetch
@@ -209,10 +211,11 @@
     pavucontrol
     pciutils
     pcmanfm
-    python311Packages.pyautogui
-    python311Packages.selenium
-    python311Packages.beautifulsoup4
-    python311Packages.requests
+    # python3
+    # python311Packages.pyautogui
+    # python311Packages.selenium
+    # python311Packages.beautifulsoup4
+    # python311Packages.requests
     qmk
     qutebrowser
     ripgrep
