@@ -209,6 +209,10 @@
     pavucontrol
     pciutils
     pcmanfm
+    python311Packages.pyautogui
+    python311Packages.selenium
+    python311Packages.beautifulsoup4
+    python311Packages.requests
     qmk
     qutebrowser
     ripgrep
