@@ -183,8 +183,7 @@
     bluez
     bluez-tools
     btop
-    # chromedriver
-    # chromium
+    devbox
     dunst
     eza
     fastfetch
@@ -196,8 +195,6 @@
     fzf
     gimp
     git
-    # greetd.greetd
-    # greetd.tuigreet
     helix
     hplipWithPlugin
     kitty
@@ -211,11 +208,6 @@
     pavucontrol
     pciutils
     pcmanfm
-    # python3
-    # python311Packages.pyautogui
-    # python311Packages.selenium
-    # python311Packages.beautifulsoup4
-    # python311Packages.requests
     qmk
     qutebrowser
     ripgrep
