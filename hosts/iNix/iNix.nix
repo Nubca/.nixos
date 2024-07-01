@@ -41,4 +41,8 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" ]; 
   };
+
+  environment.systemPackages = with pkgs; [
+    obs-studio
+  ];
 }
