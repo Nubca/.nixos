@@ -14,7 +14,7 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
+ 
   # Network Settings
   hardware.bluetooth.enable = true;
   networking = {
@@ -39,7 +39,7 @@
     xserver = {
       enable = true;
       autorun = false;
-      desktopManager = { wallpaper.mode = "fill"; };
+      # desktopManager = { wallpaper.mode = "fill"; };
       windowManager.qtile = { enable = true; };
       xkb = {
         layout = "us";
