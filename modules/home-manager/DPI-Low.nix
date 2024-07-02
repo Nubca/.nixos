@@ -10,7 +10,7 @@
     x11.enable = true;
     x11.defaultCursor = "Adwaita";
     name = "Adwaita";
-    size = 28;
+    size = 32;
     package = pkgs.gnome.adwaita-icon-theme;
   };
 
