@@ -60,15 +60,7 @@
       };
       excludePackages = with pkgs; [ xterm ];
     };
-    # greetd = {
-    #   enable = true;
-    #   settings = {
-    #     default_session = {
-    #       command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd qtile start";
-    #       user = "greeter";
-    #     };
-    #   };
-    # }; 
+
     libinput = {
       touchpad.naturalScrolling = true;
       mouse.naturalScrolling = true;
@@ -147,11 +139,13 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+
     # Printing
-    printing = { #1st Setup: sudo hp-setup -i -a
-      enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
-    };
+
+    # printing = { #1st Setup: sudo hp-setup -i -a
+    #   enable = true;
+    #   drivers = [ pkgs.hplipWithPlugin ];
+    # };
     # flatpak = {
     #   enable = true;
     #   uninstallUnmanaged = true;
@@ -196,7 +190,7 @@
     gimp
     git
     helix
-    hplipWithPlugin
+    # hplipWithPlugin
     kitty
     libqalculate
     mpv
@@ -209,7 +203,6 @@
     pciutils
     pcmanfm
     qmk
-    qutebrowser
     ripgrep
     ripdrag
     rofi
@@ -222,12 +215,14 @@
     vifm
     vivaldi
     vlc
+    vscode
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip
     xsel
     yt-dlp
     zathura
+    zed-editor
     zoom-us
   ];
 
