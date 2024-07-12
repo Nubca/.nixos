@@ -139,6 +139,10 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+    printing = {
+      enable = true;
+      drivers = [ pkgs.hplipWithPlugin ];
+    };
   };
   
   # Packages installed system-wide
@@ -161,7 +165,7 @@
     gimp
     git
     helix
-    # hplipWithPlugin # Additional code below
+    hplipWithPlugin # Additional code below
     kitty
     libqalculate
     mpv
