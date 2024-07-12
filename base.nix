@@ -139,37 +139,8 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-
-    # Printing
-
-    # printing = { #1st Setup: sudo hp-setup -i -a
-    #   enable = true;
-    #   drivers = [ pkgs.hplipWithPlugin ];
-    # };
-    # flatpak = {
-    #   enable = true;
-    #   uninstallUnmanaged = true;
-    #   update.auto = {
-    #     enable = true;
-    #     onCalendar = "weekly";
-    #   };
-    #   packages = [
-    #   ];
-    # };
   };
-
-  # hardware.printers = {
-  #   ensurePrinters = [
-  #     {
-  #       name = "HP-LaserJet";
-  #       location = "Home";
-  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-  #       model = "HP-LaserJet_Pro_P1102w.ppd";
-  #     }
-  #   ];
-  #   ensureDefaultPrinter = "HP-LaserJet";
-  # };
-
+  
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
@@ -190,7 +161,7 @@
     gimp
     git
     helix
-    # hplipWithPlugin
+    # hplipWithPlugin # Additional code below
     kitty
     libqalculate
     mpv
@@ -207,6 +178,8 @@
     ripdrag
     rofi
     rofimoji
+    tldr
+    tmux
     trash-cli
     tree
     ttyper
@@ -215,16 +188,43 @@
     vifm
     vivaldi
     vlc
-    vscode
+    vscode-fhs
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip
     xsel
     yt-dlp
     zathura
-    zed-editor
     zoom-us
   ];
+
+# Printing
+    # printing = { #1st Setup: sudo hp-setup -i -a
+    #   enable = true;
+    #   drivers = [ pkgs.hplipWithPlugin ];
+    # };
+    # flatpak = {
+    #   enable = true;
+    #   uninstallUnmanaged = true;
+    #   update.auto = {
+    #     enable = true;
+    #     onCalendar = "weekly";
+    #   };
+    #   packages = [
+    #   ];
+    # };
+  # };
+  # hardware.printers = {
+  #   ensurePrinters = [
+  #     {
+  #       name = "HP-LaserJet";
+  #       location = "Home";
+  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+  #       model = "HP-LaserJet_Pro_P1102w.ppd";
+  #     }
+  #   ];
+  #   ensureDefaultPrinter = "HP-LaserJet";
+  # };
 
   # DO NOT ALTER OR DELETE
   system.stateVersion = "24.05";
