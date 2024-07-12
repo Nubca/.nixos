@@ -139,12 +139,45 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      openFirewall = true;
+    };  
     printing = {
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
   };
-  
+
+ # Printing
+    # printing = { #1st Setup: sudo hp-setup -i -a
+    #   enable = true;
+    #   drivers = [ pkgs.hplipWithPlugin ];
+    # };
+    # flatpak = {
+    #   enable = true;
+    #   uninstallUnmanaged = true;
+    #   update.auto = {
+    #     enable = true;
+    #     onCalendar = "weekly";
+    #   };
+    #   packages = [
+    #   ];
+    # };
+  # };
+  # hardware.printers = {
+  #   ensurePrinters = [
+  #     {
+  #       name = "HP-LaserJet";
+  #       location = "Home";
+  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+  #       model = "HP-LaserJet_Pro_P1102w.ppd";
+  #     }
+  #   ];
+  #   ensureDefaultPrinter = "HP-LaserJet";
+  # };
+ 
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
@@ -201,34 +234,6 @@
     zathura
     zoom-us
   ];
-
-# Printing
-    # printing = { #1st Setup: sudo hp-setup -i -a
-    #   enable = true;
-    #   drivers = [ pkgs.hplipWithPlugin ];
-    # };
-    # flatpak = {
-    #   enable = true;
-    #   uninstallUnmanaged = true;
-    #   update.auto = {
-    #     enable = true;
-    #     onCalendar = "weekly";
-    #   };
-    #   packages = [
-    #   ];
-    # };
-  # };
-  # hardware.printers = {
-  #   ensurePrinters = [
-  #     {
-  #       name = "HP-LaserJet";
-  #       location = "Home";
-  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-  #       model = "HP-LaserJet_Pro_P1102w.ppd";
-  #     }
-  #   ];
-  #   ensureDefaultPrinter = "HP-LaserJet";
-  # };
 
   # DO NOT ALTER OR DELETE
   system.stateVersion = "24.05";
