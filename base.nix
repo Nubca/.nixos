@@ -144,28 +144,12 @@
       nssmdns = true;
       openFirewall = true;
     };  
-    printing = {
+    printing = { 
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
   };
 
- # Printing
-    # printing = { #1st Setup: sudo hp-setup -i -a
-    #   enable = true;
-    #   drivers = [ pkgs.hplipWithPlugin ];
-    # };
-    # flatpak = {
-    #   enable = true;
-    #   uninstallUnmanaged = true;
-    #   update.auto = {
-    #     enable = true;
-    #     onCalendar = "weekly";
-    #   };
-    #   packages = [
-    #   ];
-    # };
-  # };
   # hardware.printers = {
   #   ensurePrinters = [
   #     {
@@ -177,7 +161,8 @@
   #   ];
   #   ensureDefaultPrinter = "HP-LaserJet";
   # };
- 
+  #
+
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
@@ -198,6 +183,7 @@
     gimp
     git
     helix
+    hplip
     hplipWithPlugin # Additional code below
     kitty
     libqalculate
