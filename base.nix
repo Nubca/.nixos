@@ -34,7 +34,7 @@
     };
   };
 
- # Enable X11 and Desktop Environment
+  # Enable X11 and Desktop Environment
   services = {
     xserver = {
       enable = true;
