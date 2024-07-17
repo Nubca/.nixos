@@ -39,7 +39,6 @@
     xserver = {
       enable = true;
       autorun = false;
-      # desktopManager = { wallpaper.mode = "fill"; };
       windowManager.qtile = { enable = true; };
       xkb = {
         layout = "us";
@@ -70,7 +69,7 @@
   xdg.portal.enable = true;
     
   # Enable sound.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -139,29 +138,22 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns = true;
-      openFirewall = true;
-    };  
     printing = { 
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
   };
 
-  # hardware.printers = {
-  #   ensurePrinters = [
-  #     {
-  #       name = "HP-LaserJet";
-  #       location = "Home";
-  #       deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-  #       model = "HP-LaserJet_Pro_P1102w.ppd";
-  #     }
-  #   ];
-  #   ensureDefaultPrinter = "HP-LaserJet";
-  # };
-  #
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "HP-LaserJet";
+        location = "Home";
+        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
+      }
+    ];
+  };
 
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
@@ -183,14 +175,14 @@
     gimp
     git
     helix
-    hplip
-    hplipWithPlugin # Additional code below
+    hplipWithPlugin
+    inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
     libqalculate
     mpv
-    neovim
     nh
     nix-output-monitor
+    npins
     nvd
     obsidian
     pavucontrol
@@ -211,7 +203,6 @@
     vifm
     vivaldi
     vlc
-    vscode-fhs
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip

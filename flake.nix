@@ -7,9 +7,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # nix-flatpak.url = "github:gmodena/nix-flatpak";
     
+    nvim-flake = {
+      url = "github:cabbott008/nvim-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -41,7 +44,6 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
             }
-            # nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
@@ -60,7 +62,6 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
             }
-            # nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
@@ -79,7 +80,6 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
             }
-            # nix-flatpak.nixosModules.nix-flatpak
           ];
         };
 
