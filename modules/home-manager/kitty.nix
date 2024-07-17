@@ -5,7 +5,7 @@
     enable = true;
     theme = "Adwaita dark";
     font = {
-      name = "";
+      name = "JetBrainsMono Nerd Font Mono";
       size = 12;
     };
     settings = {

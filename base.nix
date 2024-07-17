@@ -115,7 +115,10 @@
   };
   
   # Fonts
-  fonts.packages = with pkgs; [ ];
+  fonts.packages = with pkgs; [
+    nerdfonts
+    fg-virgil
+  ];
 
   # Misc. Services 
   services = {
@@ -189,8 +192,8 @@
     pciutils
     pcmanfm
     qmk
-    ripgrep
     ripdrag
+    ripgrep
     rofi
     rofimoji
     tldr
