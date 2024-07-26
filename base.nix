@@ -1,6 +1,6 @@
 # ----- * NixOS Default Config* - base.nix -----
 
-{ inputs, config, pkgs, lib, home-manager, ... }: {
+{ inputs, pkgs, lib, ... }: {
   imports = [ ];
 
   # Variables
@@ -165,6 +165,7 @@
     bluez
     bluez-tools
     btop
+    clickup
     devbox
     dunst
     eza
@@ -196,6 +197,7 @@
     ripgrep
     rofi
     rofimoji
+    ticktick
     tldr
     tmux
     trash-cli

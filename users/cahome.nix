@@ -23,5 +23,10 @@
       userName = "cabbott008";
       userEmail = "curtisabbott@me.com";
     };
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 }

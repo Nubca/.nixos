@@ -32,6 +32,8 @@
     davinci-resolve
     obs-studio
     remmina
+    go
+    templ
   ];
 
  # Necessary for QMK
