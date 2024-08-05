@@ -12,6 +12,14 @@
       force-window = true;
       idle = "once";
       screenshot-directory = "../../../Pictures";
+      extraInput = ''
+        B script_message bookmarker-menu
+        b script_message bookmarker-quick-save
+        ctrl+b script_message bookmarker-quick-load
+      '';
+    # scripts = [
+    #   mpv-webm
+    #   ];
     };
   };
 }

@@ -12,6 +12,6 @@
     x11.defaultCursor = "Adwaita";
     name = "Adwaita";
     size = 64; # HiDPI compensation 
-    package = pkgs.gnome.adwaita-icon-theme;
+    package = pkgs.adwaita-icon-theme;
   };
 }

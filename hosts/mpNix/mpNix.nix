@@ -28,11 +28,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    qmk-udev-rules
     davinci-resolve
-    obs-studio
-    remmina
     go
+    obs-studio
+    qmk-udev-rules
+    quickemu
+    remmina
     templ
   ];
 

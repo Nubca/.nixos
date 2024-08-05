@@ -66,7 +66,10 @@
     };
   };
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+  };
     
   # Enable sound.
   # sound.enable = true;
@@ -114,12 +117,6 @@
     nvidia.acceptLicense = true;
   };
   
-  # Fonts
-  fonts.packages = with pkgs; [
-    nerdfonts
-    fg-virgil
-  ];
-
   # Misc. Services 
   services = {
     logind = {
@@ -157,6 +154,13 @@
       }
     ];
   };
+  
+  # Fonts
+  fonts.packages = with pkgs; [
+    nerdfonts
+    fg-virgil
+    google-fonts
+  ];
 
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
@@ -197,7 +201,6 @@
     ripgrep
     rofi
     rofimoji
-    ticktick
     tldr
     tmux
     trash-cli

@@ -6,9 +6,9 @@
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     enableRedistributableFirmware = lib.mkDefault true;
     facetimehd.enable = true;
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
     nvidia = {
       modesetting.enable = true;
