@@ -8,6 +8,7 @@
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
+    ./zellij.nix
   ];
   
   options.base.enable = lib.mkOption {

@@ -186,6 +186,7 @@
     hplipWithPlugin
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
+    lazygit
     libqalculate
     mpv
     nh
