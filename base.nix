@@ -169,7 +169,6 @@
     bluez
     bluez-tools
     btop
-    clickup
     devbox
     dunst
     eza
@@ -197,13 +196,11 @@
     pavucontrol
     pciutils
     pcmanfm
-    qmk
     ripdrag
     ripgrep
     rofi
     rofimoji
     tldr
-    tmux
     trash-cli
     tree
     ttyper

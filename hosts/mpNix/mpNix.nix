@@ -28,13 +28,16 @@
   };
 
   environment.systemPackages = with pkgs; [
+    clickup
     davinci-resolve
     go
     obs-studio
+    qmk
     qmk-udev-rules
     quickemu
     remmina
     templ
+    tmux
   ];
 
  # Necessary for QMK
