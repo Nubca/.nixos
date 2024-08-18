@@ -25,7 +25,7 @@
   services.minecraft = {
     enable = true;
     eula = true;
-  }
+  };
   
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
