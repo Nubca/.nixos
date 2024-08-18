@@ -25,7 +25,7 @@
     minecraft-server = {
       enable = true;
       eula = true;
-      package = pkgs.papermcServer.papermc-1_20_6;
+      # package = papermcServer.papermc-1_20_6;
     };
   };
   home-manager = {
@@ -50,6 +50,6 @@
 
   environment.systemPackages = with pkgs; [
     obs-studio
-    papermcServer.papermc-1_20_6
+    # papermcServer.papermc-1_20_6
   ];
 }
