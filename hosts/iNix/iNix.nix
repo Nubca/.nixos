@@ -13,20 +13,20 @@
   
   networking.hostName = "iNix";
 
-  services.displayManager = {
-    enable = true; 
-    defaultSession = "qtile";
-    autoLogin = {
+  services = {
+    displayManager = {
+      enable = true; 
+      defaultSession = "qtile";
+      autoLogin = {
+        enable = true;
+        user = "wa";
+      };
+    };
+    minecraft-server = {
       enable = true;
-      user = "wa";
+      eula = true;
     };
   };
-  
-  services.minecraft = {
-    enable = true;
-    eula = true;
-  };
-  
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
