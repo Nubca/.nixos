@@ -25,6 +25,7 @@
     minecraft-server = {
       enable = true;
       eula = true;
+      package = pkgs.papermcServer.papermc-1_20_6;
     };
   };
   home-manager = {
