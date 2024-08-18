@@ -50,5 +50,6 @@
 
   environment.systemPackages = with pkgs; [
     obs-studio
+    papermcServer.papermc-1_20_6
   ];
 }
