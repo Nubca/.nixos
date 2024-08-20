@@ -34,6 +34,8 @@
     obs-studio
     qmk
     qmk-udev-rules
+    evolution
+    betterbird
     quickemu
     remmina
     templ
