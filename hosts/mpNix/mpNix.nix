@@ -28,17 +28,14 @@
   };
 
   environment.systemPackages = with pkgs; [
+    betterbird
     clickup
-    davinci-resolve
     go
     obs-studio
+    python3
     qmk
     qmk-udev-rules
-    betterbird
     quickemu
-    remmina
-    templ
-    tmux
   ];
 
  # Necessary for QMK

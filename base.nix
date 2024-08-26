@@ -165,6 +165,7 @@
   # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
+    bat
     bluetuith
     bluez
     bluez-tools
@@ -181,7 +182,6 @@
     fzf
     gimp
     git
-    helix
     hplipWithPlugin
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
@@ -200,6 +200,7 @@
     ripgrep
     rofi
     rofimoji
+    sd
     tldr
     trash-cli
     tree
@@ -216,6 +217,7 @@
     yt-dlp
     zathura
     zoom-us
+    zoxide
   ];
 
   # DO NOT ALTER OR DELETE
