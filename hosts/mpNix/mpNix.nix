@@ -28,7 +28,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    betterbird
     clickup
     go
     obs-studio
@@ -36,6 +35,7 @@
     qmk
     qmk-udev-rules
     quickemu
+    thunderbird
   ];
 
  # Necessary for QMK
