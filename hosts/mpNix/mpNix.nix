@@ -12,6 +12,7 @@
   ];
 
   networking.hostName = "mpNix";
+  virtualisation.spiceUSBRedirection.enable = true;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -29,12 +30,13 @@
 
   environment.systemPackages = with pkgs; [
     clickup
-    go
     obs-studio
     python3
     qmk
     qmk-udev-rules
     quickemu
+    spice
+    spice-gtk
     thunderbird
   ];
 
