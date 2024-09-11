@@ -8,7 +8,7 @@
 
   # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -75,7 +75,6 @@
   };
     
   # Enable sound.
-  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -111,7 +110,6 @@
   # Power Management
   powerManagement = {
     enable = true;
-    #     powertop.enable = true;
   };
 
   # Allow unfree packages
@@ -131,7 +129,7 @@
     tlp.enable = true;
     upower = {
       enable = true;
-      # ignoreLid = true;
+      ignoreLid = true;
     };
     openssh = {
       enable = true;
