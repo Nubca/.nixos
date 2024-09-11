@@ -25,11 +25,6 @@
     ];
   };
   
-  # services.xserver = {
-  #   dpi = 288; # Seems to have no effect without the below
-  #   upscaleDefaultCursor = true; # Causes ptr_left to override custom cursor
-  # };
-  
   # Variables
   environment = {
     variables = { # Also see DPI-Hi.nix

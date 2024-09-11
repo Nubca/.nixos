@@ -6,11 +6,14 @@
   # Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-    generic-extlinux-compatible.configurationLimit = 15;
+  # Use the systemd-boot EFI boot loader and specify Linux kernel.
+  boot = {
+    kernelPackages = pkgs.linuxPackages;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      generic-extlinux-compatible.configurationLimit = 15;
+    };
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

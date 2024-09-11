@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/specifichash";
+    # nixpkgs.url = "github:nixos/nixpkgs/specific-hash-number";
 
     home-manager = {
       url = "github:nix-community/home-manager";
