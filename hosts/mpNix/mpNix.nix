@@ -34,9 +34,6 @@
     python3
     qmk
     qmk-udev-rules
-    quickemu
-    spice
-    spice-gtk
     thunderbird
   ];
 
