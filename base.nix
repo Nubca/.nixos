@@ -9,6 +9,7 @@
   # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
     kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
+    kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -117,11 +118,16 @@
     allowUnfree = true;
     nvidia.acceptLicense = true;
   };
+
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=2h
+    SuspendState=freeze
+  '';
   
   # Misc. Services 
   services = {
     logind = {
-      powerKey = "ignore";
+      powerKey = "hibernate";
       powerKeyLongPress = "poweroff";
       lidSwitch = "suspend";
     };
@@ -129,7 +135,9 @@
     tlp.enable = true;
     upower = {
       enable = true;
-      ignoreLid = true;
+      # ignoreLid = true;
+      criticalPowerAction = "Hibernate";
+      percentageCritical = 5;
     };
     openssh = {
       enable = true;

@@ -5,6 +5,18 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  # Specify the swap device
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/dd99c3a8-92a3-446c-b350-09c4ad7f0913"; }
+  ]; 
+    # Set the resume device to the UUID of the swap partition
+  boot.resumeDevice = lib.mkForce "/dev/disk/by-uuid/dd99c3a8-92a3-446c-b350-09c4ad7f0913";
+
+  # Set kernel parameters for hibernation
+  boot.kernelParams = [
+    "resume=UUID=dd99c3a8-92a3-446c-b350-09c4ad7f0913"  # Resume from the swap partition
+  ];
+
   boot = {
     initrd = {
       availableKernelModules = [
