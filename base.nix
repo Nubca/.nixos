@@ -88,7 +88,7 @@
   # Define a user account. 
   users.users.ca = {
     isNormalUser = true;
-    extraGroups = [ "sudo" "networkmanager" "wheel" ];
+    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" ];
   };
 
   # Set your time zone.
@@ -164,6 +164,12 @@
     ];
   };
   
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
+  programs.virt-manager.enable = true;
+
   # Fonts
   fonts.packages = with pkgs; [
     nerdfonts
