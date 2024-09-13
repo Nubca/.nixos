@@ -22,12 +22,8 @@
         user = "wa";
       };
     };
-    minecraft-server = {
-      enable = true;
-      eula = true;
-      # package = papermcServer.papermc-1_20_6;
-    };
   };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
@@ -50,6 +46,5 @@
 
   environment.systemPackages = with pkgs; [
     obs-studio
-    # papermcServer.papermc-1_20_6
   ];
 }
