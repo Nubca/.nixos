@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, dconf,... }:
 
 {
   imports = [
@@ -14,5 +14,11 @@
   options.base.enable = lib.mkOption {
     type = lib.types.bool;
     default = true;
+  };
+  config.dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 }

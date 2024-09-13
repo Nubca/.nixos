@@ -88,7 +88,7 @@
   # Define a user account. 
   users.users.ca = {
     isNormalUser = true;
-    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
   };
 
   # Set your time zone.
