@@ -14,6 +14,20 @@
   networking.hostName = "mpNix";
   virtualisation.spiceUSBRedirection.enable = true;
 
+## The below does not seem to work. Manually started.
+  systemd.user = {
+    services.window_logger = {
+      description = "Log active window";
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.python3}/bin/python3 ${config.users.users.ca.home}/TimeLog/window_logger.py";
+        Restart = "always";
+        RestartSec = "10";
+      };
+      wantedBy = [ "default.target"];
+    };
+  };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = { "ca" = import ../../users/cahome.nix; };

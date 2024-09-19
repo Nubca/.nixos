@@ -27,6 +27,15 @@
       wifi.backend = "iwd";
     };
     useDHCP = lib.mkDefault true;
+    firewall = { 
+      enable = true;
+      allowedTCPPortRanges = [ 
+        { from = 1714; to = 1764; } # KDE Connect
+      ];  
+      allowedUDPPortRanges = [ 
+        { from = 1714; to = 1764; } # KDE Connect
+      ];  
+    };  
     wireless = {
       iwd = { # Trouble auto-connecting on tNix
         enable = true;
@@ -168,7 +177,10 @@
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
   };
-  programs.virt-manager.enable = true;
+  programs = {
+    virt-manager.enable = true;
+    kdeconnect.enable = true;
+  };
 
   # Fonts
   fonts.packages = with pkgs; [
@@ -228,7 +240,9 @@
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip
+    xdotool
     xsel
+    yazi
     yt-dlp
     zathura
     zoom-us
