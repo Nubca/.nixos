@@ -3,7 +3,6 @@
 {
   imports = [
     ./bash.nix
-    ./helix.nix
     ./kitty.nix
     ./mpv.nix
     ./copyq.nix

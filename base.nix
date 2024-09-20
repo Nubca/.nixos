@@ -98,6 +98,7 @@
   users.users.ca = {
     isNormalUser = true;
     extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
+    linger = true;
   };
 
   # Set your time zone.

@@ -15,16 +15,26 @@
   virtualisation.spiceUSBRedirection.enable = true;
 
 ## The below does not seem to work. Manually started.
-  systemd.user = {
-    services.window_logger = {
+  systemd = {
+    services.systemd-logind.enable = true;
+    user.services.window_logger = {
+      enable = true;
       description = "Log active window";
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.python3}/bin/python3 ${config.users.users.ca.home}/TimeLog/window_logger.py";
-        Restart = "always";
+        Restart = "on-failure";
         RestartSec = "10";
+        Environment = [
+          "DISPLAY=:0"
+          "XDG_RUNTIME_DIR=/run/user/1000"
+          "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+         ]; 
+        # PathExists = "/run/current-system/sw/bin/xprop"; # Bad Option
+        WorkingDirectory = "${config.users.users.ca.home}/TimeLog";
       };
-      wantedBy = [ "default.target"];
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
     };
   };
 
