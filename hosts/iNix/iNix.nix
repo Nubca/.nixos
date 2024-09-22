@@ -15,7 +15,7 @@
 
   services = {
     logind = {
-      powerKey = lib.mkforce "suspend";
+      powerKey = lib.mkForce "suspend";
     };
     displayManager = {
       enable = true; 
