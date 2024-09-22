@@ -14,6 +14,9 @@
   networking.hostName = "iNix";
 
   services = {
+    logind = {
+      powerKey = lib.mkforce "suspend";
+    };
     displayManager = {
       enable = true; 
       defaultSession = "qtile";

@@ -3,7 +3,7 @@
 {
   programs.kitty = {
     enable = true;
-    theme = "Adwaita dark";
+    themeFile = "adwaita_dark";
     font = {
       name = "JetBrainsMono Nerd Font";
       size = 12;

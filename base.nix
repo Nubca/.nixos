@@ -13,11 +13,20 @@
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-      generic-extlinux-compatible.configurationLimit = 15;
+      generic-extlinux-compatible.configurationLimit = 10;
     };
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 1w";
+  };
+
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    auto-optimise-store = true;
+  };
  
   # Network Settings
   hardware.bluetooth.enable = true;
