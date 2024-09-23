@@ -214,6 +214,7 @@
     fd
     feh
     ffmpeg
+    file
     fish
     flameshot
     fzf
