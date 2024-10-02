@@ -218,7 +218,6 @@
     fish
     flameshot
     fzf
-    gimp
     git
     hplipWithPlugin
     inputs.nvim-flake.packages.${pkgs.system}.neovim
@@ -228,7 +227,6 @@
     mpv
     nh
     nix-output-monitor
-    npins
     nvd
     obsidian
     pavucontrol
@@ -248,6 +246,7 @@
     vifm
     vivaldi
     vlc
+    vscode
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip

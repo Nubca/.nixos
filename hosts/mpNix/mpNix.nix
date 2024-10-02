@@ -53,11 +53,22 @@
   };
 
   environment.systemPackages = with pkgs; [
+    blender
     clickup
+    darktable
+    dosfstools
+    davinci-resolve
+    gparted
+    gimp-with-plugins
+    hfsprogs
+    inkscape-with-extensions
+    mtools
+    npins
     obs-studio
     python3
     qmk
     qmk-udev-rules
+    reaper
     thunderbird
   ];
 

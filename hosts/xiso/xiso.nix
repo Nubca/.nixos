@@ -5,15 +5,14 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-      "${modulesPath}/installer/cd-dvd/channel.nix"
+      "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
       ./xisohardware.nix
     ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  # Lastest Version
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Latest Version
+    boot.kernelPackages = pkgs.linuxPackages;
 
   # Extra Features  
     nix = {
@@ -22,16 +21,16 @@
     };
 
   # Network Settings
-    networking = {
-      hostName = "iso";
-      wireless.iwd = {
-        enable = true;
-      };  
-      networkmanager = {
-        enable = true;
-          wifi.backend = "iwd";
-     };
-    };
+    # networking = {
+      # hostName = "iso";
+      # wireless.iwd = {
+        # enable = true;
+      # };  
+      # networkmanager = {
+        # enable = true;
+          # wifi.backend = "iwd";
+     # };
+    # };
 
   # Set your time zone.
     time.timeZone = "America/Chicago";
@@ -41,7 +40,7 @@
 
   # Allow unfree packages
     nixpkgs.config = {
-      allowUnfree = true;
+        allowUnfree = true;
     };
 
   # List packages installed in system profile. To search, run:
@@ -49,7 +48,8 @@
     environment.systemPackages = with pkgs; [
       git
       neovim
-      vifm
+      yazi
+      wget
     ];
 
   # gnome power settings do not turn off screen
@@ -64,7 +64,7 @@
     };
   
   # Extra Flexibility
-    home-manager.users.nixos = import ./home.nix;
+    # home-manager.users.nixos = import ./home.nix;
     users.extraUsers.root.password = "nixos";
-    services.openssh.settings.PermitRootLogin = lib.mkForce "yes"; 
+    services.openssh.settings.PermitRootLogin = lib.mkForce "yes";
 }

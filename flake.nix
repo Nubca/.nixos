@@ -90,6 +90,12 @@
           specialArgs = { inherit inputs; };
           modules = [ ./hosts/xiso/xiso.nix ];
         };
+
+        imaciso = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/imaciso/imaciso.nix ];
+        };
       };
     };
 }
