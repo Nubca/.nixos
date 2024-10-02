@@ -66,6 +66,24 @@
         ];
       };
 
+      iMix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/uMix/uMix.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.sharedModules = [
+              self.homeManagerModules.default
+              self.homeManagerModules.NormDPI
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+          }
+        ];
+      };
+
       tNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };

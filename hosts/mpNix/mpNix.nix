@@ -74,4 +74,7 @@
 
  # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
+
+# DO NOT ALTER OR DELETE
+  system.stateVersion = "24.05";
 }

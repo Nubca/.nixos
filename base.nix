@@ -232,6 +232,7 @@
     pavucontrol
     pciutils
     pcmanfm
+    pv
     ripdrag
     ripgrep
     rofi
@@ -258,7 +259,4 @@
     zoom-us
     zoxide
   ];
-
-# DO NOT ALTER OR DELETE
-  system.stateVersion = "24.05";
 }

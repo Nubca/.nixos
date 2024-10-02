@@ -51,4 +51,7 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" ];
   };
+
+# DO NOT ALTER OR DELETE
+  system.stateVersion = "24.05";
 }
