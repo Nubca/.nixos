@@ -35,6 +35,15 @@
       enable = true;
       wifi.backend = "iwd";
     };
+    wireless = {
+      iwd = { # Trouble auto-connecting on tNix
+        enable = true;
+        settings = {
+          IPv6.Enabled = false;
+          Settings = { AutoConnect = true; };
+        };
+      };
+    };
     useDHCP = lib.mkDefault true;
     firewall = { 
       enable = true;
@@ -45,15 +54,6 @@
         { from = 1714; to = 1764; } # KDE Connect
       ];  
     };  
-    wireless = {
-      iwd = { # Trouble auto-connecting on tNix
-        enable = true;
-        settings = {
-          IPv6.Enabled = false;
-          Settings = { AutoConnect = true; };
-        };
-      };
-    };
   };
 
   # Enable X11 and Desktop Environment
