@@ -3,10 +3,10 @@
 { inputs, pkgs, lib, ... }: {
   imports = [ ];
 
-  # Variables
+# Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
 
-  # Use the systemd-boot EFI boot loader and specify Linux kernel.
+# Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
     kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
     kernelParams = [ "mem_sleep_default=s2idle" ];
@@ -27,8 +27,8 @@
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
   };
- 
-  # Network Settings
+
+# Network Settings
   hardware.bluetooth.enable = true;
   networking = {
     networkmanager = {
@@ -56,7 +56,7 @@
     };  
   };
 
-  # Enable X11 and Desktop Environment
+# Enable X11 and Desktop Environment
   services = {
     xserver = {
       enable = true;
@@ -93,7 +93,7 @@
     config.common.default = "*";
   };
     
-  # Enable sound.
+# Enable sound.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -103,17 +103,17 @@
     pulse.enable = true;
   };
 
-  # Define a user account. 
+# Define a user account. 
   users.users.ca = {
     isNormalUser = true;
     extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
     linger = true;
   };
 
-  # Set your time zone.
+# Set your time zone.
   time.timeZone = "America/Chicago";
 
-  # Select internationalisation properties.
+# Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -127,12 +127,12 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Power Management
+# Power Management
   powerManagement = {
     enable = true;
   };
 
-  # Allow unfree packages
+# Allow unfree packages
   nixpkgs.config = {
     allowUnfree = true;
     nvidia.acceptLicense = true;
@@ -143,7 +143,7 @@
     SuspendState=freeze
   '';
   
-  # Misc. Services 
+# Misc. Services 
   services = {
     logind = {
       powerKey = "hibernate";
@@ -192,14 +192,14 @@
     kdeconnect.enable = true;
   };
 
-  # Fonts
+# Fonts
   fonts.packages = with pkgs; [
     nerdfonts
     fg-virgil
     google-fonts
   ];
 
-  # Packages installed system-wide
+# Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity
     bat
@@ -259,6 +259,6 @@
     zoxide
   ];
 
-  # DO NOT ALTER OR DELETE
+# DO NOT ALTER OR DELETE
   system.stateVersion = "24.05";
 }
