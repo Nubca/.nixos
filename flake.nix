@@ -71,6 +71,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/uMix/uMix.nix
+	  inputs.disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [

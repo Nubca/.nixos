@@ -6,8 +6,7 @@
   imports = [
     ./uhardware.nix
     ../../modules/nixos/nvidia-mac.nix
-    inputs.disko.nixosModules.default
-      (import ./udisko.nix { device = "/dev/sda"; })  
+    ./udisko.nix  
     ../../base.nix
   ];
   
