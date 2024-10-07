@@ -49,7 +49,7 @@
   environment.systemPackages = with pkgs; [
     obs-studio
     blender
-    darkroom
+    darktable
   ];
 
 # DO NOT ALTER OR DELETE
