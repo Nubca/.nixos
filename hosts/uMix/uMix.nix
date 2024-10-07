@@ -5,7 +5,6 @@
 {
   imports = [
     ./uhardware.nix
-    ../../modules/nixos/nvidia-mac.nix
     ./udisko.nix  
     ../../base.nix
   ];

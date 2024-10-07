@@ -52,6 +52,21 @@
     };
   };
 
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "HP-LaserJet";
+        location = "Home";
+        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
+      }
+    ];
+  };
+  services.printing = { 
+      enable = true;
+      drivers = [ pkgs.hplipWithPlugin ];
+    };
+  
   environment.systemPackages = with pkgs; [
     blender
     clickup
@@ -61,6 +76,7 @@
     gparted
     gimp-with-plugins
     hfsprogs
+    hplipWithPlugin
     inkscape-with-extensions
     mtools
     npins

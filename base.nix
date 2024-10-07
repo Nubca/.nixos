@@ -166,23 +166,8 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-    printing = { 
-      enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
-    };
   };
 
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "HP-LaserJet";
-        location = "Home";
-        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
-      }
-    ];
-  };
-  
   virtualisation = {
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
@@ -219,7 +204,6 @@
     flameshot
     fzf
     git
-    hplipWithPlugin
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
     lazygit
