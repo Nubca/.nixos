@@ -35,6 +35,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/mpNix/mpNix.nix
+	        inputs.disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [
@@ -53,6 +54,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/iNix/iNix.nix
+	        inputs.disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [
@@ -71,7 +73,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/uMix/uMix.nix
-	  inputs.disko.nixosModules.disko
+	        inputs.disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [
@@ -90,6 +92,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/tNix/tNix.nix
+	        inputs.disko.nixosModules.disko
           home-manager.nixosModules.home-manager
           {
             home-manager.sharedModules = [

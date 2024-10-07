@@ -5,8 +5,7 @@
 {
   imports = [
     ./thardware.nix
-    inputs.disko.nixosModules.default
-    (import ./tdisko.nix { device = "/dev/sda"; })
+    ./tdisko.nix
     ../../base.nix
   ];
 
