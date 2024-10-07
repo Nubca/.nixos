@@ -41,6 +41,8 @@
 
   environment.systemPackages = with pkgs; [
     obs-studio
+    blender
+    darkroom
   ];
 
 # DO NOT ALTER OR DELETE
