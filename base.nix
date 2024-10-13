@@ -47,12 +47,6 @@
     useDHCP = lib.mkDefault true;
     firewall = { 
       enable = true;
-      allowedTCPPortRanges = [ 
-        { from = 1714; to = 1764; } # KDE Connect
-      ];  
-      allowedUDPPortRanges = [ 
-        { from = 1714; to = 1764; } # KDE Connect
-      ];  
     };  
   };
 
@@ -174,7 +168,6 @@
   };
   programs = {
     virt-manager.enable = true;
-    kdeconnect.enable = true;
   };
 
 # Fonts
@@ -208,6 +201,7 @@
     kitty
     lazygit
     libqalculate
+    localsend
     mpv
     nh
     nix-output-monitor
@@ -237,7 +231,6 @@
     xclip
     xdotool
     xsel
-    yazi
     yt-dlp
     zathura
     zoom-us

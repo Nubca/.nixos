@@ -7,6 +7,7 @@
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
+    ./yazi.nix
     ./zellij.nix
   ];
   
