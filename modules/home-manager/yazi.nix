@@ -8,8 +8,8 @@
       manager = {
         sort_by = "natural";
         sort_dir_first = true;
-      };
-      linemode = "size";
+        linemode = "size";
+        };
       opener = {
         pdf = [
           {
@@ -18,6 +18,19 @@
           }
         ];
       };
+    };
+    keymap = {
+      manager.prepend_keymap = [
+        { 
+          on = "<C-n>"; 
+          run = 
+          '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';
+        }
+        {
+          on = [ "g" "i" ];
+          run = "plugin lazygit";
+        }
+      ];
     };
   };
 }
