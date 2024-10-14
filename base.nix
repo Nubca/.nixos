@@ -81,11 +81,6 @@
       mouse.naturalScrolling = true;
     };
   };
-
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
-  };
     
 # Enable sound.
   hardware.pulseaudio.enable = false;
@@ -176,6 +171,19 @@
     fg-virgil
     google-fonts
   ];
+
+  xdg = {
+    portal = {
+      enable = true;
+      config.common.default = "*";
+    };
+    mime = {
+      enable = true;
+      defaultApplications = {
+        "application/pdf" = "${pkgs.zathura}/bin/zathura %F";
+      };
+    };
+  };
 
 # Packages installed system-wide
   environment.systemPackages = with pkgs; [
