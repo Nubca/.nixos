@@ -23,8 +23,7 @@
       manager.prepend_keymap = [
         { 
           on = "<C-n>"; 
-          run = 
-          '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';
+          run = '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';
         }
         {
           on = [ "g" "i" ];

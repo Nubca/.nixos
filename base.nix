@@ -47,6 +47,12 @@
     useDHCP = lib.mkDefault true;
     firewall = { 
       enable = true;
+      allowedTCPPortRanges = [ 
+        { from = 53317; to = 53317; } # LocalSend
+      ];
+      allowedUDPPortRanges = [ 
+        { from = 53317; to = 53317; } # LocalSend
+      ];  
     };  
   };
 
@@ -208,8 +214,8 @@
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
     lazygit
-    libqalculate
     localsend
+    libqalculate
     mpv
     nh
     nix-output-monitor
@@ -219,6 +225,7 @@
     pciutils
     pcmanfm
     pv
+    rdfind
     ripdrag
     ripgrep
     rofi
