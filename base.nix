@@ -201,6 +201,7 @@
     btop
     devbox
     dunst
+    exiftool
     eza
     fastfetch
     fd
