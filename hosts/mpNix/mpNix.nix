@@ -78,6 +78,7 @@
     hplipWithPlugin
     inkscape-with-extensions
     mtools
+    nixd
     npins
     obs-studio
     python3
@@ -87,6 +88,8 @@
     thunderbird
   ];
 
+ # Necessary for nixd
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}"];
  # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
 

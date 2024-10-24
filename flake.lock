@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1729660284,
-        "narHash": "sha256-4v2GoAS3/LDbAUBIPeHY8524n8ULxn2LWADHFqIACpo=",
+        "lastModified": 1729728303,
+        "narHash": "sha256-K/CKgQsOJXkhBhu+/3bDSf1OZPoUoXO/elG/VX0A1GE=",
         "owner": "cabbott008",
         "repo": "nvim-flake",
-        "rev": "e743820c6de4e4c5fdce736e5f8cb5cdd84aa2d5",
+        "rev": "b624ef0c6f1ebcd9374df934a0ea08237e4f188d",
         "type": "github"
       },
       "original": {
