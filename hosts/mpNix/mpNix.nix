@@ -61,13 +61,13 @@
       }
     ];
   };
+
   services.printing = { 
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
   
   environment.systemPackages = with pkgs; [
-    blender
     clickup
     darktable
     dosfstools

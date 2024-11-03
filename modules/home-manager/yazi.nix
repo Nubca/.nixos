@@ -1,15 +1,17 @@
 { config, pkgs, lib, ... }:
-
 {
   programs.yazi = {
     enable = true;
+    package = pkgs.yazi.override {
+      _7zz = pkgs._7zz.override { useUasm = true; };
+    };
     enableFishIntegration = true;
     settings = {
       manager = {
         sort_by = "natural";
         sort_dir_first = true;
         linemode = "size";
-        };
+      };
       opener = {
         pdf = [
           {
