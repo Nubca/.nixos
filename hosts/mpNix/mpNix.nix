@@ -77,7 +77,9 @@
     hfsprogs
     hplipWithPlugin
     inkscape-with-extensions
+    lilypond-with-fonts
     mtools
+    musescore
     nixd
     npins
     obs-studio
