@@ -72,12 +72,12 @@
     darktable
     dosfstools
     davinci-resolve
+    gimp
     gparted
-    gimp-with-plugins
     hfsprogs
     hplipWithPlugin
-    inkscape-with-extensions
-    lilypond-with-fonts
+    inkscape
+    lilypond
     mtools
     musescore
     nixd

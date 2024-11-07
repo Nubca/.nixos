@@ -186,11 +186,17 @@
     mime = {
       enable = true;
       defaultApplications = {
-        "application/pdf" = "${pkgs.zathura}/bin/zathura %F";
+        "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
+      };
+      removedAssociations = {
+        "application/pdf" = [
+          "gimp.desktop"
+          "inkscape.Inkscape.desktop"
+        ];
       };
     };
   };
-
+  
 # Packages installed system-wide
   environment.systemPackages = with pkgs; [
     audacity

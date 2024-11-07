@@ -10,7 +10,7 @@
     ./yazi.nix
     ./zellij.nix
   ];
-  
+
   options.base.enable = lib.mkOption {
     type = lib.types.bool;
     default = true;

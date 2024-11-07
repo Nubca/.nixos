@@ -12,14 +12,6 @@
         sort_dir_first = true;
         linemode = "size";
       };
-      opener = {
-        pdf = [
-          {
-            run = "${pkgs.zathura}/bin/zathura \"$@\"";
-            block = true;
-          }
-        ];
-      };
     };
     keymap = {
       manager.prepend_keymap = [
