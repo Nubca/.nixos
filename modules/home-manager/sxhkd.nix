@@ -6,7 +6,7 @@
     keybindings = {
       # Don't use Control + Tab it messes up defaults
       "control + alt + f" = "flameshot gui &";
-      "control + p" = "kitty -e btop";
+      "control + b" = "kitty -e btop";
       "control + shift + Return" = "pcmanfm";
       "control + q" = "kitty";
       "super + b" = "vivaldi";

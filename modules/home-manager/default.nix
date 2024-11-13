@@ -5,6 +5,7 @@
     ./bash.nix
     ./fish.nix
     ./kitty.nix
+    ./lazygit.nix
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
