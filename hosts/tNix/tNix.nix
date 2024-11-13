@@ -36,11 +36,11 @@
     users = {
       "ca".imports = [
           ../../users/cahome.nix
-          ../modules/home-manager/default.nix
+          ../../modules/home-manager/default.nix
         ];
       "ct".imports = [
         ../../users/cthome.nix
-        ../modules/home-manager/default.nix
+        ../../modules/home-manager/default.nix
       ];
     };
   };

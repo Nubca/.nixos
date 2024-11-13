@@ -31,11 +31,11 @@
     users = {
       "ca".imports = [
           ../../users/cahome.nix
-          ../modules/home-manager/default.nix
+          ../../modules/home-manager/default.nix
         ];
       "wa".imports = [
         ../../users/wahome.nix
-        ../modules/home-manager/default.nix
+        ../../modules/home-manager/default.nix
       ];
     };
   };
