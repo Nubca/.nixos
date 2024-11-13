@@ -28,8 +28,14 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "ca" = import ../../users/cahome.nix;
-      "wa" = import ../../users/wahome.nix;
+      "ca".imports = [
+          ../../users/cahome.nix
+          ../modules/home-manager/default.nix
+        ];
+      "wa".imports = [
+        ../../users/wahome.nix
+        ../modules/home-manager/default.nix
+      ];
     };
   };
   
