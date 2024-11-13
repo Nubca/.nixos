@@ -29,7 +29,6 @@
           "XDG_RUNTIME_DIR=/run/user/1000"
           "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
          ]; 
-        # PathExists = "/run/current-system/sw/bin/xprop"; # Bad Option
         WorkingDirectory = "${config.users.users.ca.home}/TimeLog";
       };
       wantedBy = [ "graphical-session.target" ];
