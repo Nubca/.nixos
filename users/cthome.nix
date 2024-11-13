@@ -4,6 +4,7 @@
   home = {
     stateVersion = "24.05";
     username = "ct";
+    imports = [ ../modules/home-manager/default.nix ];
     homeDirectory = lib.mkForce "/home/ct";
 
     sessionVariables = { };
