@@ -47,6 +47,7 @@
     useDHCP = lib.mkDefault true;
     firewall = { 
       enable = true;
+      allowedTCPPorts = [ 22 ];
       allowedTCPPortRanges = [ 
         { from = 53317; to = 53317; } # LocalSend
       ];
@@ -56,38 +57,6 @@
     };  
   };
 
-# Enable X11 and Desktop Environment
-  services = {
-    xserver = {
-      enable = true;
-      autorun = false;
-      windowManager.qtile = { enable = true; };
-      xkb = {
-        layout = "us";
-        variant = "";
-        options = "caps:escape";
-      };
-      displayManager = {
-        lightdm = {
-          enable = true;
-          autoLogin.timeout = 0;
-          greeters = {
-            gtk.enable = true;
-          };
-        };
-        sessionCommands = ''
-          ${pkgs.sxhkd}/bin/sxhkd &
-        '';
-      };
-      excludePackages = with pkgs; [ xterm ];
-    };
-
-    libinput = {
-      touchpad.naturalScrolling = true;
-      mouse.naturalScrolling = true;
-    };
-  };
-    
 # Enable sound.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -138,8 +107,39 @@
     SuspendState=freeze
   '';
   
-# Misc. Services 
+# Enable X11, Desktop Environment, & Misc.
   services = {
+    xserver = {
+      enable = true;
+      autorun = false;
+      windowManager.qtile = {
+        enable = true;
+      };
+      xkb = {
+        layout = "us";
+        variant = "";
+        options = "caps:escape";
+      };
+      displayManager = {
+        lightdm = {
+          enable = true;
+          autoLogin.timeout = 0;
+          greeters = {
+            gtk.enable = true;
+          };
+        };
+        sessionCommands = ''
+          ${pkgs.sxhkd}/bin/sxhkd &
+        '';
+      };
+      excludePackages = with pkgs; [
+        xterm
+      ];
+    };
+    libinput = {
+      touchpad.naturalScrolling = true;
+      mouse.naturalScrolling = true;
+    };
     logind = {
       powerKey = "hibernate";
       powerKeyLongPress = "poweroff";
@@ -149,7 +149,6 @@
     tlp.enable = true;
     upower = {
       enable = true;
-      # ignoreLid = true;
       criticalPowerAction = "Hibernate";
       percentageCritical = 5;
     };
