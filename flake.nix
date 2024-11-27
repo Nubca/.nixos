@@ -2,8 +2,8 @@
   description = "Curtis's NixOS Installation Flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/4c2fcb090b1f3e5b47eaa7bd33913b574a11e0a0";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/c0451e363899513045f9d63e85ab3d8d88708e33";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

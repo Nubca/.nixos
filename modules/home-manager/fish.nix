@@ -20,6 +20,13 @@
       set -x MANPAGER "nvim +Man!"
       fish_vi_key_bindings
 
+### Prevent nested Zellij Sessions
+      function ssh
+        set -l old_zellij $ZELLIJ
+        set -e ZELLIJ
+        command ssh $argv
+        set -gx ZELLIJ $old_zellij
+      end
 ### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
       set fish_color_normal brcyan
       set fish_color_autosuggestion '#7d7d7d'
@@ -105,6 +112,7 @@
 
 # send preceding command output to hosting link
       "0x0" = "curl -F 'file=@-' 0x0.st";
+      tb = "nc termbin.com 9999";
 
 # gpg encryption
   # verify signature for isos
