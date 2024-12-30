@@ -5,10 +5,12 @@
 
 # Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
-
+  nixpkgs.overlays = [
+    (import .modules/nixos/broadcom-sta-fix.nix)
+];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
+    kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_10 etc.
     kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;

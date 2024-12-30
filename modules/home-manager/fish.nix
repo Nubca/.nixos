@@ -20,13 +20,20 @@
       set -x MANPAGER "nvim +Man!"
       fish_vi_key_bindings
 
-### Prevent nested Zellij Sessions
+### Zellij
+      if status is-interactive
+        if not set -q ZELLIJ
+          zellij
+        end
+      end  
+  ### Prevent nested Zellij Sessions
       function ssh
         set -l old_zellij $ZELLIJ
         set -e ZELLIJ
         command ssh $argv
         set -gx ZELLIJ $old_zellij
       end
+
 ### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
       set fish_color_normal brcyan
       set fish_color_autosuggestion '#7d7d7d'
