@@ -6,7 +6,7 @@
 # Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
   nixpkgs.overlays = [
-    (import .modules/nixos/broadcom-sta-fix.nix)
+    (import ./overlays/broadcom-sta-fix.nix)
 ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
@@ -33,7 +33,7 @@
 # Network Settings
   hardware.bluetooth.enable = true;
   networking = {
-    networkmanager = {
+    nestworkmanager = {
       enable = true;
       wifi.backend = "iwd";
     };
