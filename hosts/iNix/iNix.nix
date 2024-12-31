@@ -34,6 +34,9 @@
     gamemode.enable = true;
   };
 
+  environment.sessionVariables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/ca/.steam/root/compatibilitytools.d";
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -64,6 +67,9 @@
     obs-studio
     darktable
     mangohud
+    protonup
+    lutris
+    heroic
   ];
 
 # DO NOT ALTER OR DELETE
