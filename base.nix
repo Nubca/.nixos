@@ -33,7 +33,7 @@
 # Network Settings
   hardware.bluetooth.enable = true;
   networking = {
-    nestworkmanager = {
+    networkmanager = {
       enable = true;
       wifi.backend = "iwd";
     };
