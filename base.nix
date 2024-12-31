@@ -10,7 +10,7 @@
 ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_10 etc.
+    kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
     kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;
@@ -174,6 +174,9 @@
 
 # Fonts
   fonts.packages = with pkgs; [
+    # nerd-fonts.iosevka
+    # nerd-fonts.fira-mono
+    # nerd-fonts.jetbrains-mono
     nerdfonts
     fg-virgil
     google-fonts

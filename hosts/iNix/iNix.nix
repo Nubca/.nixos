@@ -25,6 +25,15 @@
       };
     };
   };
+  
+  programs = {
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+    };
+    gamemode.enable = true;
+  };
+
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -54,6 +63,7 @@
   environment.systemPackages = with pkgs; [
     obs-studio
     darktable
+    mangohud
   ];
 
 # DO NOT ALTER OR DELETE
