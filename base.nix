@@ -10,7 +10,7 @@
 ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_10 etc.
+    kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_10 etc.
     kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;
@@ -60,13 +60,16 @@
   };
 
 # Enable sound.
-  hardware.pulseaudio.enable = false;
+  # hardware.pulseaudio.enable = false; #Future versions switched to services.pulseaudio.enable
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+  services = {
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+    pulseaudio.enable = false;
   };
 
 # Define a user account. 
@@ -174,10 +177,10 @@
 
 # Fonts
   fonts.packages = with pkgs; [
-    # nerd-fonts.iosevka
-    # nerd-fonts.fira-mono
-    # nerd-fonts.jetbrains-mono
-    nerdfonts
+    nerd-fonts.iosevka
+    nerd-fonts.fira-mono
+    nerd-fonts.jetbrains-mono
+    # nerdfonts
     fg-virgil
     google-fonts
   ];
@@ -221,6 +224,7 @@
     fish
     flameshot
     fzf
+    # ghostty
     git
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty

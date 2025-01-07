@@ -4,7 +4,7 @@
   imports = [
     ./bash.nix
     ./fish.nix
-    ./ghostty.nix
+    # ./ghostty.nix
     ./kitty.nix
     ./lazygit.nix
     ./mpv.nix
