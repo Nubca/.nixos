@@ -224,7 +224,7 @@
     fish
     flameshot
     fzf
-    # ghostty
+    ghostty
     git
     inputs.nvim-flake.packages.${pkgs.system}.neovim
     kitty
