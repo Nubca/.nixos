@@ -228,11 +228,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1736233375,
-        "narHash": "sha256-I6fqKdaoKOVU33SyPv+MuxWRiOs+PXQTO94aCLA3rAc=",
+        "lastModified": 1736753650,
+        "narHash": "sha256-qSbPnZ2utGL39UD6lKi+K/7sWyZVl/kGZfOoy+xJEjA=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "721f5f602b876a3ee21be04f68ab3cedf162e7f6",
+        "rev": "9e2c41b7c12adc3ca17b1b50589f5234bcc0bbac",
         "type": "github"
       },
       "original": {
@@ -244,11 +244,11 @@
     "neovim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1736193797,
-        "narHash": "sha256-5S4RnwKfa5nn/r+8OsMtfgD6TEA5P6cWKti76A0zIMc=",
+        "lastModified": 1736752727,
+        "narHash": "sha256-sFD18EfXyQrN51ru6uzCt20C3DT4qBipJ1PbP9hnw80=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "b6ab294838421afb6932c52dd6e6d35d571e621d",
+        "rev": "2c16c849986794682a4776ff4ec100d00eeba5ca",
         "type": "github"
       },
       "original": {
@@ -259,11 +259,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1736817561,
-        "narHash": "sha256-itd1Vls/miaD4X35xhUMYCwB5buXX7sVRx4roSxvxio=",
+        "lastModified": 1736881928,
+        "narHash": "sha256-JfGuu9ArklwjF3cvUqWQJZRTVq5VFk5TFV6FOG6QI38=",
         "owner": "cabbott008",
         "repo": "nixpkgs",
-        "rev": "8f5163936499e1231faa0444cf3cf2d0b493f39c",
+        "rev": "d7a64b760e844137fed3a7b483a0367aaaacda30",
         "type": "github"
       },
       "original": {
@@ -275,11 +275,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1736042175,
-        "narHash": "sha256-jdd5UWtLVrNEW8K6u5sy5upNAFmF3S4Y+OIeToqJ1X8=",
+        "lastModified": 1736657626,
+        "narHash": "sha256-FWlPMUzp0lkQBdhKlPqtQdqmp+/C+1MBiEytaYfrCTY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bf689c40d035239a489de5997a4da5352434632e",
+        "rev": "2f9e2f85cb14a46410a1399aa9ea7ecf433e422e",
         "type": "github"
       },
       "original": {
@@ -299,11 +299,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736301883,
-        "narHash": "sha256-xp45uETze0SihEZEiELbc1RNTZLC88Rtj30amasMBZY=",
+        "lastModified": 1736882161,
+        "narHash": "sha256-53VsIy5qllTKeGyHiLZsm7EbfzSw61IaNDADvo2E6zk=",
         "owner": "cabbott008",
         "repo": "nvim-flake",
-        "rev": "5e72410b8510aa215064646c8e08780bec61d528",
+        "rev": "102696bafdfe47d9d73ec44edbd5f331dc4d591f",
         "type": "github"
       },
       "original": {
