@@ -10,6 +10,7 @@
     ./mpv.nix
     ./copyq.nix
     ./sxhkd.nix
+    ./vivaldi-theme.nix
     ./yazi.nix
     ./zellij.nix
   ];
