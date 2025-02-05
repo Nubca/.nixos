@@ -26,7 +26,7 @@ _final: prev: {
             patches = map (patch: "${aurPatches}/${patch}") patchset;
             prePatch = "cd kernel";
             postPatch = "cd ..";
-          };
+        };
     };
   });
 }

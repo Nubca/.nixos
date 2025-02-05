@@ -5,26 +5,32 @@
 
 # Variables
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
-  nixpkgs.overlays = [
-    (import ./overlays/broadcom-sta-fix.nix)
-    (import ./overlays/nvidia-470-fix.nix)
-  ];
+  nixpkgs = {
+    overlays = [
+    # (import ./overlays/broadcom-sta-fix.nix)
+    # (import ./overlays/nvidia-470-fix.nix)
+    ];
+    # Added the below and the package myCustomPackages to repair a broadcom-sta-fix related error.
+    config.packageOverrides = pkgs: {
+      myCustomPackages = pkgs.buildEnv {
+        name = "my-custom-packages";
+        paths = [
+          pkgs.linuxHeaders
+        ];
+      };
+    };
+  };
 
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_10 etc.
+    # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12 
+    kernelPackages = pkgs.linuxPackages_6_12;
     kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       generic-extlinux-compatible.configurationLimit = 10;
     };
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 1w";
   };
 
   nix.settings = {
@@ -62,7 +68,6 @@
   };
 
 # Enable sound.
-  # hardware.pulseaudio.enable = false; #Future versions switched to services.pulseaudio.enable
   security.rtkit.enable = true;
   services = {
     pipewire = {
@@ -175,6 +180,13 @@
   };
   programs = {
     virt-manager.enable = true;
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep 5 --keep-since 5d";
+      };
+    };
   };
 
 # Fonts
@@ -182,7 +194,6 @@
     nerd-fonts.iosevka
     nerd-fonts.fira-mono
     nerd-fonts.jetbrains-mono
-    # nerdfonts
     fg-virgil
     google-fonts
   ];
@@ -234,7 +245,7 @@
     localsend
     libqalculate
     mpv
-    nh
+    myCustomPackages
     nix-output-monitor
     nvd
     obsidian
