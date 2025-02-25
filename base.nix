@@ -25,7 +25,6 @@
   boot = {
     # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12 
     kernelPackages = pkgs.linuxPackages_6_12;
-    # kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [ "mem_sleep_default=s2idle" ];
     loader = {
       systemd-boot.enable = true;
