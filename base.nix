@@ -174,7 +174,6 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-    kdeconnect.enable = true;
   };
 
   virtualisation = {
@@ -183,6 +182,7 @@
   };
   programs = {
     virt-manager.enable = true;
+    kdeconnect.enable = true;
     nh = {
       enable = true;
       clean = {
