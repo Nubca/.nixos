@@ -11,14 +11,14 @@
     # (import ./overlays/nvidia-470-fix.nix)
     ];
     # Added the below and the package myCustomPackages to repair a broadcom-sta-fix related error.
-    config.packageOverrides = pkgs: {
-      myCustomPackages = pkgs.buildEnv {
-        name = "my-custom-packages";
-        paths = [
-          pkgs.linuxHeaders
-        ];
-      };
-    };
+    # config.packageOverrides = pkgs: {
+    #   myCustomPackages = pkgs.buildEnv {
+    #     name = "my-custom-packages";
+    #     paths = [
+    #       pkgs.linuxHeaders
+    #     ];
+    #   };
+    # };
   };
 
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
@@ -57,12 +57,14 @@
     useDHCP = lib.mkDefault true;
     firewall = { 
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      # allowedTCPPorts = [ 22 ];
       allowedTCPPortRanges = [ 
-        { from = 53317; to = 53317; } # LocalSend
+        # { from = 53317; to = 53317; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
       ];
       allowedUDPPortRanges = [ 
-        { from = 53317; to = 53317; } # LocalSend
+        # { from = 53317; to = 53317; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
       ];  
     };  
   };
@@ -172,6 +174,7 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+    kdeconnect.enable = true;
   };
 
   virtualisation = {
@@ -245,7 +248,7 @@
     localsend
     libqalculate
     mpv
-    myCustomPackages
+    # myCustomPackages
     nix-output-monitor
     nvd
     obsidian
