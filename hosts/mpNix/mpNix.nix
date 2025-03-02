@@ -11,6 +11,10 @@
   ];
 
   networking.hostName = "mpNix";
+  networking.firewall = {
+    allowedTCPPortRanges = [{ from = 1714; to = 1764; }];
+    allowedUDPPortRanges = [{ from = 1714; to = 1764; }];
+  };
   virtualisation.spiceUSBRedirection.enable = true;
 
 ## The below does not seem to work. Manually started.
@@ -41,15 +45,17 @@
     users = { "ca" = import ../../users/cahome.nix; };
   };
 
-  services.displayManager = {
-    enable = true; 
-    defaultSession = "qtile";
-    autoLogin = {
-      enable = true;
-      user = "ca";
+  services = {
+    displayManager = {
+      enable = true; 
+      defaultSession = "qtile";
+      autoLogin = {
+        enable = true;
+        user = "ca";
+      };
     };
   };
-
+    
   hardware.printers = {
     ensurePrinters = [
       {
