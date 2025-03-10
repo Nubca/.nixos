@@ -59,11 +59,13 @@
       enable = true;
       # allowedTCPPorts = [ 22 ];
       allowedTCPPortRanges = [ 
-        # { from = 53317; to = 53317; } # LocalSend
+        { from = 53317; to = 53317; } # LocalSend
         { from = 1714; to = 1764; } # kdeconnect
       ];
       allowedUDPPortRanges = [ 
-        # { from = 53317; to = 53317; } # LocalSend
+        { from = 53315; to = 53318; } # LocalSend
+        { from = 4000; to = 4007; } # LocalSend
+        { from = 8000; to = 8010; } # LocalSend
         { from = 1714; to = 1764; } # kdeconnect
       ];  
     };  
@@ -182,7 +184,6 @@
   };
   programs = {
     virt-manager.enable = true;
-    kdeconnect.enable = true;
     nh = {
       enable = true;
       clean = {
@@ -248,7 +249,6 @@
     localsend
     libqalculate
     mpv
-    # myCustomPackages
     nix-output-monitor
     nvd
     obsidian

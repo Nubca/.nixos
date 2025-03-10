@@ -82,6 +82,7 @@
     mtools
     musescore
     nixd
+    nodejs
     npins
     obs-studio
     python3

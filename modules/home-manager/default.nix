@@ -5,6 +5,7 @@
     ./bash.nix
     ./fish.nix
     ./ghostty.nix
+    ./kde-connect.nix
     ./kitty.nix
     ./lazygit.nix
     ./mpv.nix
