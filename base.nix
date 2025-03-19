@@ -156,11 +156,6 @@
       touchpad.naturalScrolling = true;
       mouse.naturalScrolling = true;
     };
-    logind = {
-      # powerKey = "hibernate";
-      # powerKeyLongPress = "poweroff";
-      lidSwitch = "hibernate";
-    };
     auto-cpufreq.enable = true;
     tlp.enable = true;
     upower = {

@@ -20,8 +20,8 @@
 
     git = {
       enable = true;
-      userName = "cabbott008";
-      userEmail = "curtisabbott@me.com";
+      userName = "Nubca";
+      userEmail = "inspiredplans@gmail.com";
     };
 
     direnv = {

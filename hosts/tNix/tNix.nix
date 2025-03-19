@@ -36,12 +36,13 @@
     users = {
       "ca".imports = [
           ../../users/cahome.nix
-          ../../modules/home-manager/default.nix
         ];
       "ct".imports = [
         ../../users/cthome.nix
-        ../../modules/home-manager/default.nix
-      ];
+      ]; 
+      "wa".imports = [
+        ../../users/wahome.nix
+      ]; 
     };
   };
 
@@ -53,7 +54,7 @@
 
   users.users.wa = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" ];
+    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
   };
 
 # DO NOT ALTER OR DELETE
