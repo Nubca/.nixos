@@ -86,6 +86,7 @@
     npins
     obs-studio
     python3
+    qutebrowser
     qmk
     qmk-udev-rules
     reaper
