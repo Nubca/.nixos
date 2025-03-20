@@ -11,7 +11,7 @@
       enable32Bit = true;
     };
     nvidia = {
-      modesetting.enable = true;
+      modesetting.enable = false;
       powerManagement = {
         enable = false;
         finegrained = false;
@@ -23,8 +23,9 @@
   };
   
   boot.kernelParams = [
-    "nvidia-drm.modeset=1"
+    "nvidia-drm.modeset=0"
     "nvidia-drm.fbdev=1"
+    "vga=normal"
   ];
 
   services.xserver.videoDrivers = ["nvidia"];
