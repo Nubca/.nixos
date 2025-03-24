@@ -19,7 +19,7 @@
     };
     git = {
       enable = true;
-      userName = "thaxer";
+      userName = "Connie Thaxton";
       userEmail = "thaxtonconnie@yahoo.com";
     };
   };

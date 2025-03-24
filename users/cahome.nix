@@ -20,8 +20,12 @@
 
     git = {
       enable = true;
-      userName = "Nubca";
+      userName = "Curtis Abbott";
       userEmail = "inspiredplans@gmail.com";
+      extraConfig = {
+        gpg.format = "openpgp";
+        gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
+      };
     };
 
     direnv = {

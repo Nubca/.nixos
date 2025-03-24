@@ -7,18 +7,7 @@
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
   nixpkgs = {
     overlays = [
-    # (import ./overlays/broadcom-sta-fix.nix)
-    # (import ./overlays/nvidia-470-fix.nix)
     ];
-    # Added the below and the package myCustomPackages to repair a broadcom-sta-fix related error.
-    # config.packageOverrides = pkgs: {
-    #   myCustomPackages = pkgs.buildEnv {
-    #     name = "my-custom-packages";
-    #     paths = [
-    #       pkgs.linuxHeaders
-    #     ];
-    #   };
-    # };
   };
 
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
@@ -118,10 +107,12 @@
     nvidia.acceptLicense = true;
   };
 
-  systemd.sleep.extraConfig = ''
+  systemd = {
+    sleep.extraConfig = ''
     HibernateDelaySec=2h
     SuspendState=freeze
-  '';
+    '';
+  };
   
 # Enable X11, Desktop Environment, & Misc.
   services = {
@@ -143,6 +134,9 @@
           greeters = {
             gtk.enable = true;
           };
+          # extraSeatDefaults = ''
+          #   greeter-setup-script=${pkgs.light-locker}/bin/light-locker
+          #   '';
         };
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
@@ -243,6 +237,7 @@
     lazygit
     localsend
     libqalculate
+    # light-locker
     mpv
     nix-output-monitor
     nvd

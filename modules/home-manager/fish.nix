@@ -11,6 +11,7 @@
 
 ### EXPORT ###
       set fish_greeting # Supresses fish's intro message
+      set -Ux XDG_CONFIG_HOME ~/.config
       set TERM kitty # Sets the terminal type
       set EDITOR nvim # $EDITOR use nvim in terminal
       set VISUAL nvim # $VISUAL use Emacs in GUI mode
@@ -97,8 +98,6 @@
       df = "df -h"; # human-readable sizes
       free = "free -m"; # show sizes in M"
       
-      v = "vifm";
-      
       addup = "git add -u";
       addall = "git add .";
       branch = "git branch";
@@ -110,9 +109,6 @@
       push = "git push origin";
       tag = "git tag";
       newtag = "git tag -a";
-
-# bare git repo alias for dotfiles
-      config = "/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME";
 
 # get error messages from journalctl
       jctl = "journalctl -p 3 -xb";
