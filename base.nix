@@ -4,7 +4,6 @@
   imports = [ ];
 
 # Variables
-  environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
   nixpkgs = {
     overlays = [
     ];
@@ -72,13 +71,6 @@
     pulseaudio.enable = false;
   };
 
-# Define a user account. 
-  users.users.ca = {
-    isNormalUser = true;
-    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
-    linger = true;
-  };
-
 # Set your time zone.
   time.timeZone = "America/Chicago";
 
@@ -134,9 +126,6 @@
           greeters = {
             gtk.enable = true;
           };
-          # extraSeatDefaults = ''
-          #   greeter-setup-script=${pkgs.light-locker}/bin/light-locker
-          #   '';
         };
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
@@ -237,7 +226,6 @@
     lazygit
     localsend
     libqalculate
-    # light-locker
     mpv
     nix-output-monitor
     nvd

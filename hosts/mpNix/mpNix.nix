@@ -10,42 +10,25 @@
     ../../base.nix
   ];
 
+  environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
+
   networking.hostName = "mpNix";
   virtualisation.spiceUSBRedirection.enable = true;
 
-## The below does not seem to work. Manually started.
-  # systemd = {
-  #   services.systemd-logind.enable = true;
-  #   user.services.window_logger = {
-  #     enable = true;
-  #     description = "Log active window";
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       ExecStart = "${pkgs.python3}/bin/python3 ${config.users.users.ca.home}/TimeLog/window_logger.py";
-  #       Restart = "on-failure";
-  #       RestartSec = "10";
-  #       Environment = [
-  #         "DISPLAY=:0"
-  #         "XDG_RUNTIME_DIR=/run/user/1000"
-  #         "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
-  #        ]; 
-  #       WorkingDirectory = "${config.users.users.ca.home}/TimeLog";
-  #     };
-  #     wantedBy = [ "graphical-session.target" ];
-  #     partOf = [ "graphical-session.target" ];
-  #   };
-  # };
-
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "backup";
     users = {
-      "ca".imports = [
-          ../../users/cahome.nix
-        ];
-      "wa".imports = [
-          ../../users/wahome.nix
-        ];
-      };
+      "ca".imports = [ ../../users/cahome.nix ];
+      "wa".imports = [ ../../users/wahome.nix ];
+    };
+  };
+
+# Define a user account. 
+  users.users.ca = {
+    isNormalUser = true;
+    extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
+    linger = true;
   };
 
   users.users.wa = {
