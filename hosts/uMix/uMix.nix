@@ -31,18 +31,12 @@
     backupFileExtension = "backup";
     users = {
       "admin".imports = [ ../../users/amhome.nix ];
-      "ca".imports = [ ../../users/cahome.nix ];
       "wa".imports = [ ../../users/wahome.nix ];
     };
   };
   
 # Define additional user accounts. 
   users.users = {
-    ca = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm"];
-    };
-  
     wa = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm"];
