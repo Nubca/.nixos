@@ -11,7 +11,10 @@
     packages = [ ];
 
     file = {
-    }; 
+      ".config/qtile/0-Monitor.jpg".source = ../qtile/WilliamWallpaper.jpg;
+      ".config/qtile/1-Main.jpg".source = ../qtile/WilliamWallpaper.jpg;
+      ".config/qtile/autostart.sh".source = ../qtile/autostart.sh;
+    };
   };
   
   programs = {

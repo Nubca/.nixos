@@ -1,7 +1,9 @@
 # ----- * NixOS Default Config* - base.nix -----
 
 { inputs, pkgs, lib, ... }: {
-  imports = [ ];
+  imports = [
+    ./qtile/qtile.nix
+  ];
 
 # Variables
   nixpkgs = {
@@ -246,7 +248,6 @@
     ttyper
     unzip
     usbutils
-    vifm
     vivaldi
     vlc
     vscode

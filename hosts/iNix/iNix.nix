@@ -10,7 +10,7 @@
     ../../base.nix
   ];
   
-  environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
+  environment.sessionVariables = { FLAKE = "/home/admin/.nixos"; };
   networking.hostName = "iNix";
 
   services = {
@@ -32,7 +32,6 @@
     backupFileExtension = "backup";
     users = {
       "admin".imports = [ ../../users/amhome.nix ];
-      "ca".imports = [ ../../users/cahome.nix ];
       "ct".imports = [ ../../users/cthome.nix ];
       "wa".imports = [ ../../users/wahome.nix ];
     };
@@ -40,22 +39,14 @@
   
 # Define additional user accounts. 
   users.users = {
-    ca = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm"];
-      linger = true;
-    };
-
-    ct = {
-      isNormalUser = true;
-      extraGroups = [ "networkmanager" ]; 
-    };
-  
     wa = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm"];
     };
-
+    ct = {
+      isNormalUser = true;
+      extraGroups = [ "networkmanager" ]; 
+    };
     admin = {
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm" ];

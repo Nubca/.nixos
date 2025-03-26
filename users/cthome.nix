@@ -10,7 +10,11 @@
 
     packages = [ ];
   
-    file = { };
+    file = {
+      ".config/qtile/0-Monitor.jpg".source = ../qtile/0-Monitor.jpg;
+      ".config/qtile/1-Main.jpg".source = ../qtile/0-Monitor.jpg;
+      ".config/qtile/autostart.sh".source = ../qtile/autostart.sh;
+    };
   };
   
   programs = {
