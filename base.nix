@@ -15,12 +15,20 @@
   boot = {
     # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12 
     kernelPackages = pkgs.linuxPackages_6_12;
-    kernelParams = [ "mem_sleep_default=s2idle" ];
+    kernelParams = [
+      "mem_sleep_default=s2idle"
+      # "usbcore.autosuspend=-1"
+    ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       generic-extlinux-compatible.configurationLimit = 10;
     };
+    extraModprobeConfig = '' # Prevent WiFi sleep
+    options iwlwifi power_save=0
+    options iwlmvm power_scheme=1
+    # options usbcore autosuspend=-1
+    '';
   };
 
   nix.settings = {
@@ -30,34 +38,51 @@
 
 # Network Settings
   hardware.bluetooth.enable = true;
+
   networking = {
     networkmanager = {
       enable = true;
-      wifi.backend = "iwd";
+      wifi = {
+        powersave = false;
+        backend = "iwd";
+      };
+      connectionConfig = { 
+        # Restart interface after 15sec timeout
+        "connection.auth-retries" = 5;
+        "connection.dhcp-timeout" = 30;
+        "connection.autoconnect-retries" = 3;
+        "connection.autoconnect-timeout" = 60;
+      };
+      # Force periodic DHCP renewals
+      # dhcp = "dhcpcd";
     };
+
     wireless = {
-      iwd = { # Trouble auto-connecting on tNix
+      enable = false; # Kills wpa_supplicant
+      iwd = { # tNix is on wpa_supplicant
         enable = true;
         settings = {
+          Settings = {
+            AutoConnect = true;
+            RoamRetryInterval = 60;
+          };
+          General = {
+            RoamThreshold = "-70";
+            EnableNetworkConfiguration = false; # false passing to NetworkManager fails
+          };
           IPv6.Enabled = false;
-          Settings = { AutoConnect = true; };
+          Network = {
+            RoutePriorityOffset = 300; # Prioritize WiFi routes
+          };
         };
       };
     };
-    useDHCP = lib.mkDefault true;
+
+    # Selective DHCP for specific interfaces instead of Global
+    useDHCP = lib.mkDefault false; # Disables native DHCP
+
     firewall = { 
       enable = true;
-      # allowedTCPPorts = [ 22 ];
-      allowedTCPPortRanges = [ 
-        { from = 53317; to = 53317; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];
-      allowedUDPPortRanges = [ 
-        { from = 53315; to = 53318; } # LocalSend
-        { from = 4000; to = 4007; } # LocalSend
-        { from = 8000; to = 8010; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];  
     };  
   };
 
@@ -141,8 +166,14 @@
       touchpad.naturalScrolling = true;
       mouse.naturalScrolling = true;
     };
-    auto-cpufreq.enable = true;
-    tlp.enable = true;
+    auto-cpufreq.enable = false;
+    tlp = {
+      enable = true;
+      settings = {
+        USB_AUTOSUSPEND = 0;
+        USB_WHITELIST = "3297:1969"; # Prevent MoonLander sleep
+      };
+    };
     upower = {
       enable = true;
       criticalPowerAction = "Hibernate";
@@ -156,8 +187,15 @@
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+    udev.extraRules = ''
+      # Prevent Moonland keyboard from sleeping
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/control}="on"
+      # Also disable autosuspend for this device
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/autosuspend}="-1"
+    '';
   };
 
+# Virtualisation
   virtualisation = {
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;

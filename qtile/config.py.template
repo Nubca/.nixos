@@ -63,11 +63,11 @@ def window_to_next_group(qtile):
 # --- Keybindings ---
 # The use of lazy.function(...) here IS CORRECT
 keys = [
-  # SUPER + FUNCTION KEYS
+  # SUPER + KEYS
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod], "q", lazy.window.kill()),
   # SUPER + SHIFT KEYS
-    Key([mod, "shift"], "r", lazy.reload_config()), # Use lazy.reload_config()
+    Key([mod, "shift"], "r", lazy.reload_config()),
   # QTILE LAYOUT KEYS
     Key([mod], "n", lazy.layout.normalize()),
     Key([mod], "space", lazy.next_layout()),

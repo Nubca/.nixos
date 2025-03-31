@@ -6,13 +6,44 @@
   imports = [
     ./mphardware.nix
     ../../modules/nixos/nvidia-mac.nix
+    # ../../modules/nixos/iwd.watchdog.nix
     ./mpdisko.nix
     ../../base.nix
   ];
 
   environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
 
-  networking.hostName = "mpNix";
+  networking = {
+    hostName = "mpNix";
+    firewall = { 
+      # allowedTCPPorts = [ 22 ];
+      allowedTCPPortRanges = [ 
+        { from = 53317; to = 53317; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
+      ];
+      allowedUDPPortRanges = [ 
+        { from = 53315; to = 53318; } # LocalSend
+        { from = 4000; to = 4007; } # LocalSend
+        { from = 8000; to = 8010; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
+      ];
+      extraCommands = ''
+        iptables -A INPUT -p tcp --dport 53317 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 53315:53318 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 4000:4007 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 8000:8010 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p tcp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p tcp --dport 53317 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 53315:53318 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 4000:4007 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 8000:8010 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p tcp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
+      '';
+    };
+  };
+
   virtualisation.spiceUSBRedirection.enable = true;
 
   home-manager = {
