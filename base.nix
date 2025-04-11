@@ -241,6 +241,7 @@
   
 # Packages installed system-wide
   environment.systemPackages = with pkgs; [
+    anki
     audacity
     bat
     bluetuith

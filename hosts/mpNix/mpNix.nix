@@ -117,6 +117,7 @@
     npins
     obs-studio
     python3
+    telegram-desktop
     qutebrowser
     qmk
     qmk-udev-rules
