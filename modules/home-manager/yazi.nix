@@ -19,10 +19,6 @@
           on = "<C-n>"; 
           run = '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';
         }
-        {
-          on = [ "g" "i" ];
-          run = "plugin lazygit";
-        }
       ];
     };
   };

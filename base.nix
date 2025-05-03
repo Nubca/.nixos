@@ -1,15 +1,18 @@
 # ----- * NixOS Default Config* - base.nix -----
 
 { inputs, pkgs, lib, ... }: {
+# Allow unfree packages
+  nixpkgs.config = {
+    allowUnfree = true;
+    nvidia.acceptLicense = true;
+  };
+
   imports = [
     ./qtile/qtile.nix
   ];
 
 # Variables
-  nixpkgs = {
-    overlays = [
-    ];
-  };
+  nixpkgs.overlays = [];
 
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
@@ -83,6 +86,9 @@
 
     firewall = { 
       enable = true;
+      allowedTCPPortRanges = [ 
+        # { from = 7496; to = 7497; } # IBKR TWS
+      ];
     };  
   };
 
@@ -118,12 +124,6 @@
 # Power Management
   powerManagement = {
     enable = true;
-  };
-
-# Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-    nvidia.acceptLicense = true;
   };
 
   systemd = {
@@ -209,6 +209,10 @@
         extraArgs = "--keep 5 --keep-since 5d";
       };
     };
+    java = {
+      enable = true;
+      package = pkgs.jdk21; # TWS likely uses JDK 21
+    };
   };
 
 # Fonts
@@ -262,7 +266,9 @@
     fzf
     ghostty
     git
+    # glib #JavaFX runtime dependencies
     inputs.nvim-flake.packages.${pkgs.system}.neovim
+    # inputs.tws.packages.x86_64-linux.tws
     kitty
     lazygit
     localsend
@@ -280,8 +286,10 @@
     ripgrep
     rofi
     rofimoji
+    ruby
     sd
     tldr
+    tradingview
     trash-cli
     tree
     ttyper

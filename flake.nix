@@ -17,6 +17,8 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # tws.url = "github:Nubca/tws";
+    # tws.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: with inputs; {
@@ -28,7 +30,10 @@
     nixosConfigurations = {
       mpNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
         modules = [
           ./hosts/mpNix/mpNix.nix
 	        inputs.disko.nixosModules.disko
@@ -48,7 +53,10 @@
       };
       iNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
         modules = [
           ./hosts/iNix/iNix.nix
 	        inputs.disko.nixosModules.disko
@@ -68,7 +76,10 @@
       };
       uMix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
         modules = [
           ./hosts/uMix/uMix.nix
 	        inputs.disko.nixosModules.disko
@@ -88,7 +99,10 @@
       };
       tNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
         modules = [
           ./hosts/tNix/tNix.nix
 	        inputs.disko.nixosModules.disko

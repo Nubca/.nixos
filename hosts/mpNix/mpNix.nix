@@ -6,12 +6,11 @@
   imports = [
     ./mphardware.nix
     ../../modules/nixos/nvidia-mac.nix
-    # ../../modules/nixos/iwd.watchdog.nix
     ./mpdisko.nix
     ../../base.nix
   ];
 
-  environment.sessionVariables = { FLAKE = "/home/ca/.nixos"; };
+  environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
 
   networking = {
     hostName = "mpNix";
