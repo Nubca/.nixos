@@ -36,7 +36,7 @@
     };  
     openssh.settings = {
       AllowUsers = [ "admin" ];
-      PasswordAuthentication = false; # Disable password authentication for security
+      PasswordAuthentication = true; # Disable password authentication for security
       PermitRootLogin = "no";         # Prohibit root login
       UseDns = false;                 # Speed up SSH connections
       ClientAliveInterval = 300;      # Keep the connection alive
