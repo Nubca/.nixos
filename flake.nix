@@ -4,7 +4,7 @@
   inputs = {
     # nixpkgs.url = "github:Nubca/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/6607cf789e541e7873d40d3a8f7815ea92204f32";
+    # nixpkgs.url = "github:nixos/nixpkgs/91bf6dffa21c7709607c9fdbf9a6acb44e7a0a5d";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
