@@ -11,6 +11,7 @@
         "xhci_pci"
         "ehci_pci"
         "ahci"
+        "hid_apple"
         "usb_storage"
         "usbhid"
         "sd_mod"
