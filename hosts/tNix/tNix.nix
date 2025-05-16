@@ -62,10 +62,12 @@
       isNormalUser = true;
       extraGroups = [ "networkmanager" ]; 
     };
+
     wa = {
       isNormalUser = true;
       extraGroups = [ "networkmanager" "libvirtd" "kvm"];
     };
+
     admin = {
       isNormalUser = true;
       initialPassword = "changeme";
