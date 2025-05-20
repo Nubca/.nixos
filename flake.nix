@@ -143,6 +143,16 @@
           }
         ]; 
       };
+      xIso = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
+        modules = [
+          ./iso_flake/xIso.nix
+        ];
+      };
     };
   };
 }

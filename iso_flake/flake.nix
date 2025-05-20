@@ -1,5 +1,5 @@
 {
-  description = "NixOS ISO for 2008 iMac";
+  description = "NixOS ISO for 2012 MacPro";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
