@@ -35,8 +35,7 @@
           system = "x86_64-linux";
           };
         modules = [
-          ./hosts/mpNix/pNix.nix
-	        inputs.disko.nixosModules.disko
+          ./hosts/pNix/pNix.nix
           home-manager.nixosModules.home-manager
           {
             home-manager = {
