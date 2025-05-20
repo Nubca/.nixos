@@ -1,10 +1,7 @@
 {
-  device ? throw "/dev/sda",
-  ...
-}: {
   disko.devices = {
     disk.main = {
-      inherit device;
+      device = "/dev/sda";
       type = "disk";
       content = {
         type = "gpt";
@@ -22,6 +19,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
             };
           };
           swap = {

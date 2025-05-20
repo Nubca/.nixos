@@ -5,7 +5,6 @@
 {
   imports = [
     ./phardware.nix
-    ./pdisko.nix
     ../../base.nix
   ];
 
@@ -89,21 +88,12 @@
         enable = true;
         user = "ca";
       };
-    openssh.settings = {
-      AllowUsers = [ "admin" ];
-      PasswordAuthentication = true; # Disable password authentication for security
-      PermitRootLogin = "no";         # Prohibit root login
-      UseDns = false;                 # Speed up SSH connections
-      ClientAliveInterval = 300;      # Keep the connection alive
-      ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
-    fail2ban.enable = true;
-    };
-    logind = {
+    # logind = {
       # powerKey = "hibernate";
       # powerKeyLongPress = "poweroff";
-      lidSwitch = "hibernate";
-    };
+      # lidSwitch = "hibernate";
+    # };
   };
     
   hardware.printers = {
