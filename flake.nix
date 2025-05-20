@@ -28,6 +28,29 @@
       NormDPI = import ./modules/home-manager/DPI-Low.nix;
     };
     nixosConfigurations = {
+      pNix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
+        modules = [
+          ./hosts/mpNix/pNix.nix
+	        inputs.disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              sharedModules = [
+                self.homeManagerModules.default
+                # self.homeManagerModules.HiDPI
+              ];
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+            };
+          }
+        ];
+      };
       mpNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {

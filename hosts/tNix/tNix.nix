@@ -9,7 +9,7 @@
     ../../base.nix
   ];
 
-  environment.sessionVariables = { FLAKE = "/home/admin/.nixos"; };
+  environment.sessionVariables = { NH_FLAKE = "/home/admin/.nixos"; };
 
   networking = {
     hostName = "tNix";
