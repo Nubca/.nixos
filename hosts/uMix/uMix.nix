@@ -31,7 +31,7 @@
       ClientAliveInterval = 300;      # Keep the connection alive
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
-    # fail2ban.enable = true;
+    fail2ban.enable = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
@@ -61,7 +61,6 @@
 
     admin = {
       isNormalUser = true;
-      # initialPassword = "changeme";
       extraGroups = [ "wheel" "networkmanager" "libvirtd" "kvm"];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
