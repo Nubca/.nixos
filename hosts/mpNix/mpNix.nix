@@ -1,4 +1,4 @@
-# ###### Special Config mpNix.nix #######
+o# ###### Special Config mpNix.nix #######
 
 { config, inputs, lib, pkgs, modulesPath, home-manager, ... }:
 
