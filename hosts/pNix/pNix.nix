@@ -66,7 +66,7 @@
 
     admin = {
       isNormalUser = true;
-      initialPassword = "changeme";
+      # initialPassword = "changeme";
       extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
@@ -88,14 +88,14 @@
         enable = true;
         user = "ca";
       };
-    # openssh.settings = {
-    #   AllowUsers = [ "admin" ];
-    #   PasswordAuthentication = true; # Disable password authentication for security
-    #   PermitRootLogin = "no";         # Prohibit root login
-    #   UseDns = false;                 # Speed up SSH connections
-    #   ClientAliveInterval = 300;      # Keep the connection alive
-    #   ClientAliveCountMax = 1;        # Terminate unresponsive sessions
-    # };
+    openssh.settings = {
+      AllowUsers = [ "admin" ];
+      PasswordAuthentication = true; # Disable password authentication for security
+      PermitRootLogin = "no";         # Prohibit root login
+      UseDns = false;                 # Speed up SSH connections
+      ClientAliveInterval = 300;      # Keep the connection alive
+      ClientAliveCountMax = 1;        # Terminate unresponsive sessions
+    };
     # fail2ban.enable = true;
     };
     # logind = {
