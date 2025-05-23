@@ -1,4 +1,4 @@
-o# ###### Special Config mpNix.nix #######
+# ###### Special Config mpNix.nix #######
 
 { config, inputs, lib, pkgs, modulesPath, home-manager, ... }:
 
@@ -63,16 +63,18 @@ o# ###### Special Config mpNix.nix #######
       openssh.authorizedKeys.keys = [ 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
       ]; 
     };
 
     admin = {
       isNormalUser = true;
-      initialPassword = "changeme";
+      # initialPassword = "changeme";
       extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
       ]; 
     };
 
@@ -98,7 +100,7 @@ o# ###### Special Config mpNix.nix #######
       ClientAliveInterval = 300;      # Keep the connection alive
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
-    fail2ban.enable = true;
+    # fail2ban.enable = true;
     };
     logind = {
       # powerKey = "hibernate";
