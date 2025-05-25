@@ -91,6 +91,7 @@
         enable = true;
         user = "ca";
       };
+    };
     openssh.settings = {
       AllowUsers = [ "admin" ];
       PasswordAuthentication = true; # Disable password authentication for security
@@ -100,7 +101,6 @@
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
     fail2ban.enable = true;
-    };
     logind = {
       # powerKey = "hibernate";
       # powerKeyLongPress = "poweroff";
