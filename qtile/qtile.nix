@@ -65,7 +65,7 @@ let
 
   # --- Determine Final Settings ---
   finalSettings = lib.recursiveUpdate defaultSettings (
-    if hostname == "iNix" || hostname == "uMix" then useDesktopOverrides
+    if hostname == "iNix" || hostname == "uMix" || hostname == "pNix" then useDesktopOverrides
     else if hostname == "mpNix" then useHiDPIOverrides
     else {} # Use defaults for tNix or any other hostname
   );
