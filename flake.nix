@@ -8,9 +8,9 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
-    };   
+    };
     nvim-flake = {
-      url = "github:Nubca/nvim-flake";
+      url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -140,7 +140,7 @@
               backupFileExtension = "backup";
             };
           }
-        ]; 
+        ];
       };
       xIso = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

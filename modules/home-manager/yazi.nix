@@ -7,14 +7,14 @@
     };
     enableFishIntegration = true;
     settings = {
-      manager = {
+      mgr = {
         sort_by = "natural";
         sort_dir_first = true;
         linemode = "size";
       };
     };
     keymap = {
-      manager.prepend_keymap = [
+      mgr.prepend_keymap = [
         { 
           on = "<C-n>"; 
           run = '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';

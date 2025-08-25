@@ -30,7 +30,7 @@ let
     # systray_screen_index = 0; # Systray on Screen 0 (first screen)
     # Wallpapers are declared and set to the below via each users xxhome.nix file.
     wallpaper_screen0 = "~/.config/qtile/0-Monitor.jpg"; # Example system path
-    wallpaper_screen1 = "~/.config/qtile/1-Main.jpg";    # Example system path
+    # wallpaper_screen1 = "~/.config/qtile/1-Main.jpg";    # Example system path
   };
 
   # Overrides for Desktop machines
@@ -60,7 +60,7 @@ let
     widget_font_size_battery = 46;
     widget_font_size_systray = 42;
     bar_size = 48;
-    systray_screen_index = 1; # Systray on Screen 1 (second screen)
+    # systray_screen_index = 1; # Systray on Screen 1 (second screen)
   };
 
   # --- Determine Final Settings ---
@@ -95,7 +95,6 @@ let
   '' else ""; # Empty string if no battery needed
 
   # --- Prepare Substitutions Map ---
-  # Convert all simple values to strings for substituteAll
   substitutions = (lib.mapAttrs (n: v: toString v) (
     lib.filterAttrs (n: v: !(lib.isList v) && !(lib.isAttrs v)) finalSettings
   )) // {
@@ -103,26 +102,10 @@ let
     battery_widget_python_code = batteryWidgetCode;
   };
 
-
   # --- Generate the Configuration File ---
-  # Use pkgs.substituteAll to replace placeholders in the template
-  generatedConfigFile = pkgs.substituteAll {
-    src = ./config.py.template; # Path relative to this qtile.nix file
-    name = "qtile-config.py";   # Good practice for store path readability
-
-    # Explicitly list all substitutions from the 'substitutions' map
-    # The 'inherit' keyword takes attributes from the given scope (here, 'substitutions')
-    inherit (substitutions)
-      layout_margin layout_border_width widget_font_size_default widget_padding_default
-      widget_font_size_groupbox widget_margin_y_groupbox widget_margin_x_groupbox
-      widget_padding_y_groupbox widget_padding_x_groupbox widget_borderwidth_groupbox
-      widget_linewidth_sep widget_padding_sep widget_font_size_layout
-      widget_font_size_windowname widget_font_size_clock widget_font_size_battery
-      widget_font_size_systray bar_size #systray_screen_index
-      wallpaper_screen0 wallpaper_screen1
-      battery_widget_python_code;
-    # Ensure ALL @placeholders@ used in the template are listed above.
-  };
+  generatedConfigFile = pkgs.runCommand "qtile-config.py" { } ''
+    cp ${pkgs.replaceVars ./config.py.template substitutions} $out
+  '';
 
 in
 {

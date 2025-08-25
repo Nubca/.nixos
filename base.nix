@@ -5,6 +5,9 @@
   nixpkgs.config = {
     allowUnfree = true;
     nvidia.acceptLicense = true;
+    permittedInsecurePackages = [
+      "broadcom-sta-6.30.223.271-57-6.12.43"
+    ];
   };
 
   imports = [
@@ -12,11 +15,12 @@
   ];
 
 # Variables
-  nixpkgs.overlays = [];
-
+  nixpkgs.overlays = [
+    (import ./osm-gps-map-overlay.nix)
+  ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12 
+    # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12
     kernelPackages = pkgs.linuxPackages_6_12;
     kernelParams = [
       "mem_sleep_default=s2idle"
@@ -36,6 +40,7 @@
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
+    download-buffer-size = 524288000; # 500MB
     auto-optimise-store = true;
   };
 
@@ -49,7 +54,7 @@
         powersave = false;
         backend = "iwd";
       };
-      connectionConfig = { 
+      connectionConfig = {
         # Restart interface after 15sec timeout
         "connection.auth-retries" = 5;
         "connection.dhcp-timeout" = 30;
@@ -84,12 +89,12 @@
     # Selective DHCP for specific interfaces instead of Global
     useDHCP = lib.mkDefault false; # Disables native DHCP
 
-    firewall = { 
+    firewall = {
       enable = true;
-      allowedTCPPortRanges = [ 
+      allowedTCPPortRanges = [
         # { from = 7496; to = 7497; } # IBKR TWS
       ];
-    };  
+    };
   };
 
 # Enable sound.
@@ -132,7 +137,7 @@
     SuspendState=freeze
     '';
   };
-  
+
 # Enable X11, Desktop Environment, & Misc.
   services = {
     xserver = {
@@ -209,10 +214,6 @@
         extraArgs = "--keep 5 --keep-since 5d";
       };
     };
-    java = {
-      enable = true;
-      package = pkgs.jdk21; # TWS likely uses JDK 21
-    };
   };
 
 # Fonts
@@ -242,10 +243,9 @@
       };
     };
   };
-  
+
 # Packages installed system-wide
   environment.systemPackages = with pkgs; [
-    anki
     audacity
     bat
     bluetuith
@@ -266,9 +266,7 @@
     fzf
     ghostty
     git
-    # glib #JavaFX runtime dependencies
-    inputs.nvim-flake.packages.${pkgs.system}.neovim
-    # inputs.tws.packages.x86_64-linux.tws
+    inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
     kitty
     lazygit
     localsend
@@ -289,7 +287,6 @@
     ruby
     sd
     tldr
-    tradingview
     trash-cli
     tree
     ttyper

@@ -134,16 +134,13 @@
     hfsprogs
     hplipWithPlugin
     inkscape
-    lilypond
     mtools
-    musescore
     nixd
     nodejs
     npins
     obs-studio
     python3
     telegram-desktop
-    qutebrowser
     qmk
     qmk-udev-rules
     reaper
