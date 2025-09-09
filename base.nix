@@ -6,7 +6,7 @@
     allowUnfree = true;
     nvidia.acceptLicense = true;
     permittedInsecurePackages = [
-      "broadcom-sta-6.30.223.271-57-6.12.43"
+      "broadcom-sta-6.30.223.271-57-6.12.45"
     ];
   };
 
@@ -16,7 +16,7 @@
 
 # Variables
   nixpkgs.overlays = [
-    (import ./osm-gps-map-overlay.nix)
+    # (import ./osm-gps-map-overlay.nix)
   ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
