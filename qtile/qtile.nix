@@ -129,7 +129,7 @@ in
     # This should ideally be handled in fonts.packages or environment.systemPackages elsewhere
     environment.systemPackages = with pkgs; [
       font-awesome # For GroupBox icons
-      noto-fonts noto-fonts-cjk-sans noto-fonts-emoji # For general text/fallback
+      noto-fonts noto-fonts-cjk-sans noto-fonts-color-emoji # For general text/fallback
       # Add xsetroot if not already pulled in by xserver
       xorg.xsetroot
     ];

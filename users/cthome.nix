@@ -9,22 +9,26 @@
     sessionVariables = { };
 
     packages = [ ];
-  
+
     file = {
       ".config/qtile/0-Monitor.jpg".source = ../qtile/0-Monitor.jpg;
       ".config/qtile/1-Main.jpg".source = ../qtile/0-Monitor.jpg;
       ".config/qtile/autostart.sh".source = ../qtile/autostart.sh;
     };
   };
-  
+
   programs = {
     home-manager = {
       enable = true;
     };
     git = {
       enable = true;
-      userName = "Connie Thaxton";
-      userEmail = "thaxtonconnie@yahoo.com";
+      settings = {
+        user = {
+          name = "Connie Thaxton";
+          email = "thaxtonconnie@yahoo.com";
+        };
+      };
     };
   };
 }

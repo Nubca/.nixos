@@ -21,14 +21,16 @@
     home-manager = {
       enable = true;
     };
-  
+
     git = {
       enable = true;
-      userName = "Curtis Abbott";
-      userEmail = "inspiredplans@gmail.com";
-      extraConfig = {
-        gpg.format = "openpgp";
-        gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
+      settings = {
+        user = {
+          name = "Curtis Abbott";
+          email = "inspiredplans@gmail.com";
+        };
+      gpg.format = "openpgp";
+      gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
       };
     };
   };

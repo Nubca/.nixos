@@ -22,18 +22,18 @@
       };
     };
   };
-  
+
   security.sudo.wheelNeedsPassword = false;
 
   services = {
     displayManager = {
-      enable = true; 
+      enable = true;
       defaultSession = "qtile";
       autoLogin = {
         enable = true;
         user = "ct";
       };
-    };  
+    };
     openssh.settings = {
       AllowUsers = [ "admin" ];
       PasswordAuthentication = true; # Disable password authentication for security
@@ -43,7 +43,7 @@
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
     fail2ban.enable = true;
-  };  
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -56,11 +56,11 @@
   };
 
 
-  # Define additional user accounts. 
+  # Define additional user accounts.
   users.users = {
     ct = {
       isNormalUser = true;
-      extraGroups = [ "networkmanager" ]; 
+      extraGroups = [ "networkmanager" ];
     };
 
     wa = {
@@ -75,7 +75,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
-      ]; 
+      ];
     };
   };
 

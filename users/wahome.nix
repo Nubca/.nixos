@@ -23,8 +23,12 @@
     };
     git = {
       enable = true;
-      userName = "William Abbott";
-      userEmail = "willabbott008@gmail.com";
+      settings = {
+        user = {
+          name = "William Abbott";
+          email = "willabbott008@gmail.com";
+        };
+      };
     };
   };
 }

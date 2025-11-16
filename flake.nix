@@ -17,8 +17,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # tws.url = "github:Nubca/tws";
-    # tws.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: with inputs; {
@@ -28,6 +26,28 @@
       NormDPI = import ./modules/home-manager/DPI-Low.nix;
     };
     nixosConfigurations = {
+      nNix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+          system = "x86_64-linux";
+          };
+        modules = [
+          ./hosts/nNix/nNix.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              sharedModules = [
+                self.homeManagerModules.default
+                self.homeManagerModules.HiDPI
+              ];
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+            };
+          }
+        ];
+      };
       pNix = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {

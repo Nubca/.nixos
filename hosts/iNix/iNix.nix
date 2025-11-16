@@ -6,21 +6,27 @@
   imports = [
     ./ihardware.nix
     ../../modules/nixos/nvidia-mac.nix
-      ./idisko.nix  
+      ./idisko.nix
     ../../base.nix
   ];
-  
+
+  nixpkgs.config = {
+    permittedInsecurePackages = [
+      "broadcom-sta-6.30.223.271-59-6.12.57"
+    ];
+  };
+
   environment.sessionVariables = { NH_FLAKE = "/home/admin/.nixos"; };
   networking.hostName = "iNix";
 
   security.sudo.wheelNeedsPassword = false;
 
   services = {
-    logind = {
-      powerKey = lib.mkForce "suspend";
+    logind.seetings.Login = {
+      HandlePowerKey = lib.mkForce "suspend";
     };
     displayManager = {
-      enable = true; 
+      enable = true;
       defaultSession = "qtile";
       autoLogin = {
         enable = true;
@@ -37,7 +43,7 @@
     };
     fail2ban.enable = true;
   };
-  
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     backupFileExtension = "backup";
@@ -47,8 +53,8 @@
       "wa".imports = [ ../../users/wahome.nix ];
     };
   };
-  
-# Define additional user accounts. 
+
+# Define additional user accounts.
   users.users = {
     wa = {
       isNormalUser = true;
@@ -56,7 +62,7 @@
     };
     ct = {
       isNormalUser = true;
-      extraGroups = [ "networkmanager" ]; 
+      extraGroups = [ "networkmanager" ];
     };
     admin = {
       isNormalUser = true;

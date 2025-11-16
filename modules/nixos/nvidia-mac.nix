@@ -18,10 +18,10 @@
       };
       open = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_470; 
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
     };
   };
-  
+
   boot.kernelParams = [
     "nvidia-drm.modeset=0"
     "nvidia-drm.fbdev=1"
@@ -29,8 +29,8 @@
   ];
 
   services.xserver.videoDrivers = ["nvidia"];
-  
+
   nixpkgs.config = {
     nvidia.acceptLicense = true;
   };
-}  
+}

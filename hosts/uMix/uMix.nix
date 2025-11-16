@@ -5,10 +5,10 @@
 {
   imports = [
     ./uhardware.nix
-    ./udisko.nix  
+    ./udisko.nix
     ../../base.nix
   ];
-  
+
   environment.sessionVariables = { NH_FLAKE = "/home/admin/.nixos"; };
 
   services = {
@@ -16,7 +16,7 @@
       powerKey = lib.mkForce "suspend";
     };
     displayManager = {
-      enable = true; 
+      enable = true;
       defaultSession = "qtile";
       autoLogin = {
         enable = true;
@@ -35,7 +35,7 @@
   };
 
   security.sudo.wheelNeedsPassword = false;
-  
+
   networking = {
     hostName = "uMix";
     firewall = {
@@ -51,8 +51,8 @@
       "wa".imports = [ ../../users/wahome.nix ];
     };
   };
-  
-# Define additional user accounts. 
+
+# Define additional user accounts.
   users.users = {
     wa = {
       isNormalUser = true;
@@ -66,10 +66,10 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
-      ]; 
+      ];
     };
   };
- 
+
   environment.systemPackages = with pkgs; [
     obs-studio
     darktable
