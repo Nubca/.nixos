@@ -16,7 +16,7 @@
       ".config/qtile/autostart.sh".source = ../qtile/autostart.sh;
     };
   };
-  
+
   programs = {
     home-manager = {
       enable = true;

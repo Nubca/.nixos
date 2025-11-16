@@ -9,6 +9,12 @@
     ../../base.nix
   ];
 
+  nixpkgs.config = {
+    permittedInsecurePackages = [
+      "broadcom-sta-6.30.223.271-59-6.17.7"
+    ];
+  };
+
   environment.sessionVariables = { NH_FLAKE = "/home/admin/.nixos"; };
 
   services = {

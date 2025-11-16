@@ -128,7 +128,7 @@ keys = [
     Key([mod, "shift"], "l", lazy.layout.swap_right()),   # For Columns layout too
   # TOGGLE FLOATING LAYOUT
     Key([mod, "shift"], "space", lazy.window.toggle_floating()),
-  # TOGGLE MINIMIZATION OF FOCUSED WINDOW  
+  # TOGGLE MINIMIZATION OF FOCUSED WINDOW
     Key([mod], "m", lazy.window.toggle_minimize(), desc="Toggle minimization on focused window"),
     Key([mod, "shift"], "u", lazy.group.unminimize_all(), desc="Unminimize all windows in the current group"),
   # MOVE FOCUS TO THE OTHER SCREEN
@@ -406,7 +406,7 @@ floating_layout = layout.Floating(float_rules=[
   # Add more rules based on `xprop` output for specific apps if needed
 ],
     # Use theme border settings for floating windows too? Optional.
-    
+
     border_focus=colors[3], # Focused floating window border
     border_normal=colors[9], # Unfocused floating window border (use grey?)
     border_width=layout_border_width, # Use consistent border width

@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }:
+
 {
   programs.yazi = {
     enable = true;
@@ -15,8 +16,8 @@
     };
     keymap = {
       mgr.prepend_keymap = [
-        { 
-          on = "<C-n>"; 
+        {
+          on = "<C-n>";
           run = '' shell --confirm 'ripdrag "$@" -x 2>/dev/null &' '';
         }
       ];

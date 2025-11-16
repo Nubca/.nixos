@@ -13,12 +13,11 @@
 
 # Variables
   nixpkgs.overlays = [
-    # (import ./osm-gps-map-overlay.nix)
   ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
-    # kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12
-    kernelPackages = pkgs.linuxPackages_6_12;
+    kernelPackages = pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12
+    # kernelPackages = pkgs.linuxPackages_6_12;
     kernelParams = [
       "mem_sleep_default=s2idle"
       # "usbcore.autosuspend=-1"
@@ -51,13 +50,13 @@
         powersave = false;
         backend = "iwd";
       };
-      connectionConfig = {
-        # Restart interface after 15sec timeout
-        "connection.auth-retries" = 5;
-        "connection.dhcp-timeout" = 30;
-        "connection.autoconnect-retries" = 3;
-        "connection.autoconnect-timeout" = 60;
-      };
+      # connectionConfig = {
+      #   # Restart interface after 15sec timeout
+      #   "connection.auth-retries" = 5;
+      #   "connection.dhcp-timeout" = 30;
+      #   "connection.autoconnect-retries" = 3;
+      #   "connection.autoconnect-timeout" = 60;
+      # };
       # Force periodic DHCP renewals
       # dhcp = "dhcpcd";
     };

@@ -26,7 +26,7 @@
         if not set -q ZELLIJ
           zellij
         end
-      end  
+      end
   ### Prevent nested Zellij Sessions
       function ssh
         set -l old_zellij $ZELLIJ
@@ -44,9 +44,9 @@
       set -e fish_user_paths
       set -U fish_user_paths $HOME/.local/bin $HOME/Applications /var/lib/flatpak/exports/bin/ $fish_user_paths
     '';
-      
+
     shellAbbrs = {}; # Expands words at the command line
-    
+
     shellAliases = {
       sdn = "shutdown now";
       ffv = "fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'";
@@ -63,41 +63,41 @@
       s2 = "echo 70 | sudo tee /sys/class/backlight/gmux_backlight/brightness";
       s1 = "echo 35 | sudo tee /sys/class/backlight/gmux_backlight/brightness";
       s0 = "echo 10 | sudo tee /sys/class/backlight/gmux_backlight/brightness";
-      
+
 # navigation
       ".." = "cd ..";
       "..." = "cd ../..";
       ".3" = "cd ../../..";
       ".4" = "cd ../../../..";
       ".5" = "cd ../../../../..";
-      
+
 # vim and emacs
       vim = "nvim";
-      
+
 # Changing "ls" to "exa"
       ls = "eza -al --color=always --group-directories-first"; # my preferred listing
       la = "eza -a --color=always --group-directories-first"; # all files and dir
       ll = "eza -l --color=always --group-directories-first"; # long format
       lt = "eza -aT --color=always --group-directories-first --level=3"; # tree listing
       tree = "tree -C --dirsfirst"; #Colorized tree with Directories firs
-      
+
       pbcopy = "xsel --input --clipboard";
       pbpaste = "xsel --output --clipboard";
-      
+
 # Colorize grep output (good for log files)
       grep = "grep --color=auto";
       egrep = "egrep --color=auto";
       fgrep = "fgrep --color=auto";
-      
+
 # confirm before overwriting something
       cp = "cp -i";
       mv = "mv -i";
       rm = "rm -i";
-      
+
 # adding flags
       df = "df -h"; # human-readable sizes
       free = "free -m"; # show sizes in M"
-      
+
       addup = "git add -u";
       addall = "git add .";
       branch = "git branch";

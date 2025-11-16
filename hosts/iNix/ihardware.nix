@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, modulesPath, ... }:
 
 {
   imports = [
@@ -21,10 +21,20 @@
     };
     kernelModules = [
       "kvm-intel"
+      "b43"
+      # "wl"
+    ];
+    blacklistedKernelModules = [
+      # "b43"
       "wl"
+      "ssb"
+      "brcmfmac"
+      "brcmsmac"
+      "bmca"
     ];
     extraModulePackages = [
-      config.boot.kernelPackages.broadcom_sta
+      # config.boot.kernelPackages.broadcom_sta
     ];
   };
+  hardware.enableAllFirmware = true;
 }

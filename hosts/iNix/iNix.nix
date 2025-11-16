@@ -10,11 +10,11 @@
     ../../base.nix
   ];
 
-  nixpkgs.config = {
-    permittedInsecurePackages = [
-      "broadcom-sta-6.30.223.271-59-6.12.57"
-    ];
-  };
+  # nixpkgs.config = {
+  #   permittedInsecurePackages = [
+  #     "broadcom-sta-6.30.223.271-59-6.17.7"
+  #   ];
+  # };
 
   environment.sessionVariables = { NH_FLAKE = "/home/admin/.nixos"; };
   networking.hostName = "iNix";
@@ -22,7 +22,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   services = {
-    logind.seetings.Login = {
+    logind.settings.Login = {
       HandlePowerKey = lib.mkForce "suspend";
     };
     displayManager = {

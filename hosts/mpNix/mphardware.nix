@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, modulesPath, ... }:
 
 {
   imports = [
@@ -30,11 +30,11 @@
       config.boot.kernelPackages.broadcom_sta
     ];
   };
-  
+
   # Specify the swap device
   swapDevices = [
     { device = "/dev/disk/by-uuid/dd99c3a8-92a3-446c-b350-09c4ad7f0913"; }
-  ]; 
+  ];
 
   # Variables
   environment = {
