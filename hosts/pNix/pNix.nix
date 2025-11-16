@@ -8,17 +8,23 @@
     ../../base.nix
   ];
 
+ nixpkgs.config = {
+    permittedInsecurePackages = [
+      "broadcom-sta-6.30.223.271-59-6.12.57"
+    ];
+  };
+
   environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
 
   networking = {
     hostName = "pNix";
-    firewall = { 
+    firewall = {
       # allowedTCPPorts = [ 22 ];
-      allowedTCPPortRanges = [ 
+      allowedTCPPortRanges = [
         { from = 53317; to = 53317; } # LocalSend
         { from = 1714; to = 1764; } # kdeconnect
       ];
-      allowedUDPPortRanges = [ 
+      allowedUDPPortRanges = [
         { from = 53315; to = 53318; } # LocalSend
         { from = 4000; to = 4007; } # LocalSend
         { from = 8000; to = 8010; } # LocalSend
@@ -52,16 +58,16 @@
     };
   };
 
-# Define a user account. 
+# Define a user account.
   users.users = {
     ca = {
       isNormalUser = true;
       extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
       linger = true;
-      openssh.authorizedKeys.keys = [ 
+      openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key
-      ]; 
+      ];
     };
 
     admin = {
@@ -70,7 +76,7 @@
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key
-      ]; 
+      ];
     };
 
     wa = {
@@ -81,7 +87,7 @@
 
   services = {
     displayManager = {
-      enable = true; 
+      enable = true;
       defaultSession = "qtile";
       autoLogin = {
         enable = true;
@@ -98,7 +104,7 @@
     };
     fail2ban.enable = true;
   };
-    
+
   hardware.printers = {
     ensurePrinters = [
       {
@@ -110,11 +116,11 @@
     ];
   };
 
-  services.printing = { 
+  services.printing = {
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
-  
+
   environment.systemPackages = with pkgs; [
     clickup
     darktable
