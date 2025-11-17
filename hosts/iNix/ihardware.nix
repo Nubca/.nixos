@@ -21,8 +21,8 @@
     };
     kernelModules = [
       "kvm-intel"
-      "b43"
-      # "wl"
+      "b43" # This is the open source option and it works so-so
+      # "wl" # The package below for Broadcom is insecure
     ];
     blacklistedKernelModules = [
       # "b43"
