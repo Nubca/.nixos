@@ -1,14 +1,15 @@
-# ###### Special Config mpNix.nix #######
+# ###### Special Config nNix.nix #######
 
 { config, inputs, lib, pkgs, modulesPath, home-manager, ... }:
 
 {
   imports = [
-    ./mphardware.nix
-    ../../modules/nixos/nvidia-mac.nix
-    ./mpdisko.nix
+    ./nhardware.nix
+    # ../../modules/nixos/nvidia-mac.nix
+    ./ndisko.nix
     ../../base.nix
   ];
+
 
   environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
 
@@ -100,11 +101,12 @@
       ClientAliveInterval = 300;      # Keep the connection alive
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
+    # mdmonitor.enable = true;
     fail2ban.enable = true;
     logind = {
       # powerKey = "hibernate";
       # powerKeyLongPress = "poweroff";
-      lidSwitch = "hibernate";
+      # lidSwitch = "hibernate";
     };
   };
 
@@ -126,14 +128,14 @@
 
   environment.systemPackages = with pkgs; [
     clickup
-    darktable
+    # darktable
     dosfstools
-    davinci-resolve
+    # davinci-resolve
     gimp
     gparted
     hfsprogs
     hplipWithPlugin
-    inkscape
+    # inkscape
     mtools
     nixd
     nodejs
@@ -143,7 +145,7 @@
     telegram-desktop
     qmk
     qmk-udev-rules
-    reaper
+    # reaper
     thunderbird
   ];
 

@@ -10,31 +10,35 @@
       availableKernelModules = [
         "xhci_pci"
         "ahci"
+        "nvme"
         "usbhid"
         "usb_storage"
         "sd_mod"
       ];
       kernelModules = [ ];
       };
+    swraid.enable = true;
 # Set the resume device to the UUID of the swap partition
-    resumeDevice = lib.mkForce "/dev/disk/by-uuid/dd99c3a8-92a3-446c-b350-09c4ad7f0913";
+    resumeDevice = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
   # Set kernel parameters for hibernation
     kernelParams = [
-      "resume=UUID=dd99c3a8-92a3-446c-b350-09c4ad7f0913"  # Resume from the swap partition
+      "resume_offset=34816"
     ];
     kernelModules = [
       "kvm-intel"
-      "wl"
     ];
     extraModulePackages = [
-      config.boot.kernelPackages.broadcom_sta
     ];
+    kernel.sysctl = { # Limit RAID resync speed so it doesn’t kill the system
+      "dev.raid.speed_limit_min" = 1000;
+      "dev.raid.speed_limit_max" = 100000;
+    };
   };
 
-  # Specify the swap device
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/dd99c3a8-92a3-446c-b350-09c4ad7f0913"; }
-  ];
+  swapDevices = [{
+    device = "/data/swapfile";
+    size = 36 * 1024; # 36 GB in MB
+  }];
 
   # Variables
   environment = {
@@ -44,6 +48,33 @@
     };
   };
 
-  services.mbpfan.enable = true;
   services.fstrim.enable = true;
+
+  fileSystems = {
+    "/data" = {
+      device = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
+      fsType = "ext4";
+      options = [ "defaults" "noatime" ];
+    };
+
+    "/" = {
+      device = lib.mkForce "/dev/disk/by-uuid/90f78c45-4232-49be-b19a-3b6960d4b88b";
+      fsType = "ext4";
+    };
+
+    "/boot" = {
+      device = lib.mkForce "/dev/disk/by-uuid/4CF1-664A";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+    # "/data" = {
+    #   device = "/data";
+    #   fsType = "ext4";
+    #   options = [ "bind" ];
+    # };
+  };
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

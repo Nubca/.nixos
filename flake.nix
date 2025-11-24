@@ -31,10 +31,13 @@
         specialArgs = {
           inherit inputs;
           system = "x86_64-linux";
+          disks = [ "/dev/nvme0n1" "/dev/sdb" "/dev/sdc" ];  # change only if order is different
+          encryptRaid = true;                               # false = no LUKS on the RAID
           };
         modules = [
           ./hosts/nNix/nNix.nix
           home-manager.nixosModules.home-manager
+	        inputs.disko.nixosModules.disko
           {
             home-manager = {
               sharedModules = [
