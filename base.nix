@@ -101,6 +101,8 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      # jack.enable = true;
+      wireplumber.enable = true;
     };
     pulseaudio.enable = false;
   };
@@ -136,25 +138,23 @@
 
 # Enable X11, Desktop Environment, & Misc.
   services = {
+    displayManager = {
+      gdm = {
+        enable = true;
+      };
+    };
     xserver = {
       enable = true;
       autorun = false;
-      windowManager.qtile = {
-        enable = true;
-      };
+      # windowManager.qtile = {
+        # enable = true;
+      # };
       xkb = {
         layout = "us";
         variant = "";
         options = "caps:escape";
       };
       displayManager = {
-        lightdm = {
-          enable = true;
-          autoLogin.timeout = 0;
-          greeters = {
-            gtk.enable = true;
-          };
-        };
         sessionCommands = ''
           ${pkgs.sxhkd}/bin/sxhkd &
         '';
@@ -225,6 +225,7 @@
     portal = {
       enable = true;
       config.common.default = "*";
+      xdgOpenUsePortal = true;
     };
     mime = {
       enable = true;
@@ -283,6 +284,7 @@
     ruby
     sd
     tldr
+    tradingview
     trash-cli
     tree
     ttyper

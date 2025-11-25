@@ -5,11 +5,9 @@
 {
   imports = [
     ./nhardware.nix
-    # ../../modules/nixos/nvidia-mac.nix
     ./ndisko.nix
     ../../base.nix
   ];
-
 
   environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
 
@@ -45,6 +43,22 @@
   };
 
   virtualisation.spiceUSBRedirection.enable = true;
+
+  xdg = {
+    portal = {
+      config.common.default = lib.mkForce "wlr";
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+      ];
+    };
+  };
+
+  services = {
+    pipewire = {
+      # jack.enable = true;
+      wireplumber.enable = true;
+    };
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -84,10 +98,13 @@
     };
   };
 
+  programs.niri.enable = true;
+
   services = {
     displayManager = {
       enable = true;
-      defaultSession = "qtile";
+      gdm.enable = true;
+      defaultSession = "niri";
       autoLogin = {
         enable = true;
         user = "ca";
@@ -101,12 +118,10 @@
       ClientAliveInterval = 300;      # Keep the connection alive
       ClientAliveCountMax = 1;        # Terminate unresponsive sessions
     };
-    # mdmonitor.enable = true;
     fail2ban.enable = true;
     logind = {
       # powerKey = "hibernate";
       # powerKeyLongPress = "poweroff";
-      # lidSwitch = "hibernate";
     };
   };
 
@@ -121,13 +136,16 @@
     ];
   };
 
-  services.printing = {
+  services = {
+    printing = {
       enable = true;
       drivers = [ pkgs.hplipWithPlugin ];
     };
+  };
 
   environment.systemPackages = with pkgs; [
     clickup
+    cliphist
     # darktable
     dosfstools
     # davinci-resolve
@@ -143,10 +161,14 @@
     obs-studio
     python3
     telegram-desktop
+    tradingview
     qmk
     qmk-udev-rules
     # reaper
     thunderbird
+    wayland
+    wl-clipboard
+    xdg-desktop-portal-wlr
   ];
 
  # Necessary for nixd

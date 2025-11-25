@@ -41,7 +41,7 @@ let
 
   # Overrides for mpNix (HiDPI Laptop)
   useHiDPIOverrides = {
-    has_battery = true;
+    # has_battery = true;
     layout_margin = 15;
     layout_border_width = 8;
     widget_font_size_default = 46;
@@ -66,7 +66,7 @@ let
   # --- Determine Final Settings ---
   finalSettings = lib.recursiveUpdate defaultSettings (
     if hostname == "iNix" || hostname == "uMix" || hostname == "pNix" then useDesktopOverrides
-    else if hostname == "mpNix" then useHiDPIOverrides
+    else if hostname == "mpNix" || hostname == "nNix" then useHiDPIOverrides
     else {} # Use defaults for tNix or any other hostname
   );
 

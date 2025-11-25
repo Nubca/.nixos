@@ -137,27 +137,27 @@ keys = [
 
 # --- Multi-screen Keybindings ---
 # Note: These assume screen 0 is 'small' and screen 1 is 'big'. Adjust if needed.
-#
-# def window_to_prev_screen(qtile, switch_group=False, switch_screen=False):
-#     i = qtile.screens.index(qtile.current_screen)
-#     if i != 0:
-#         group = qtile.screens[i - 1].group.name
-#         qtile.current_window.togroup(group, switch_group=switch_group)
-#         if switch_screen:
-#             qtile.cmd_to_screen(i - 1)
-#
-# def window_to_next_screen(qtile, switch_group=False, switch_screen=False):
-#     i = qtile.screens.index(qtile.current_screen)
-#     if i + 1 != len(qtile.screens):
-#         group = qtile.screens[i + 1].group.name
-#         qtile.current_window.togroup(group, switch_group=switch_group)
-#         if switch_screen:
-#             qtile.cmd_to_screen(i + 1)
-#
-# keys.extend([
-#     Key([mod, "shift"], "period", lazy.function(window_to_prev_screen, switch_screen=True)),
-#     Key([mod, "shift"], "comma", lazy.function(window_to_next_screen, switch_screen=True)),
-# ])
+
+def window_to_prev_screen(qtile, switch_group=False, switch_screen=False):
+    i = qtile.screens.index(qtile.current_screen)
+    if i != 0:
+        group = qtile.screens[i - 1].group.name
+        qtile.current_window.togroup(group, switch_group=switch_group)
+        if switch_screen:
+            qtile.cmd_to_screen(i - 1)
+
+def window_to_next_screen(qtile, switch_group=False, switch_screen=False):
+    i = qtile.screens.index(qtile.current_screen)
+    if i + 1 != len(qtile.screens):
+        group = qtile.screens[i + 1].group.name
+        qtile.current_window.togroup(group, switch_group=switch_group)
+        if switch_screen:
+            qtile.cmd_to_screen(i + 1)
+
+keys.extend([
+    Key([mod, "shift"], "period", lazy.function(window_to_prev_screen, switch_screen=True)),
+    Key([mod, "shift"], "comma", lazy.function(window_to_next_screen, switch_screen=True)),
+])
 
 # --- Groups ---
 groups = []
@@ -325,9 +325,9 @@ def init_widgets_screen0():
     widgets_screen0.pop() # No systray on Monitor
     return widgets_screen0
 
-# def init_widgets_screen1():
-#     widgets_screen1 = init_widgets_list()
-#     return widgets_screen1
+def init_widgets_screen1():
+    widgets_screen1 = init_widgets_list()
+    return widgets_screen1
 
 def init_screens():
     return [Screen(bottom=bar.Bar(widgets=init_widgets_screen0(),
@@ -336,18 +336,18 @@ def init_screens():
                    wallpaper=wallpaper_screen0,
                    wallpaper_mode='fill'
                    ),
-            # Screen(bottom=bar.Bar(widgets=init_widgets_screen1(),
-            #                       size=bar_size,
-            #                       opacity=0.8),
-            #        wallpaper=wallpaper_screen1,
-            #        wallpaper_mode='fill'
-            #        ),
+            Screen(bottom=bar.Bar(widgets=init_widgets_screen1(),
+                                  size=bar_size,
+                                  opacity=0.8),
+                   wallpaper=wallpaper_screen1,
+                   wallpaper_mode='fill'
+                   ),
             ]
 
 screens = init_screens()
 widgets_list = init_widgets_list()
 widgets_screen0 = init_widgets_screen0()
-# widgets_screen1 = init_widgets_screen1()
+widgets_screen1 = init_widgets_screen1()
 
 # --- Mouse Configuration ---
 mouse = [

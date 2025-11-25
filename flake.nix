@@ -13,6 +13,10 @@
       url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-flake = {
+      url = "github:Nubca/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,18 +35,19 @@
         specialArgs = {
           inherit inputs;
           system = "x86_64-linux";
-          disks = [ "/dev/nvme0n1" "/dev/sdb" "/dev/sdc" ];  # change only if order is different
-          encryptRaid = true;                               # false = no LUKS on the RAID
+          disks = [ "/dev/nvme0n1" "/dev/sdb" "/dev/sdc" ];
+          encryptRaid = true;
           };
         modules = [
           ./hosts/nNix/nNix.nix
           home-manager.nixosModules.home-manager
 	        inputs.disko.nixosModules.disko
+          inputs.niri-flake.nixosModules.niri
           {
             home-manager = {
               sharedModules = [
                 self.homeManagerModules.default
-                self.homeManagerModules.HiDPI
+                # self.homeManagerModules.HiDPI
               ];
               useGlobalPkgs = true;
               useUserPackages = true;
