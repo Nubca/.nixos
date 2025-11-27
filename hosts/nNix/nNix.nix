@@ -162,6 +162,7 @@
     python3
     telegram-desktop
     tradingview
+    swww
     qmk
     qmk-udev-rules
     # reaper
