@@ -290,6 +290,7 @@
     ttyper
     unzip
     usbutils
+    vesktop
     vivaldi
     vlc
     vscode

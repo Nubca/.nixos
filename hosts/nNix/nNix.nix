@@ -46,8 +46,9 @@
 
   xdg = {
     portal = {
-      config.common.default = lib.mkForce "wlr";
+      config.common.default = lib.mkForce "gnome";
       extraPortals = with pkgs; [
+        xdg-desktop-portal-gnome
         xdg-desktop-portal-wlr
       ];
     };
@@ -101,6 +102,7 @@
   programs.niri.enable = true;
 
   services = {
+    xserver.videoDrivers = [ "nvidia" ];
     displayManager = {
       enable = true;
       gdm.enable = true;
@@ -159,6 +161,7 @@
     nodejs
     npins
     obs-studio
+    pwvucontrol
     python3
     telegram-desktop
     tradingview
@@ -170,6 +173,7 @@
     wayland
     wl-clipboard
     xdg-desktop-portal-wlr
+    xdg-desktop-portal-gnome
   ];
 
  # Necessary for nixd

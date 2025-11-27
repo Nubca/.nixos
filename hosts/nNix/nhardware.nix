@@ -33,6 +33,7 @@
       "dev.raid.speed_limit_min" = 1000;
       "dev.raid.speed_limit_max" = 100000;
     };
+    # blacklistedKernelModules = [ "nouveau" ];
   };
 
   swapDevices = [{
@@ -82,4 +83,10 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.nvidia = {
+    # enabled = true;
+    open = true;
+    # modesetting.enable = true;
+  # service.xserver.videoDrivers = [ "nvidia" ];
+  };
 }
