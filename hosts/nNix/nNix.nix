@@ -46,10 +46,12 @@
 
   xdg = {
     portal = {
-      config.common.default = lib.mkForce "gnome";
+      config.common.default = [ "gtk" "gnome" "wlr" ];
+      config.niri.default = [ "gtk" "gnome" "wlr" ];
       extraPortals = with pkgs; [
         xdg-desktop-portal-gnome
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
       ];
     };
   };
