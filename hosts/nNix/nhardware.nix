@@ -28,6 +28,7 @@
   # Set kernel parameters for hibernation
     kernelParams = [
       "resume_offset=34816"
+      "nvidia-drm.modeset=1"
     ];
     kernelModules = [
       "kvm-intel"
@@ -38,7 +39,6 @@
       "dev.raid.speed_limit_min" = 1000;
       "dev.raid.speed_limit_max" = 100000;
     };
-    # blacklistedKernelModules = [ "nouveau" ];
   };
 
   swapDevices = [{
@@ -55,7 +55,7 @@
     sessionVariables = {
       XDG_SESSION_TYPE = "wayland";
       XDG_CURRENT_DESKTOP = "niri";
-      XDG_SESSION_DESKTOP = "niri"; 
+      XDG_SESSION_DESKTOP = "niri";
       NIXOS_OZONE_WL = "1";
     };
   };
@@ -79,20 +79,12 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
-
-    # "/data" = {
-    #   device = "/data";
-    #   fsType = "ext4";
-    #   options = [ "bind" ];
-    # };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.nvidia = {
-    # enabled = true;
     open = true;
-    # modesetting.enable = true;
-  # service.xserver.videoDrivers = [ "nvidia" ];
+    modesetting.enable = true;
   };
 }

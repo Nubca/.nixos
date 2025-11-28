@@ -71,7 +71,10 @@
           type = "filesystem";
           format = "ext4";
           mountpoint = "/data";
-          mountOptions = [ "defaults" "noatime" ];
+          mountOptions = [
+            "defaults"
+            "noatime"
+          ];
         };
       };
     };

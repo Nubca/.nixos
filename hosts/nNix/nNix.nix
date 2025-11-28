@@ -172,6 +172,7 @@
     qmk-udev-rules
     # reaper
     thunderbird
+    waybar
     wayland
     wl-clipboard
     xdg-desktop-portal-wlr
