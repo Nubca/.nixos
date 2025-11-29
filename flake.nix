@@ -14,7 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri-flake = {
-      url = "github:Nubca/niri-flake";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
@@ -41,7 +41,7 @@
         modules = [
           ./hosts/nNix/nNix.nix
           home-manager.nixosModules.home-manager
-	        inputs.disko.nixosModules.disko
+	        # inputs.disko.nixosModules.disko
           inputs.niri-flake.nixosModules.niri
           {
             home-manager = {

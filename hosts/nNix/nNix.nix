@@ -5,11 +5,12 @@
 {
   imports = [
     ./nhardware.nix
-    ./ndisko.nix
+    # ./ndisko.nix
     ../../base.nix
   ];
 
   environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
+  powerManagement.cpuFreqGovernor = "performance";
 
   networking = {
     hostName = "nNix";

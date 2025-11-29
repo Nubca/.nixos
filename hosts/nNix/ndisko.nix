@@ -72,8 +72,12 @@
           format = "ext4";
           mountpoint = "/data";
           mountOptions = [
-            "defaults"
+            "rw"
             "noatime"
+            "x-systemd.makefs"
+            "uid=ca"
+            "gid=users"
+            "mode=0775"
           ];
         };
       };

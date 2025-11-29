@@ -23,8 +23,8 @@
         MAILADDR root@localhost
       '';
     };
-# Set the resume device to the UUID of the swap partition
-    resumeDevice = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
+# # Set the resume device to the UUID of the swap partition
+#     resumeDevice = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
   # Set kernel parameters for hibernation
     kernelParams = [
       "resume_offset=34816"
@@ -35,16 +35,16 @@
     ];
     extraModulePackages = [
     ];
-    kernel.sysctl = { # Limit RAID resync speed so it doesn’t kill the system
-      "dev.raid.speed_limit_min" = 1000;
-      "dev.raid.speed_limit_max" = 100000;
-    };
+    # kernel.sysctl = { # Limit RAID resync speed so it doesn’t kill the system
+    #   "dev.raid.speed_limit_min" = 1000;
+    #   "dev.raid.speed_limit_max" = 100000;
+    # };
   };
 
-  swapDevices = [{
-    device = "/data/swapfile";
-    size = 36 * 1024; # 36 GB in MB
-  }];
+  # swapDevices = [{
+  #   device = "/data/swapfile";
+  #   size = 36 * 1024; # 36 GB in MB
+  # }];
 
   # Variables
   environment = {
@@ -60,14 +60,29 @@
     };
   };
 
-  services.fstrim.enable = true;
+  services = {
+    fstrim.enable = true;
+    # mdadm.enable = true;
+  };
+
+# hardware.mdadm.arrays = {
+#     data = {
+#       level = 1;
+#       metadata = "1.2";
+#       devices = [
+#         "/dev/disk/by-id/ata-WDC_WD10JUCT-63CYNY0_WD-WXL1A56D5ND9-part1"
+#         "/dev/disk/by-id/ata-WDC_WD10JUCT-63CYNY0_WD-WX81EC59L6DM-part1"
+#       ];
+#       name = "data";
+#     };
+#   };
 
   fileSystems = {
-    "/data" = {
-      device = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
-      fsType = "ext4";
-      options = [ "defaults" "noatime" ];
-    };
+    # "/data" = {
+    #   device = lib.mkForce "/dev/md/data";
+    #   fsType = "ext4";
+    #   options = [ "noatime" "rw" "uid=ca" "gid=users" "mode=0775" ];
+    # };
 
     "/" = {
       device = lib.mkForce "/dev/disk/by-uuid/90f78c45-4232-49be-b19a-3b6960d4b88b";
