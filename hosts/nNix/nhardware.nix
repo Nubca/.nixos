@@ -16,14 +16,14 @@
         "sd_mod"
       ];
       kernelModules = [ ];
-      };
-    swraid = {
-      enable = true;
-      mdadmConf = ''
-        MAILADDR root@localhost
-      '';
     };
-# # Set the resume device to the UUID of the swap partition
+#     swraid = {
+#       enable = true;
+#       mdadmConf = ''
+#         MAILADDR root@localhost
+#       '';
+#     };
+# # # Set the resume device to the UUID of the swap partition
 #     resumeDevice = lib.mkForce "/dev/disk/by-uuid/2d2042ab-b7f9-4289-9c73-8c03c366a708";
   # Set kernel parameters for hibernation
     kernelParams = [
