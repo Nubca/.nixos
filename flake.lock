@@ -266,7 +266,8 @@
         "home-manager": "home-manager",
         "niri-flake": "niri-flake",
         "nixpkgs": "nixpkgs",
-        "nvim-flake": "nvim-flake"
+        "nvim-flake": "nvim-flake",
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -314,6 +315,30 @@
       "original": {
         "owner": "Supreeeme",
         "repo": "xwayland-satellite",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764414951,
+        "narHash": "sha256-pZ2m2JmTTMyqiKB8WSigsSvAeoShI6OSRhzBuRO9SVY=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "10d2aa53ada9b14f6df2f9877d6a057f0a2b262f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "ref": "beta",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }

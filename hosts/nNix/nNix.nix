@@ -5,7 +5,6 @@
 {
   imports = [
     ./nhardware.nix
-    # ./ndisko.nix
     ../../base.nix
   ];
 
@@ -173,11 +172,10 @@
     qmk-udev-rules
     # reaper
     thunderbird
-    waybar
     wayland
     wl-clipboard
-    xdg-desktop-portal-wlr
-    xdg-desktop-portal-gnome
+    # xdg-desktop-portal-wlr
+    # xdg-desktop-portal-gnome
   ];
 
  # Necessary for nixd

@@ -264,6 +264,7 @@
     ghostty
     git
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
+    inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default # beta
     kitty
     lazygit
     localsend
@@ -272,7 +273,7 @@
     nix-output-monitor
     nvd
     obsidian
-    pavucontrol
+    # pavucontrol
     pciutils
     pcmanfm
     pv
@@ -281,7 +282,6 @@
     ripgrep
     rofi
     rofimoji
-    ruby
     sd
     tldr
     tradingview

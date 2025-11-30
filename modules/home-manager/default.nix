@@ -12,7 +12,6 @@
     ./copyq.nix
     ./sxhkd.nix
     ./vivaldi-theme.nix
-    ./waybar.nix
     ./yazi.nix
     ./zellij.nix
   ];
