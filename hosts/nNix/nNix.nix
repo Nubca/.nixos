@@ -159,6 +159,7 @@
     hplipWithPlugin
     # inkscape
     mtools
+    mdadm
     nixd
     nodejs
     npins
