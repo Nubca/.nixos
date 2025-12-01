@@ -20,7 +20,7 @@
     };
   # Set kernel parameters for hibernation
     kernelParams = [
-      "resume_offset=34816"
+      # "resume_offset=34816"
       "nvidia-drm.modeset=1"
     ];
     kernelModules = [
@@ -28,13 +28,13 @@
     ];
     extraModulePackages = [
     ];
-    resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
+    # resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
   };
 
-  swapDevices = [{
-    device = "/files1/swapfile";
-    size = 36 * 1024; # 36 GB in MB
-  }];
+  # swapDevices = [{
+  #   device = "/files1/swapfile";
+  #   size = 36 * 1024; # 36 GB in MB
+  # }];
 
   fileSystems = {
     "/" = {
@@ -51,13 +51,13 @@
     "/files1" = {
       device = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
       fsType = "ext4";
-      options = [ "defaults" "noatime" "no-fail" ];
+      options = [ "defaults" "noatime" "nofail" ];
     };
 
     "/files2" = {
       device = lib.mkForce "/dev/disk/by-uuid/9ee17890-4af6-487c-bec4-05d2a4c04b4a";
       fsType = "ext4";
-      options = [ "defaults" "noatime" "no-fail" ];
+      options = [ "defaults" "noatime" "nofail" ];
     };
   };
 
