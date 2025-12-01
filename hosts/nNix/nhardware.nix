@@ -20,7 +20,7 @@
     };
   # Set kernel parameters for hibernation
     kernelParams = [
-      # "resume_offset=34816"
+      "resume_offset=34816"
       "nvidia-drm.modeset=1"
     ];
     kernelModules = [
@@ -28,13 +28,13 @@
     ];
     extraModulePackages = [
     ];
-    # resumeDevice = lib.mkForce "/dev/disk/by-uuid/28328f99:0625df97:72836534:1327af59";
+    resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
   };
 
-  # swapDevices = [{
-  #   device = "/mnt/raid/swapfile";
-  #   size = 36 * 1024; # 36 GB in MB
-  # }];
+  swapDevices = [{
+    device = "/files1/swapfile";
+    size = 36 * 1024; # 36 GB in MB
+  }];
 
   fileSystems = {
     "/" = {
@@ -46,6 +46,18 @@
       device = lib.mkForce "/dev/disk/by-uuid/4CF1-664A";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
+    };
+
+    "/files1" = {
+      device = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
+      fsType = "ext4";
+      options = [ "defaults" "noatime" "no-fail" ];
+    };
+
+    "/files2" = {
+      device = lib.mkForce "/dev/disk/by-uuid/9ee17890-4af6-487c-bec4-05d2a4c04b4a";
+      fsType = "ext4";
+      options = [ "defaults" "noatime" "no-fail" ];
     };
   };
 
@@ -65,7 +77,6 @@
 
   services = {
     fstrim.enable = true;
-    # mdadm.enable = true;
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
