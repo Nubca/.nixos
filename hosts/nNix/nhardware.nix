@@ -31,10 +31,10 @@
     # resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
   };
 
-  # swapDevices = [{
-  #   device = "/files1/swapfile";
-  #   size = 36 * 1024; # 36 GB in MB
-  # }];
+  swapDevices = [{
+    device = "/files1/swapfile";
+    size = 36 * 1024; # 36 GB in MB
+  }];
 
   fileSystems = {
     "/" = {
