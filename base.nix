@@ -50,17 +50,7 @@
         powersave = false;
         backend = "iwd";
       };
-      # connectionConfig = {
-      #   # Restart interface after 15sec timeout
-      #   "connection.auth-retries" = 5;
-      #   "connection.dhcp-timeout" = 30;
-      #   "connection.autoconnect-retries" = 3;
-      #   "connection.autoconnect-timeout" = 60;
-      # };
-      # Force periodic DHCP renewals
-      # dhcp = "dhcpcd";
     };
-
     wireless = {
       enable = false; # Kills wpa_supplicant
       iwd = { # tNix is on wpa_supplicant
@@ -81,10 +71,8 @@
         };
       };
     };
-
     # Selective DHCP for specific interfaces instead of Global
     useDHCP = lib.mkDefault false; # Disables native DHCP
-
     firewall = {
       enable = true;
       allowedTCPPortRanges = [
@@ -184,16 +172,20 @@
       enable = true;
       settings.X11Forwarding = true;
     };
+    pcscd.enable = true; # For YubiKey CCID
     gnome.gnome-keyring.enable = true;
     udisks2.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
-    udev.extraRules = ''
+    udev = {
+      packages = [ pkgs.yubikey-personalization ];
+      extraRules = ''
       # Prevent Moonland keyboard from sleeping
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/control}="on"
       # Also disable autosuspend for this device
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/autosuspend}="-1"
-    '';
+      '';
+    };
   };
 
 # Virtualisation
@@ -203,11 +195,16 @@
   };
   programs = {
     virt-manager.enable = true;
+    zoom-us.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
     nh = {
       enable = true;
       clean = {
         enable = true;
-        extraArgs = "--keep 5 --keep-since 5d";
+        extraArgs = "--keep 10 --keep-since 15d";
       };
     };
   };
@@ -261,6 +258,7 @@
     fish
     flameshot
     fzf
+    gnupg
     ghostty
     git
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
@@ -300,8 +298,9 @@
     xdotool
     xsel
     yt-dlp
+    yubikey-manager
+    yubikey-personalization
     zathura
-    zoom-us
     zoxide
   ];
 }

@@ -11,37 +11,6 @@
   environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
   powerManagement.cpuFreqGovernor = "performance";
 
-  networking = {
-    hostName = "nNix";
-    firewall = {
-      # allowedTCPPorts = [ 22 ];
-      allowedTCPPortRanges = [
-        { from = 53317; to = 53317; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];
-      allowedUDPPortRanges = [
-        { from = 53315; to = 53318; } # LocalSend
-        { from = 4000; to = 4007; } # LocalSend
-        { from = 8000; to = 8010; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];
-      extraCommands = ''
-        iptables -A INPUT -p tcp --dport 53317 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 53315:53318 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 4000:4007 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 8000:8010 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p tcp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p tcp --dport 53317 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 53315:53318 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 4000:4007 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 8000:8010 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p tcp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
-      '';
-    };
-  };
-
   virtualisation.spiceUSBRedirection.enable = true;
 
   xdg = {
@@ -53,14 +22,63 @@
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
+      wlr.enable = true;
+    };
+  };
+
+  programs.niri.enable = true;
+
+  security = {
+    pam.services = {
+      gdm.enableGnomeKeyring = true;
+      login.enableGnomeKeyring = true;
     };
   };
 
   services = {
+    xserver.videoDrivers = [ "nvidia" ];
+    displayManager = {
+      enable = true;
+      gdm.enable = true;
+      defaultSession = "niri";
+      autoLogin = {
+        enable = true;
+        user = "ca";
+      };
+    };
     pipewire = {
       # jack.enable = true;
       wireplumber.enable = true;
+      pulse.enable = true;
     };
+    openssh.settings = {
+      AllowUsers = [ "admin" ];
+      PasswordAuthentication = true; # Disable password authentication for security
+      PermitRootLogin = "no";         # Prohibit root login
+      UseDns = false;                 # Speed up SSH connections
+      ClientAliveInterval = 300;      # Keep the connection alive
+      ClientAliveCountMax = 1;        # Terminate unresponsive sessions
+    };
+    fail2ban.enable = true;
+    logind = {
+      # powerKey = "hibernate";
+      # powerKeyLongPress = "poweroff";
+    };
+    printing = {
+      enable = true;
+      drivers = [ pkgs.hplipWithPlugin ];
+    };
+  };
+
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "HP-LaserJet";
+        location = "Home";
+        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
+        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
+      }
+    ];
   };
 
   home-manager = {
@@ -101,53 +119,39 @@
     };
   };
 
-  programs.niri.enable = true;
-
-  services = {
-    xserver.videoDrivers = [ "nvidia" ];
-    displayManager = {
-      enable = true;
-      gdm.enable = true;
-      defaultSession = "niri";
-      autoLogin = {
-        enable = true;
-        user = "ca";
-      };
-    };
-    openssh.settings = {
-      AllowUsers = [ "admin" ];
-      PasswordAuthentication = true; # Disable password authentication for security
-      PermitRootLogin = "no";         # Prohibit root login
-      UseDns = false;                 # Speed up SSH connections
-      ClientAliveInterval = 300;      # Keep the connection alive
-      ClientAliveCountMax = 1;        # Terminate unresponsive sessions
-    };
-    fail2ban.enable = true;
-    logind = {
-      # powerKey = "hibernate";
-      # powerKeyLongPress = "poweroff";
-    };
-  };
-
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "HP-LaserJet";
-        location = "Home";
-        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
-      }
-    ];
-  };
-
-  services = {
-    printing = {
-      enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
+  networking = {
+    hostName = "nNix";
+    firewall = {
+      # allowedTCPPorts = [ 22 ];
+      allowedTCPPortRanges = [
+        { from = 53317; to = 53317; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
+      ];
+      allowedUDPPortRanges = [
+        { from = 53315; to = 53318; } # LocalSend
+        { from = 4000; to = 4007; } # LocalSend
+        { from = 8000; to = 8010; } # LocalSend
+        { from = 1714; to = 1764; } # kdeconnect
+      ];
+      extraCommands = ''
+        iptables -A INPUT -p tcp --dport 53317 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 53315:53318 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 4000:4007 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 8000:8010 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p tcp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p udp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
+        iptables -A INPUT -p tcp --dport 53317 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 53315:53318 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 4000:4007 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 8000:8010 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p tcp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
+        iptables -A INPUT -p udp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
+      '';
     };
   };
 
   environment.systemPackages = with pkgs; [
+    browserpass
     clickup
     cliphist
     # darktable
@@ -164,6 +168,7 @@
     nodejs
     npins
     obs-studio
+    pass-wayland
     pwvucontrol
     python3
     telegram-desktop

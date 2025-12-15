@@ -1,4 +1,4 @@
-{ config, lib, modulesPath, ... }:
+{ config, lib, modulesPath, pkgs, ... }:
 
 {
   imports = [
@@ -20,7 +20,8 @@
     };
   # Set kernel parameters for hibernation
     kernelParams = [
-      # "resume_offset=34816"
+      "resume=/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b"
+      "resume_offset=34816"
       "nvidia-drm.modeset=1"
     ];
     kernelModules = [
@@ -28,7 +29,7 @@
     ];
     extraModulePackages = [
     ];
-    # resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
+    resumeDevice = lib.mkForce "/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b";
   };
 
   swapDevices = [{
@@ -80,9 +81,22 @@
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.nvidia = {
+  hardware = {
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  nvidia = {
     open = true;
     modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable // {
+      open = config.boot.kernelPackages.nvidiaPackages.stable.open.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [
+          (pkgs.fetchpatch {
+            name = "get_dev_pagemap.patch";
+            url = "https://github.com/NVIDIA/open-gpu-kernel-modules/commit/3e230516034d29e84ca023fe95e284af5cd5a065.patch";
+            hash = "sha256-BhL4mtuY5W+eLofwhHVnZnVf0msDj7XBxskZi8e6/k8=";
+            })
+          ];
+        });
+      };
+    }; 
   };
 }
