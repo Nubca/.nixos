@@ -268,12 +268,12 @@
     localsend
     libqalculate
     mpv
+    nemo
     nix-output-monitor
     nvd
     obsidian
     # pavucontrol
     pciutils
-    pcmanfm
     pv
     rdfind
     ripdrag

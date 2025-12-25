@@ -161,6 +161,7 @@
     gparted
     hfsprogs
     hplipWithPlugin
+    inputs.ns-flake.packages.${stdenv.hostPlatform.system}.niri-scratchpad
     # inkscape
     mtools
     mdadm
