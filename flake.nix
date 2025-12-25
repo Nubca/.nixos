@@ -13,12 +13,16 @@
       url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    niri-flake = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     ns-flake = {
       url = "github:gvolpe/niri-scratchpad";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
@@ -52,13 +56,10 @@
         modules = [
           ./hosts/nNix/nNix.nix
           home-manager.nixosModules.home-manager
-	        # inputs.disko.nixosModules.disko
-          inputs.niri-flake.nixosModules.niri
           {
             home-manager = {
               sharedModules = [
                 self.homeManagerModules.default
-                # self.homeManagerModules.HiDPI
               ];
               useGlobalPkgs = true;
               useUserPackages = true;
@@ -80,7 +81,6 @@
             home-manager = {
               sharedModules = [
                 self.homeManagerModules.default
-                # self.homeManagerModules.HiDPI
               ];
               useGlobalPkgs = true;
               useUserPackages = true;

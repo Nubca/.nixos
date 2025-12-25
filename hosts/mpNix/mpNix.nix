@@ -98,6 +98,18 @@
         user = "ca";
       };
     };
+    upower = {
+      enable = true;
+      criticalPowerAction = "Hibernate";
+      percentageCritical = 5;
+    };
+    tlp = {
+      enable = true;
+      settings = {
+        USB_AUTOSUSPEND = 0;
+        USB_WHITELIST = "3297:1969"; # Prevent MoonLander sleep
+      };
+    };
     openssh.settings = {
       AllowUsers = [ "admin" ];
       PasswordAuthentication = true; # Disable password authentication for security

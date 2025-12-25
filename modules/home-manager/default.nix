@@ -9,7 +9,7 @@
     ./kitty.nix
     ./lazygit.nix
     ./mpv.nix
-    ./copyq.nix
+    # ./copyq.nix
     ./sxhkd.nix
     ./vivaldi-theme.nix
     ./yazi.nix

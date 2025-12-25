@@ -8,15 +8,23 @@
     ../../base.nix
   ];
 
-  environment.sessionVariables = { NH_FLAKE = "/home/ca/.nixos"; };
+  environment.sessionVariables = {
+    NH_FLAKE = "/home/ca/.nixos";
+    PASSWORD_STORE = "gnome-keyring";
+    QT_LOGGING_RULES = ''
+    qml.AudioService.warning=false;
+    qml.i3sock.warning=false;
+    qml.swaysock.warning=false;
+    '';
+  };
   powerManagement.cpuFreqGovernor = "performance";
 
   virtualisation.spiceUSBRedirection.enable = true;
 
   xdg = {
     portal = {
-      config.common.default = [ "gtk" "gnome" "wlr" ];
-      config.niri.default = [ "gtk" "gnome" "wlr" ];
+      config.common.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
+      config.niri.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
       extraPortals = with pkgs; [
         xdg-desktop-portal-gnome
         xdg-desktop-portal-wlr
@@ -26,9 +34,27 @@
     };
   };
 
-  programs.niri.enable = true;
+  programs = {
+    niri.enable = true;
+    dms-shell = {
+      enable = true;
+      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+      systemd = {
+        enable = true;             # Systemd service for auto-start
+        restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
+      };
+      # Core features
+      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+      enableClipboard = true;            # Clipboard history manager
+      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true;      # Audio visualizer (cava)
+      enableCalendarEvents = true;       # Calendar integration (khal)
+    };
+  };
 
   security = {
+    polkit.enable = true;
     pam.services = {
       gdm.enableGnomeKeyring = true;
       login.enableGnomeKeyring = true;
@@ -42,10 +68,11 @@
       gdm.enable = true;
       defaultSession = "niri";
       autoLogin = {
-        enable = true;
+        enable = false;
         user = "ca";
       };
     };
+    gnome.gnome-keyring.enable = true;
     pipewire = {
       # jack.enable = true;
       wireplumber.enable = true;
@@ -153,7 +180,7 @@
   environment.systemPackages = with pkgs; [
     browserpass
     clickup
-    cliphist
+    # cliphist
     # darktable
     dosfstools
     # davinci-resolve
@@ -165,6 +192,7 @@
     # inkscape
     mtools
     mdadm
+    niri
     nixd
     nodejs
     npins
@@ -181,8 +209,7 @@
     thunderbird
     wayland
     wl-clipboard
-    # xdg-desktop-portal-wlr
-    # xdg-desktop-portal-gnome
+    xwayland-satellite
   ];
 
  # Necessary for nixd

@@ -156,18 +156,6 @@
       mouse.naturalScrolling = true;
     };
     auto-cpufreq.enable = false;
-    tlp = {
-      enable = true;
-      settings = {
-        USB_AUTOSUSPEND = 0;
-        USB_WHITELIST = "3297:1969"; # Prevent MoonLander sleep
-      };
-    };
-    upower = {
-      enable = true;
-      criticalPowerAction = "Hibernate";
-      percentageCritical = 5;
-    };
     openssh = {
       enable = true;
       settings.X11Forwarding = true;
