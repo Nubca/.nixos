@@ -13,6 +13,7 @@
 
 # Variables
   nixpkgs.overlays = [
+    # inputs.my-nvim.overlays.default
   ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
@@ -163,12 +164,12 @@
     pcscd.enable = true; # For YubiKey CCID
     gnome.gnome-keyring.enable = true;
     udisks2.enable = true;
-    devmon.enable = true;
+    devmon.enable = false;
     gvfs.enable = true;
     udev = {
       packages = [ pkgs.yubikey-personalization ];
       extraRules = ''
-      # Prevent Moonland keyboard from sleeping
+      # Prevent Moonlander keyboard from sleeping
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/control}="on"
       # Also disable autosuspend for this device
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/autosuspend}="-1"
@@ -249,6 +250,8 @@
     gnupg
     ghostty
     git
+    # nvim-pkg
+    # inputs.my-nvim.packages.${pkgs.stdenv.system}.nvim-pkg
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default # beta
     kitty
@@ -274,6 +277,7 @@
     trash-cli
     tree
     ttyper
+    udiskie
     unzip
     usbutils
     vesktop

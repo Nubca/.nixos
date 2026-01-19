@@ -19,7 +19,13 @@
   };
   powerManagement.cpuFreqGovernor = "performance";
 
-  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation = {
+    spiceUSBRedirection.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true; # Allows 'docker' commands
+    };
+  };
 
   xdg = {
     portal = {
@@ -46,7 +52,7 @@
       };
       # Core features
       enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-      enableClipboard = true;            # Clipboard history manager
+      enableClipboardPaste = true;       # Clipboard pasting
       enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
       enableAudioWavelength = true;      # Audio visualizer (cava)
       enableCalendarEvents = true;       # Calendar integration (khal)
@@ -182,13 +188,13 @@
     clickup
     # cliphist
     # darktable
+    distrobox
     dosfstools
     # davinci-resolve
     gimp
     gparted
     hfsprogs
     hplipWithPlugin
-    inputs.ns-flake.packages.${stdenv.hostPlatform.system}.niri-scratchpad
     # inkscape
     mtools
     mdadm
@@ -203,8 +209,8 @@
     telegram-desktop
     tradingview
     swww
-    qmk
-    qmk-udev-rules
+    # qmk
+    # qmk-udev-rules
     # reaper
     thunderbird
     wayland

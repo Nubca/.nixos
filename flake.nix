@@ -12,11 +12,11 @@
     nvim-flake = {
       url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    ns-flake = {
-      url = "github:gvolpe/niri-scratchpad";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+      };
+    # ns-flake = {
+    #   url = "github:gvolpe/niri-scratchpad";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,9 +49,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
-          disks = [ "/dev/nvme0n1" "/dev/sdb" "/dev/sdc" ];
-          encryptRaid = true;
           };
         modules = [
           ./hosts/nNix/nNix.nix
@@ -72,7 +69,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./hosts/pNix/pNix.nix
@@ -93,7 +89,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./hosts/mpNix/mpNix.nix
@@ -116,7 +111,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./hosts/iNix/iNix.nix
@@ -139,7 +133,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./hosts/uMix/uMix.nix
@@ -162,7 +155,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./hosts/tNix/tNix.nix
@@ -185,7 +177,6 @@
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
-          system = "x86_64-linux";
           };
         modules = [
           ./iso_flake/xIso.nix
