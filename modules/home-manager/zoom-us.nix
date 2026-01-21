@@ -5,5 +5,8 @@
     [General]
     xwayland=false
     enableWaylandShare=true
+    autoSSOLogin=true
+    keepLoggedIn=true
+    enable_auto_login=true
   '';
 }

@@ -13,10 +13,6 @@
       url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
       };
-    # ns-flake = {
-    #   url = "github:gvolpe/niri-scratchpad";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +28,7 @@
         home-manager.follows = "home-manager";
        };
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,6 +50,7 @@
         modules = [
           ./hosts/nNix/nNix.nix
           home-manager.nixosModules.home-manager
+          nix-flatpak.nixosModules.nix-flatpak
           {
             home-manager = {
               sharedModules = [

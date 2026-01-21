@@ -8,6 +8,42 @@
     ../../base.nix
   ];
 
+  # nixpkgs.overlays = [
+  #     (self: super: {
+  #       zoom-us = super.zoom-us.overrideAttrs (oldAttrs: {
+  #         postFixup = (oldAttrs.postFixup or "") + ''
+  #           wrapProgram $out/bin/zoom-us \
+  #             --set XCURSOR_SIZE 28 \
+  #             --set QT_AUTO_SCREEN_SCALE_FACTOR 1 \
+  #             --set QT_WAYLAND_DISABLE_WINDOWDECORATION 1 \
+  #             --set QT_QPA_PLATFORM "wayland" \
+  #             --run 'export GNOME_KEYRING_CONTROL=/run/user/$(id -u)/keyring'
+  #             --add-flags "--no-keyring"
+  #         '';
+  #       });
+  #     })
+  #   ];
+
+  programs = {
+    dconf.enable = true;
+    niri.enable = true;
+    dms-shell = {
+      enable = true;
+      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
+      systemd = {
+        enable = true;             # Systemd service for auto-start
+        restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
+      };
+      # Core features
+      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+      enableClipboardPaste = true;       # Clipboard pasting
+      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+      enableAudioWavelength = true;      # Audio visualizer (cava)
+      enableCalendarEvents = true;       # Calendar integration (khal)
+    };
+  };
+
   environment.sessionVariables = {
     NH_FLAKE = "/home/ca/.nixos";
     PASSWORD_STORE = "gnome-keyring";
@@ -16,9 +52,21 @@
     qml.i3sock.warning=false;
     qml.swaysock.warning=false;
     '';
+    XCURSOR_SIZE = "28";
+    XCURSOR_THEME = "Adwaita";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_CURRENT_DESKTOP = "gnome";
+    XDG_SESSION_DESKTOP = "niri";
+    NIXOS_OZONE_WL = "1";
+    GNOME_KEYRING_CONTROL = "/run/user/1001/keyring";
+    GNOME_KEYRING_PID = "1"; # A placeholder to trigger the check
+    SSH_AUTH_SOCK = "/run/user/1001/keyring/ssh";
+    # Prevents Zoom Crashes
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_QPA_PLATFORM = "wayland;xcb";
   };
-  powerManagement.cpuFreqGovernor = "performance";
 
+  powerManagement.cpuFreqGovernor = "performance";
   virtualisation = {
     spiceUSBRedirection.enable = true;
     podman = {
@@ -40,25 +88,6 @@
     };
   };
 
-  programs = {
-    niri.enable = true;
-    dms-shell = {
-      enable = true;
-      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
-      systemd = {
-        enable = true;             # Systemd service for auto-start
-        restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
-      };
-      # Core features
-      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-      enableClipboardPaste = true;       # Clipboard pasting
-      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;      # Audio visualizer (cava)
-      enableCalendarEvents = true;       # Calendar integration (khal)
-    };
-  };
-
   security = {
     polkit.enable = true;
     pam.services = {
@@ -68,6 +97,15 @@
   };
 
   services = {
+    flatpak = {
+      enable = true;
+      update.auto.enable = true;
+      packages = [
+        "us.zoom.Zoom"
+      ];
+    };
+    dbus.packages = [ pkgs.gcr ];
+    dbus.implementation = "broker"; # Modern, faster DBus
     xserver.videoDrivers = [ "nvidia" ];
     displayManager = {
       enable = true;
@@ -77,6 +115,13 @@
         enable = false;
         user = "ca";
       };
+      sessionPackages = [
+        (pkgs.niri.override {
+          # This ensures Niri always starts with a D-Bus session
+          # which is required for the Keyring to 'hand off' the password.
+          withDbus = true;
+        })
+      ];
     };
     gnome.gnome-keyring.enable = true;
     pipewire = {
@@ -184,6 +229,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    adwaita-icon-theme
     browserpass
     clickup
     # cliphist
@@ -208,6 +254,7 @@
     python3
     telegram-desktop
     tradingview
+    seahorse
     swww
     # qmk
     # qmk-udev-rules

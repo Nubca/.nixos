@@ -68,12 +68,6 @@
       _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2"; # Unknown effects
       QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # Unknown effects
     };
-    sessionVariables = {
-      XDG_SESSION_TYPE = "wayland";
-      XDG_CURRENT_DESKTOP = "niri";
-      XDG_SESSION_DESKTOP = "niri";
-      NIXOS_OZONE_WL = "1";
-    };
   };
 
   services = {
@@ -93,5 +87,6 @@
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    nvidia-container-toolkit.enable = true;
   };
 }

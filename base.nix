@@ -10,10 +10,9 @@
   imports = [
     ./qtile/qtile.nix
   ];
-
+ 
 # Variables
   nixpkgs.overlays = [
-    # inputs.my-nvim.overlays.default
   ];
 # Use the systemd-boot EFI boot loader and specify Linux kernel.
   boot = {
@@ -184,7 +183,7 @@
   };
   programs = {
     virt-manager.enable = true;
-    zoom-us.enable = true;
+    # zoom-us.enable = true; # Replace with Flatpak
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -250,8 +249,6 @@
     gnupg
     ghostty
     git
-    # nvim-pkg
-    # inputs.my-nvim.packages.${pkgs.stdenv.system}.nvim-pkg
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
     inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default # beta
     kitty

@@ -14,7 +14,7 @@
     ./vivaldi-theme.nix
     ./yazi.nix
     ./zellij.nix
-    ./zoom-us.nix
+    # ./zoom-us.nix
   ];
 
   options.base.enable = lib.mkOption {
