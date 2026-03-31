@@ -6,6 +6,7 @@
   imports = [
     ./nhardware.nix
     ../../base.nix
+    ../../modules/nixos/kvm-trading.nix
   ];
 
   # nixpkgs.overlays = [
@@ -230,6 +231,7 @@
 
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
+    brave
     browserpass
     clickup
     # cliphist

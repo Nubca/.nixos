@@ -3,6 +3,7 @@
 {
   programs.yazi = {
     enable = true;
+    shellWrapperName = "y";
     package = pkgs.yazi.override {
       _7zz = pkgs._7zz.override { useUasm = true; };
     };

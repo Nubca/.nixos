@@ -10,7 +10,7 @@
   imports = [
     ./qtile/qtile.nix
   ];
- 
+
 # Variables
   nixpkgs.overlays = [
   ];
@@ -118,10 +118,10 @@
   };
 
   systemd = {
-    sleep.extraConfig = ''
-    HibernateDelaySec=2h
-    SuspendState=freeze
-    '';
+    sleep.settings.Sleep = {
+      HibernateDelaySec = "2h";
+      SuspendState = "freeze";
+    };
   };
 
 # Enable X11, Desktop Environment, & Misc.
@@ -178,7 +178,7 @@
 
 # Virtualisation
   virtualisation = {
-    libvirtd.enable = true;
+    libvirtd.enable = false;
     spiceUSBRedirection.enable = true;
   };
   programs = {
@@ -256,7 +256,6 @@
     localsend
     libqalculate
     mpv
-    nemo
     nix-output-monitor
     nvd
     obsidian
