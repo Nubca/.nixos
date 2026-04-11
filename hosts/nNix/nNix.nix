@@ -9,22 +9,6 @@
     ../../modules/nixos/kvm-trading.nix
   ];
 
-  # nixpkgs.overlays = [
-  #     (self: super: {
-  #       zoom-us = super.zoom-us.overrideAttrs (oldAttrs: {
-  #         postFixup = (oldAttrs.postFixup or "") + ''
-  #           wrapProgram $out/bin/zoom-us \
-  #             --set XCURSOR_SIZE 28 \
-  #             --set QT_AUTO_SCREEN_SCALE_FACTOR 1 \
-  #             --set QT_WAYLAND_DISABLE_WINDOWDECORATION 1 \
-  #             --set QT_QPA_PLATFORM "wayland" \
-  #             --run 'export GNOME_KEYRING_CONTROL=/run/user/$(id -u)/keyring'
-  #             --add-flags "--no-keyring"
-  #         '';
-  #       });
-  #     })
-  #   ];
-
   programs = {
     dconf.enable = true;
     niri.enable = true;
@@ -107,7 +91,7 @@
     };
     dbus.packages = [ pkgs.gcr ];
     dbus.implementation = "broker"; # Modern, faster DBus
-    xserver.videoDrivers = [ "nvidia" ];
+    xserver.videoDrivers = [ "amdgpu" ];
     displayManager = {
       enable = true;
       gdm.enable = true;
@@ -173,7 +157,7 @@
   users.users = {
     ca = {
       isNormalUser = true;
-      extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "kvm"];
+      extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "qemu-libvirtd" "kvm" "input" "output" "video" "audio"];
       linger = true;
       openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
@@ -234,16 +218,12 @@
     brave
     browserpass
     clickup
-    # cliphist
-    # darktable
     distrobox
     dosfstools
-    # davinci-resolve
     gimp
     gparted
     hfsprogs
     hplipWithPlugin
-    # inkscape
     mtools
     mdadm
     niri
@@ -254,7 +234,6 @@
     pass-wayland
     pwvucontrol
     python3
-    telegram-desktop
     tradingview
     seahorse
     swww

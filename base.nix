@@ -177,10 +177,10 @@
   };
 
 # Virtualisation
-  virtualisation = {
-    libvirtd.enable = false;
-    spiceUSBRedirection.enable = true;
-  };
+  # virtualisation = {
+  #   libvirtd.enable = false;
+  #   spiceUSBRedirection.enable = true;
+  # };
   programs = {
     virt-manager.enable = true;
     # zoom-us.enable = true; # Replace with Flatpak
@@ -247,10 +247,8 @@
     flameshot
     fzf
     gnupg
-    ghostty
     git
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
-    inputs.zen-browser.packages."${stdenv.hostPlatform.system}".default # beta
     kitty
     lazygit
     localsend
@@ -279,7 +277,6 @@
     vesktop
     vivaldi
     vlc
-    vscode
     wget
     xcb-util-cursor # Needed for Qtile Cursor change
     xclip

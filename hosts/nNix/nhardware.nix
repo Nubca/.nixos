@@ -22,7 +22,7 @@
     kernelParams = [
       "resume=/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b"
       "resume_offset=34816"
-      "nvidia-drm.modeset=1"
+      # "nvidia-drm.modeset=1"
     ];
     kernelModules = [
       "kvm-intel"
@@ -81,12 +81,12 @@
       enable = true;
       enable32Bit = true;
     };
-    nvidia = {
-      open = false;
-      modesetting.enable = true;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-    nvidia-container-toolkit.enable = true;
+    # nvidia = {
+    #   open = false;
+    #   modesetting.enable = true;
+    #   nvidiaSettings = true;
+    #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # };
+    # nvidia-container-toolkit.enable = true;
   };
 }
