@@ -21,6 +21,10 @@
       url = "git+https://git.outfoxxed.me/quickshell/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    qmk-firmware = {
+      url = "github:qmk/qmk_firmware";
+      flake = false;
+    };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     disko = {
       url = "github:nix-community/disko";

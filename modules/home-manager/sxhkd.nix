@@ -17,6 +17,7 @@
       "super + shift + s" = "pkill -USR1 -x sxhkd";
       "super + shift + o" = "obsidian";
       "super + h" = "copyq toggle";
+      "super + control + alt + l" = "kitty -e sh -lc 'looking-glass-client -f /dev/kvmfr0 -p 5900 -S -T -k'";
     };
   };
 }

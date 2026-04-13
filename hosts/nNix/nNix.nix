@@ -157,7 +157,7 @@
   users.users = {
     ca = {
       isNormalUser = true;
-      extraGroups = [ "sudo" "networkmanager" "wheel" "libvirtd" "qemu-libvirtd" "kvm" "input" "output" "video" "audio"];
+      extraGroups = [ "sudo" "networkmanager" "wheel" "plugdev" "libvirtd" "qemu-libvirtd" "kvm" "input" "output" "video" "audio"];
       linger = true;
       openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
@@ -215,6 +215,7 @@
 
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
+    awww
     brave
     browserpass
     clickup
@@ -236,10 +237,6 @@
     python3
     tradingview
     seahorse
-    swww
-    # qmk
-    # qmk-udev-rules
-    # reaper
     thunderbird
     wayland
     wl-clipboard
@@ -250,7 +247,13 @@
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}"];
  # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
+  services.udev.extraRules = ''
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", \
+      MODE="0666", GROUP="plugdev", TAG+="uaccess"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", \
+      MODE="0666", GROUP="plugdev", TAG+="uaccess"
+  '';
 
 # DO NOT ALTER OR DELETE
-  system.stateVersion = "24.05";
+  system.stateVersion = "26.05";
 }

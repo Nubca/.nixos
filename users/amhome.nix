@@ -29,9 +29,9 @@
           name = "Curtis Abbott";
           email = "inspiredplans@gmail.com";
         };
-      gpg.format = "openpgp";
-      gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
+        # gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
       };
+      signing.format = "openpgp";
     };
   };
 }

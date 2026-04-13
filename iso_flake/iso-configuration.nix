@@ -15,9 +15,9 @@
   # Enable support for Mac-specific hardware
   hardware.enableAllFirmware = true;
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.stdenv.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  # Extra Features  
+  # Extra Features
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
     extraOptions = "experimental-features = nix-command flakes";
@@ -28,7 +28,7 @@
     hostName = "iso";
     wireless = {
       enable = true;
-    };  
+    };
   };
 
   # Set your time zone.
