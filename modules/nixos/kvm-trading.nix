@@ -16,9 +16,10 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      package = pkgs.qemu_kvm;
+      package = pkgs.qemu_full;
       runAsRoot = true;
       swtpm.enable = true; # Required for Windows 11
+      vhostUserPackages = [ pkgs.virtiofsd ];
       verbatimConfig = ''
         # user = "ca"
         # group = "libvirtd"
@@ -98,5 +99,6 @@
     looking-glass-client
     spice-gtk
     virtio-win # Windows drivers for high-speed Disk/NIC
+    virtiofsd
   ];
 }

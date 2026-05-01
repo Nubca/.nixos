@@ -23,7 +23,7 @@
       kernelModules = [ ];
     };
     kernelModules = [ "kvm-intel" "wl" ];
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    # extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
   };
 
   fileSystems."/" =
@@ -49,6 +49,6 @@
   # networking.interfaces.enp10s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp9s0.useDHCP = lib.mkDefault true;
 
-  nixpkgs.stdenv.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

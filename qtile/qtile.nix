@@ -27,10 +27,10 @@ let
     widget_font_size_battery = 18;
     widget_font_size_systray = 18;
     bar_size = 26;
-    # systray_screen_index = 0; # Systray on Screen 0 (first screen)
+    systray_screen_index = 0; # Systray on Screen 0 (first screen)
     # Wallpapers are declared and set to the below via each users xxhome.nix file.
     wallpaper_screen0 = "~/.config/qtile/0-Monitor.jpg"; # Example system path
-    # wallpaper_screen1 = "~/.config/qtile/1-Main.jpg";    # Example system path
+    wallpaper_screen1 = "~/.config/qtile/1-Main.jpg";    # Example system path
   };
 
   # Overrides for Desktop machines
@@ -60,7 +60,7 @@ let
     widget_font_size_battery = 46;
     widget_font_size_systray = 42;
     bar_size = 48;
-    # systray_screen_index = 1; # Systray on Screen 1 (second screen)
+    systray_screen_index = 1; # Systray on Screen 1 (second screen)
   };
 
   # --- Determine Final Settings ---

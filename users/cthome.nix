@@ -29,6 +29,7 @@
           email = "thaxtonconnie@yahoo.com";
         };
       };
+      signing.format = null;
     };
   };
 }

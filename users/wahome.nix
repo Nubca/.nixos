@@ -29,6 +29,7 @@
           email = "willabbott008@gmail.com";
         };
       };
+      signing.format = null;
     };
   };
 }

@@ -6,142 +6,16 @@
   imports = [
     ./nhardware.nix
     ../../base.nix
+    ../../wayland.nix
     ../../modules/nixos/kvm-trading.nix
   ];
 
-  programs = {
-    dconf.enable = true;
-    niri.enable = true;
-    dms-shell = {
-      enable = true;
-      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
-      systemd = {
-        enable = true;             # Systemd service for auto-start
-        restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
-      };
-      # Core features
-      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-      enableClipboardPaste = true;       # Clipboard pasting
-      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;      # Audio visualizer (cava)
-      enableCalendarEvents = true;       # Calendar integration (khal)
-    };
-  };
-
-  environment.sessionVariables = {
-    NH_FLAKE = "/home/ca/.nixos";
-    PASSWORD_STORE = "gnome-keyring";
-    QT_LOGGING_RULES = ''
-    qml.AudioService.warning=false;
-    qml.i3sock.warning=false;
-    qml.swaysock.warning=false;
-    '';
-    XCURSOR_SIZE = "28";
-    XCURSOR_THEME = "Adwaita";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "gnome";
-    XDG_SESSION_DESKTOP = "niri";
-    NIXOS_OZONE_WL = "1";
-    GNOME_KEYRING_CONTROL = "/run/user/1001/keyring";
-    GNOME_KEYRING_PID = "1"; # A placeholder to trigger the check
-    SSH_AUTH_SOCK = "/run/user/1001/keyring/ssh";
-    # Prevents Zoom Crashes
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_QPA_PLATFORM = "wayland;xcb";
-  };
-
-  powerManagement.cpuFreqGovernor = "performance";
-  virtualisation = {
-    spiceUSBRedirection.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true; # Allows 'docker' commands
-    };
-  };
-
-  xdg = {
-    portal = {
-      config.common.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
-      config.niri.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gnome
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-      wlr.enable = true;
-    };
-  };
-
-  security = {
-    polkit.enable = true;
-    pam.services = {
-      gdm.enableGnomeKeyring = true;
-      login.enableGnomeKeyring = true;
-    };
+  boot = {
+    kernelPackages = lib.mkForce pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12
   };
 
   services = {
-    flatpak = {
-      enable = true;
-      update.auto.enable = true;
-      packages = [
-        "us.zoom.Zoom"
-      ];
-    };
-    dbus.packages = [ pkgs.gcr ];
-    dbus.implementation = "broker"; # Modern, faster DBus
     xserver.videoDrivers = [ "amdgpu" ];
-    displayManager = {
-      enable = true;
-      gdm.enable = true;
-      defaultSession = "niri";
-      autoLogin = {
-        enable = false;
-        user = "ca";
-      };
-      sessionPackages = [
-        (pkgs.niri.override {
-          # This ensures Niri always starts with a D-Bus session
-          # which is required for the Keyring to 'hand off' the password.
-          withDbus = true;
-        })
-      ];
-    };
-    gnome.gnome-keyring.enable = true;
-    pipewire = {
-      # jack.enable = true;
-      wireplumber.enable = true;
-      pulse.enable = true;
-    };
-    openssh.settings = {
-      AllowUsers = [ "admin" ];
-      PasswordAuthentication = true; # Disable password authentication for security
-      PermitRootLogin = "no";         # Prohibit root login
-      UseDns = false;                 # Speed up SSH connections
-      ClientAliveInterval = 300;      # Keep the connection alive
-      ClientAliveCountMax = 1;        # Terminate unresponsive sessions
-    };
-    fail2ban.enable = true;
-    logind = {
-      # powerKey = "hibernate";
-      # powerKeyLongPress = "poweroff";
-    };
-    printing = {
-      enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
-    };
-  };
-
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "HP-LaserJet";
-        location = "Home";
-        deviceUri = "usb://HP/LaserJet%20Professional%20P1102w?serial=000000000Q9238NAPR1a";
-        model = "HP/hp-laserjet_professional_p_1102w.ppd.gz";
-      }
-    ];
   };
 
   home-manager = {
@@ -153,98 +27,12 @@
     };
   };
 
-# Define a user account.
-  users.users = {
-    ca = {
-      isNormalUser = true;
-      extraGroups = [ "sudo" "networkmanager" "wheel" "plugdev" "libvirtd" "qemu-libvirtd" "kvm" "input" "output" "video" "audio"];
-      linger = true;
-      openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
-      ];
-    };
-
-    admin = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQ57DtlRJRHHceyg00N4PIswa4/sn/zA5nCInnX1Tka" # mpNix public key
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEcufvqpzURfwPzHI8uaEzLCLkNuOe/zezQfJ8uB40UE" # iNix public key"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINRvb/eEDa62lqhMxGE4CEiyF+qLTtx/E/IXtfIwtTP inspiredplans@gmail.com" # pNix public key
-      ];
-    };
-
-    wa = {
-      isNormalUser = true;
-      extraGroups = [ "networkmanager" ];
-    };
-  };
-
-  networking = {
-    hostName = "nNix";
-    firewall = {
-      # allowedTCPPorts = [ 22 ];
-      allowedTCPPortRanges = [
-        { from = 53317; to = 53317; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];
-      allowedUDPPortRanges = [
-        { from = 53315; to = 53318; } # LocalSend
-        { from = 4000; to = 4007; } # LocalSend
-        { from = 8000; to = 8010; } # LocalSend
-        { from = 1714; to = 1764; } # kdeconnect
-      ];
-      extraCommands = ''
-        iptables -A INPUT -p tcp --dport 53317 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 53315:53318 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 4000:4007 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 8000:8010 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p tcp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p udp --dport 1714:1764 -s 192.168.0.0/24 -j ACCEPT
-        iptables -A INPUT -p tcp --dport 53317 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 53315:53318 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 4000:4007 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 8000:8010 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p tcp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
-        iptables -A INPUT -p udp --dport 1714:1764 ! -s 192.168.0.0/24 -j DROP
-      '';
-    };
-  };
+  networking.hostName = "nNix";
 
   environment.systemPackages = with pkgs; [
-    adwaita-icon-theme
-    awww
     brave
-    browserpass
-    clickup
-    distrobox
-    dosfstools
-    gimp
-    gparted
-    hfsprogs
-    hplipWithPlugin
-    mtools
-    mdadm
-    niri
-    nixd
-    nodejs
-    npins
-    obs-studio
-    pass-wayland
-    pwvucontrol
-    python3
-    tradingview
-    seahorse
-    thunderbird
-    wayland
-    wl-clipboard
-    xwayland-satellite
   ];
 
- # Necessary for nixd
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}"];
  # Necessary for QMK
   hardware.keyboard.qmk.enable = true;
   services.udev.extraRules = ''
@@ -255,5 +43,5 @@
   '';
 
 # DO NOT ALTER OR DELETE
-  system.stateVersion = "26.05";
+  system.stateVersion = "24.05";
 }

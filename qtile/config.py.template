@@ -32,8 +32,10 @@ widget_font_size_clock = @widget_font_size_clock@
 widget_font_size_battery = @widget_font_size_battery@ # Used even if widget is absent
 widget_font_size_systray = @widget_font_size_systray@
 bar_size = @bar_size@
+systray_screen_index = @systray_screen_index@
 # Ensure paths are quoted if needed
 wallpaper_screen0 = "@wallpaper_screen0@"
+wallpaper_screen1 = "@wallpaper_screen1@"
 # has_battery = @has_battery@
 
 # --- Lazy Functions ---

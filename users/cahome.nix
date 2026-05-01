@@ -2,7 +2,7 @@
 
 {
   home = {
-    stateVersion = "26.05";
+    stateVersion = "24.05";
     username = "ca";
     homeDirectory = lib.mkForce "/home/ca";
 
@@ -29,8 +29,6 @@
           name = "Curtis Abbott";
           email = "inspiredplans@gmail.com";
         };
-        # gpg.format = "openpgp";
-        # gpg.openpgp.program = "${pkgs.gnupg}/bin/gpg";
       };
       signing.format = null;
     };
