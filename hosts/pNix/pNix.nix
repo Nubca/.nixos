@@ -11,10 +11,6 @@
 
   networking.hostName = "pNix";
 
-  # services = {
-  #   xserver.videoDrivers = [ "radeon" ];
-  # };
-
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     backupFileExtension = "backup";
@@ -24,14 +20,14 @@
     };
   };
 
-  # services = {
-  #   displayManager = {
-  #     autoLogin = {
-  #       enable = true;
-  #       user = "ca";
-  #     };
-  #   };
-  # };
+  services = {
+    displayManager = {
+      autoLogin = {
+        enable = true;
+        user = "ca";
+      };
+    };
+  };
 
  # Necessary for nixd
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}"];

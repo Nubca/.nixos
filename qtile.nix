@@ -12,8 +12,12 @@
       displayManager = {
         lightdm = {
           enable = true;
+          autoLogin.timeout = 0;
           greeters.gtk.enable = true;
         };
+        sessionCommands = ''
+          ${pkgs.sxhkd}/bin/sxhkd &
+        '';
       };
 
       windowManager.qtile = {
