@@ -7,6 +7,7 @@
     kernelPackages = pkgs.linuxPackages; # Switch Kernels via appending _6_12
     # kernelPackages = pkgs.linuxPackages_6_12;
     kernelParams = [
+      "preempt=full"
       # "mem_sleep_default=s2idle"
     ];
     loader = {

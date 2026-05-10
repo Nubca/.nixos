@@ -3,7 +3,12 @@
 {
   programs = {
     dconf.enable = true;
-    niri.enable = true;
+    niri = {
+      enable = true;
+      package = pkgs.niri.override {
+        withDbus = true;
+      };
+    };
 
     dms-shell = {
       enable = true;
@@ -22,45 +27,59 @@
     };
   };
 
-  services = {
-    displayManager = {
-      defaultSession = "niri";
-      sessionPackages = [
-        (pkgs.niri.override {
-          # This ensures Niri always starts with a D-Bus session
-          # which is required for the Keyring to 'hand off' the password.
-          withDbus = true;
-        })
-      ];
+  services.xserver = {
+    enable = true;
+
+    displayManager.gdm = {
+      enable = true;
     };
   };
 
-  environment.sessionVariables = {
-    PASSWORD_STORE = "gnome-keyring";
-    QT_LOGGING_RULES = ''
-    qml.AudioService.warning=false;
-    qml.i3sock.warning=false;
-    qml.swaysock.warning=false;
+  security.pam.services.gdm.enableGnomeKeyring = true;
+
+  environment = {
+    etc."xdg/wayland-sessions/niri.desktop".text = ''
+      [Desktop Entry]
+      Name=Niri
+      Comment=Scrollable tiling Wayland compositor
+      Exec=niri-session
+      Type=Application
     '';
-    XCURSOR_SIZE = "28";
-    XCURSOR_THEME = "Adwaita";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "niri";
-    XDG_SESSION_DESKTOP = "niri";
-    NIXOS_OZONE_WL = "1";
-    GNOME_KEYRING_CONTROL = "/run/user/1001/keyring";
-    GNOME_KEYRING_PID = "1"; # A placeholder to trigger the check
-    SSH_AUTH_SOCK = "/run/user/1001/keyring/ssh";
-    # Prevents Zoom Crashes
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_QPA_PLATFORM = "wayland;xcb";
+    sessionVariables = {
+      PASSWORD_STORE = "gnome-keyring";
+      QT_LOGGING_RULES = ''
+      qml.AudioService.warning=false;
+      qml.i3sock.warning=false;
+      qml.swaysock.warning=false;
+      '';
+      XCURSOR_SIZE = "28";
+      XCURSOR_THEME = "Adwaita";
+      XDG_SESSION_TYPE = "wayland";
+      XDG_CURRENT_DESKTOP = "niri";
+      XDG_SESSION_DESKTOP = "niri";
+      NIXOS_OZONE_WL = "1";
+      GNOME_KEYRING_CONTROL = "/run/user/1001/keyring";
+      GNOME_KEYRING_PID = "1"; # A placeholder to trigger the check
+      SSH_AUTH_SOCK = "/run/user/1001/keyring/ssh";
+      # Prevents Zoom Crashes
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      QT_QPA_PLATFORM = "wayland;xcb";
+    };
   };
 
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    config.common.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
-    config.niri.default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
+    config = {
+      common = {
+        default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
+        "org.freedesktop.impl.portal.FileChooser" = "gnome";
+      };
+      niri = {
+        default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
+        "org.freedesktop.impl.portal.FileChooser" = "nautilus";
+      };
+    };
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
       xdg-desktop-portal-wlr
@@ -75,5 +94,7 @@
     wayland
     wl-clipboard
     xwayland-satellite
+    gtk3
+    nautilus
   ];
 }

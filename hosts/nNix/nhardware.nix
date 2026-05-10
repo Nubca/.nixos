@@ -67,6 +67,7 @@
     variables = { # Also see DPI-Hi.nix
       _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2"; # Unknown effects
       QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # Unknown effects
+      WLR_DRM_DEVICES = "/dev/dri/by-path/pci-000:03:00.0-card";
     };
   };
 

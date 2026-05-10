@@ -1,6 +1,6 @@
 # ###### Special Config nNix.nix #######
 
-{ config, inputs, lib, pkgs, modulesPath, home-manager, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 {
   imports = [
@@ -11,7 +11,7 @@
   ];
 
   boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages_latest; # Switch Kernels via appending _6_12
+    kernelPackages = lib.mkForce pkgs.linuxPackages_xanmod_latest;
   };
 
   services = {

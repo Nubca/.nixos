@@ -1,104 +1,241 @@
 { config, pkgs, lib, ... }:
-
 {
-# Run Stream off iGPU via OBS and "Hardware (QSV)
+  # ── iGPU for OBS QSV encoding ─────────────────────────────────────────────
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver # For Broadwell+ (including your i9)
-      intel-vaapi-driver        # Legacy support
+      intel-media-driver
+      intel-vaapi-driver
       libvdpau-va-gl
     ];
   };
 
-  # 1. Core Virtualization Services
-  environment.variables.LIBVIRT_DEFAULT_URI = "qemu:///system";
+  # ── Libvirt virtualisation stack ──────────────────────────────────────────
   virtualisation.libvirtd = {
     enable = true;
+    onBoot = "ignore";
     qemu = {
       package = pkgs.qemu_full;
-      runAsRoot = true;
-      swtpm.enable = true; # Required for Windows 11
+      swtpm.enable = true;
       vhostUserPackages = [ pkgs.virtiofsd ];
-      verbatimConfig = ''
-        # user = "ca"
-        # group = "libvirtd"
-        remember_owner = 0
-        # namespaces = [ "mount" ]
-        cgroup_device_acl = [
-          "/dev/kvmfr0",
-          "/dev/shm/looking-glass",
-          "/dev/null", "/dev/full", "/dev/zero",
-          "/dev/random", "/dev/urandom",
-          "/dev/ptmx", "/dev/kvm", "/dev/rtc", "/dev/hpet"
-        ]
+      runAsRoot = false;
+      # Remove verbatimConfig entirely — it produces duplicate entries
+    };
+  };
+
+# Write directly to /etc/libvirt/ which virtqemud reads with highest priority
+  environment.etc."libvirt/virtqemud.conf".text = ''
+    user = "ca"
+    group = "libvirtd"
+    remember_owner = 0
+    cgroup_device_acl = [
+      "/dev/kvmfr0",
+      "/dev/shm/looking-glass",
+      "/dev/null", "/dev/full", "/dev/zero",
+      "/dev/random", "/dev/urandom",
+      "/dev/ptmx", "/dev/kvm", "/dev/rtc", "/dev/hpet"
+    ]
+  '';
+
+# Also fix /var/lib/libvirt/qemu.conf which controls the QEMU driver user
+# We need to overwrite it to remove the duplicate qemu-libvirtd entries
+  systemd.services.fix-libvirt-qemu-conf = {
+    description = "Fix libvirt qemu.conf user settings";
+    before = [ "virtqemud.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = pkgs.writeShellScript "fix-qemu-conf" ''
+        cat > /var/lib/libvirt/qemu.conf << 'EOF'
+  user = "ca"
+  group = "libvirtd"
+  remember_owner = 0
+  cgroup_device_acl = [
+    "/dev/kvmfr0",
+    "/dev/shm/looking-glass",
+    "/dev/null", "/dev/full", "/dev/zero",
+    "/dev/random", "/dev/urandom",
+    "/dev/ptmx", "/dev/kvm", "/dev/rtc", "/dev/hpet"
+  ]
+  EOF
+        chmod 0444 /var/lib/libvirt/qemu.conf
       '';
     };
   };
 
-  # This ensures the 'default' network is always active
-  # networking.bridge.enable = true;
+  environment.variables = {
+    LIBVIRT_DEFAULT_URI = "qemu:///system";
+    EDITOR = "nvim";
+  };
 
-  # hardware.ksm.enable = true; # Reduces Ram via Shared Pages
-  # 2. Kernel & Module Logic
-  # We use lib.mkForce to ensure this isn't overridden by other modules
-  boot.extraModprobeConfig = lib.mkForce ''
-    options kvmfr static_size_mb=128
-    options kvm ignore_msrs=1 report_ignored_msrs=0
-  '';
-  # 2. Kernel & Low-Latency Optimizations
-  # Note: If using AMD, change "intel_iommu=on" to "amd_iommu=on"
-  boot.kernelParams = [
-    "intel_iommu=on"
-    "intel_pstate=passive"
-    "amd_iommu=on"
-    "iommu=pt"
-    "hugepagesz=2M"
-    "hugepages=8192"   # Reserves 8GB RAM for the VM
-    "transparent_hugepage=madvise"
-    "vfio-pci.ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed"   # These are your specific 1660 Ti IDs
-    "isolcpus=4-7,12-15" 
-    "nohz_full=4-7,12-15" 
-    "rcu_nocbs=4-7,12-15"
-  ];
+  # ── Boot: VFIO, IOMMU, CPU isolation ──────────────────────────────────────
+  boot = {
+    initrd.kernelModules = [
+      "vfio_pci"
+      "vfio"
+      "vfio_iommu_type1"
+      "amdgpu"        # Host display — loads after VFIO
+      "i915"          # iGPU for OBS — loads after VFIO
+    ];
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
+    kernelModules = [ "kvm_intel" "kvmfr" ];
 
-  # Set permissions so your user 'ca' can access the device
-  services.udev.extraRules = ''
-    SUBSYSTEM=="kvmfr", OWNER="ca", GROUP="libvirtd", MODE="0660"
-  '';
-  boot.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "kvm_intel" "kvmfr" ];
-  boot.initrd.kernelModules = [ "vfio_pci" "vfio" "vfio_iommu_type1" "amdgpu" "i915" ];
+    kernelParams = [
+      "intel_iommu=on"
+      "iommu=pt"
+      "intel_pstate=passive"
 
-  # Set CPU to performance mode for consistent order execution speed
-  powerManagement.cpuFreqGovernor = "performance";
+      # VFIO: claim GTX 1660 Ti before any display driver
+      "vfio-pci.ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed"
 
-  # Setup the shared memory file for Looking Glass
-  systemd.services.prepare-looking-glass = {
-    description = "Set Looking Glass shared memory size";
-    after = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c 'rm -f /dev/shm/looking-glass && ${pkgs.coreutils}/bin/truncate -s 128M /dev/shm/looking-glass && chown ca:libvirtd /dev/shm/looking-glass && chmod 0666 /dev/shm/looking-glass'";
+      # KVM MSR handling
+      "kvm.ignore_msrs=1"
+
+      # Hugepages: 16 GB locked for VM
+      "hugepagesz=2M"
+      "hugepages=8192"
+      "transparent_hugepage=never"
+
+      # CPU isolation: physical cores 4-7 + HT siblings 12-15 for VM
+      "isolcpus=domain,managed_irq,4-7,12-15"
+      "nohz_full=4-7,12-15"
+      "rcu_nocbs=4-7,12-15"
+      "rcu_nocb_poll"       # Reduces RCU wakeup latency on isolated cores
+
+      # C-state limiting for lowest interrupt latency
+      "processor.max_cstate=1"
+      "intel_idle.max_cstate=1"
+
+      # Xanmod-specific: preempt is set in base.nix as 'full'
+      # which is correct for Xanmod — do not override here
+    ];
+
+    extraModulePackages = [ config.boot.kernelPackages.kvmfr ];
+
+    extraModprobeConfig = ''
+      options vfio-pci ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed
+      options kvm ignore_msrs=1 report_ignored_msrs=0
+      options kvmfr static_size_mb=128
+    '';
+  };
+
+  # ── Disable legacy monolithic daemon (TPM credential bug) ─────────────────
+  systemd.services.libvirtd = {
+    enable = false;
+    serviceConfig.LoadCredentialEncrypted = lib.mkForce [];
+  };
+  systemd.sockets.libvirtd       = { enable = false; };
+  systemd.sockets."libvirtd-ro"  = { enable = false; };
+  systemd.sockets."libvirtd-admin" = { enable = false; };
+
+  # ── Modular libvirt daemons ────────────────────────────────────────────────
+  systemd.sockets = {
+    virtqemud    = { enable = true; wantedBy = [ "sockets.target" ]; };
+    virtsecretd  = { enable = true; wantedBy = [ "sockets.target" ]; };
+    virtnetworkd = { enable = true; wantedBy = [ "sockets.target" ]; };
+    virtstoraged = { enable = true; wantedBy = [ "sockets.target" ]; };
+    virtnodedevd = { enable = true; wantedBy = [ "sockets.target" ]; };
+    virtinterfaced = { enable = true; wantedBy = [ "sockets.target" ]; };
+  };
+
+  systemd.services = {
+    # virtqemud: socket-activated, PATH-injected so swtpm/dmidecode are visible
+    virtqemud = {
+      enable = true;
+      wantedBy = [ "multi-user.target" ];
+      requires = [ "virtqemud.socket" ];
+      after    = [ "virtqemud.socket" "network.target" ];
+      serviceConfig.EnvironmentFile = pkgs.writeText "virtqemud-env" ''
+        VIRTQEMUD_ARGS=--timeout 120
+        PATH=${pkgs.swtpm}/bin:${pkgs.qemu_full}/bin:${pkgs.dmidecode}/bin:${pkgs.coreutils}/bin:${pkgs.findutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gnused}/bin:${pkgs.systemd}/bin
+      '';
+    };
+  
+# Make iptables visible to virtnetworkd
+    virtnetworkd = {
+      enable = true;
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.EnvironmentFile = pkgs.writeText "virtnetworkd-env" ''
+        VIRTNETWORKD_ARGS=--timeout 120
+        PATH=${pkgs.iptables}/sbin:${pkgs.iproute2}/sbin:${pkgs.iproute2}/bin:${pkgs.dnsmasq}/bin:${pkgs.coreutils}/bin:${pkgs.findutils}/bin:${pkgs.gnugrep}/bin:${pkgs.gnused}/bin:${pkgs.systemd}/bin
+      '';
+    };
+
+    # Remaining modular daemons: socket-activated, no special config needed
+    virtsecretd   = { enable = true; wantedBy = [ "multi-user.target" ]; };
+    virtstoraged  = { enable = true; wantedBy = [ "multi-user.target" ]; };
+    virtnodedevd  = { enable = true; wantedBy = [ "multi-user.target" ]; };
+    virtinterfaced = { enable = true; wantedBy = [ "multi-user.target" ]; };
+
+    # Looking Glass shared memory — runs before VM starts
+    prepare-looking-glass = {
+      description = "Prepare Looking Glass shared memory";
+      before   = [ "virtqemud.service" ];   # fixed: was referencing disabled libvirtd
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = pkgs.writeShellScript "prepare-lg" ''
+          rm -f /dev/shm/looking-glass
+          ${pkgs.coreutils}/bin/truncate -s 128M /dev/shm/looking-glass
+          chown ca:libvirtd /dev/shm/looking-glass
+          chmod 0660 /dev/shm/looking-glass
+        '';
+      };
     };
   };
 
+  # ── Stable emulator symlink (survives QEMU updates) ───────────────────────
+  systemd.tmpfiles.rules = [
+    "d /run/libvirt/nix-emulators 0755 root root -"
+    "L /run/libvirt/nix-emulators/qemu-system-x86_64 - - - - ${pkgs.qemu_full}/bin/qemu-system-x86_64"
+    "d /run/libvirt/nix-ovmf 0755 root root -"
+    "L /run/libvirt/nix-ovmf/edk2-x86_64-secure-code.fd - - - - ${pkgs.OVMFFull.fd}/FV/OVMF_CODE.fd"
+    "L /run/libvirt/nix-ovmf/edk2-i386-vars.fd - - - - ${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd" 
+  ];
 
-  # User Permissions
-  users.users.ca.extraGroups = [ "libvirtd" "kvm" "input" "render" "video" ];
+  # ── Device permissions ────────────────────────────────────────────────────
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio",  OWNER="root", GROUP="libvirtd", MODE="0660"
+    SUBSYSTEM=="kvmfr", OWNER="ca",   GROUP="libvirtd", MODE="0660"
+  '';
 
-  # Required System Packages
+  # ── CPU governor: performance on all cores ────────────────────────────────
+  # (also set in base.nix — this mkForce ensures it wins on this host)
+  powerManagement.cpuFreqGovernor = lib.mkForce "performance";
+
+  # ── IRQ affinity: keep VM-core IRQs off isolated cores ───────────────────
+  # Prevents hardware interrupts from landing on cores 4-7,12-15
+  systemd.services.irqbalance = {
+    enable = true;
+    serviceConfig.ExecStart = lib.mkForce
+      "${pkgs.irqbalance}/sbin/irqbalance --foreground --banirq=4,5,6,7,12,13,14,15";
+  };
+
+  # ── User permissions ──────────────────────────────────────────────────────
+  users.users.ca.extraGroups = [
+    "libvirtd" "kvm" "input" "render" "video"
+  ];
+
+  # ── System packages ───────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
     (obs-studio.override {
-      ffmpeg = ffmpeg_6-full; # Ensures all codecs are available
+      ffmpeg = ffmpeg_6-full;
     })
+    swtpm
+    dmidecode
+    irqbalance
+    iptables
+    dnsmasq # virtnetworkd needs it for default NAT network DHCP
     virt-manager
     virt-viewer
     looking-glass-client
     spice-gtk
-    virtio-win # Windows drivers for high-speed Disk/NIC
+    virtio-win
     virtiofsd
+    pciutils
+    usbutils
+    cpufrequtils
   ];
 }
