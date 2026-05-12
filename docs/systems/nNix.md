@@ -140,6 +140,12 @@ The host slowness is more likely caused by one or more of:
 - kernel/config regression
 - possible physical motherboard/port damage
 
+## Trading VM Operations
+
+Trading-VM-specific workflow and guest integration notes live in
+`docs/vms/trading-vm.md`. Keep repeatable Windows guest procedures there
+instead of adding them to this host-health context.
+
 ## Next Commands To Run
 
 Use Fish syntax.

@@ -17,9 +17,39 @@
     qemu = {
       package = pkgs.qemu_full;
       swtpm.enable = true;
-      vhostUserPackages = [ pkgs.virtiofsd ];
       runAsRoot = false;
       # Remove verbatimConfig entirely — it produces duplicate entries
+    };
+  };
+
+  networking.firewall.interfaces."virbr0" = {
+    allowedTCPPorts = [ 445 ];
+    allowedUDPPorts = [ 4010 ];
+  };
+
+  services.samba = {
+    enable = true;
+    openFirewall = false;
+    settings = {
+      global = {
+        "server min protocol" = "SMB2";
+        "server signing" = "mandatory";
+        "interfaces" = "lo virbr0";
+        "bind interfaces only" = "yes";
+        "hosts allow" = "192.168.122. 127.";
+        "hosts deny" = "0.0.0.0/0";
+      };
+      "vm-share" = {
+        path = "/home/ca/Downloads/vm-share";
+        browseable = "yes";
+        writable = "yes";
+        "guest ok" = "no";
+        "valid users" = "ca";
+        "force user" = "ca";
+        "force group" = "users";
+        "create mask" = "0664";
+        "directory mask" = "0775";
+      };
     };
   };
 
@@ -194,8 +224,21 @@
     };
   };
 
+  # Host-side Scream receiver for the trading VM audio stream over libvirt.
+  systemd.user.services.scream = {
+    description = "Scream audio receiver";
+    after = [ "pipewire.service" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.scream}/bin/scream -o pulse -u -p 4010";
+      Restart = "always";
+      RestartSec = "3";
+    };
+  };
+
   # ── Stable emulator symlink (survives QEMU updates) ───────────────────────
   systemd.tmpfiles.rules = [
+    "d /home/ca/Downloads/vm-share 0770 ca libvirtd -"
     "d /run/libvirt/nix-emulators 0755 root root -"
     "L /run/libvirt/nix-emulators/qemu-system-x86_64 - - - - ${pkgs.qemu_full}/bin/qemu-system-x86_64"
     "d /run/libvirt/nix-ovmf 0755 root root -"
@@ -237,6 +280,7 @@
       ffmpeg = ffmpeg_6-full;
     })
     swtpm
+    scream
     dmidecode
     irqbalance
     iptables
@@ -246,7 +290,6 @@
     looking-glass-client
     spice-gtk
     virtio-win
-    virtiofsd
     pciutils
     usbutils
     cpufrequtils
