@@ -79,12 +79,11 @@
       "i915"          # iGPU for OBS — loads after VFIO
     ];
 
-    kernelModules = [ "kvm_intel" "kvmfr" ];
+    kernelModules = [ "kvm_intel" "kvmfr" "msr" ];
 
     kernelParams = [
       "intel_iommu=on"
       "iommu=pt"
-      "intel_pstate=passive"
 
       # VFIO: claim GTX 1660 Ti before any display driver
       "vfio-pci.ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed"
@@ -97,15 +96,14 @@
       "hugepages=8192"
       "transparent_hugepage=never"
 
+      # Keep default host IRQ placement off the VM-designated CPUs.
+      "irqaffinity=0-3,8-11"
+
       # CPU isolation: physical cores 4-7 + HT siblings 12-15 for VM
       "isolcpus=domain,managed_irq,4-7,12-15"
       "nohz_full=4-7,12-15"
       "rcu_nocbs=4-7,12-15"
       "rcu_nocb_poll"       # Reduces RCU wakeup latency on isolated cores
-
-      # C-state limiting for lowest interrupt latency
-      "processor.max_cstate=1"
-      "intel_idle.max_cstate=1"
 
       # Xanmod-specific: preempt is set in base.nix as 'full'
       # which is correct for Xanmod — do not override here
@@ -184,6 +182,16 @@
         '';
       };
     };
+
+    set-cpu-performance-policy = {
+      description = "Pin nNix CPU power policy to performance";
+      after = [ "systemd-modules-load.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${config.boot.kernelPackages.cpupower}/bin/cpupower set --epp performance --perf-bias 0";
+      };
+    };
   };
 
   # ── Stable emulator symlink (survives QEMU updates) ───────────────────────
@@ -198,7 +206,7 @@
   # ── Device permissions ────────────────────────────────────────────────────
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio",  OWNER="root", GROUP="libvirtd", MODE="0660"
-    SUBSYSTEM=="kvmfr", OWNER="ca",   GROUP="libvirtd", MODE="0660"
+    SUBSYSTEM=="kvmfr", GROUP="libvirtd", MODE="0660"
   '';
 
   # ── CPU governor: performance on all cores ────────────────────────────────
@@ -209,8 +217,13 @@
   # Prevents hardware interrupts from landing on cores 4-7,12-15
   systemd.services.irqbalance = {
     enable = true;
-    serviceConfig.ExecStart = lib.mkForce
-      "${pkgs.irqbalance}/sbin/irqbalance --foreground --banirq=4,5,6,7,12,13,14,15";
+    serviceConfig.ExecStart = lib.mkForce [
+      ""
+      (pkgs.writeShellScript "irqbalance-vm-cores" ''
+        export IRQBALANCE_BANNED_CPULIST=4-7,12-15
+        exec ${config.services.irqbalance.package}/bin/irqbalance --journal
+      '')
+    ];
   };
 
   # ── User permissions ──────────────────────────────────────────────────────

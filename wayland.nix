@@ -3,33 +3,14 @@
 {
   programs = {
     dconf.enable = true;
-    niri = {
+    sway = {
       enable = true;
-      package = pkgs.niri.override {
-        withDbus = true;
-      };
-    };
-
-    dms-shell = {
-      enable = true;
-      package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      quickshell.package = inputs.quickshell.packages.${pkgs.stdenv.hostPlatform.system}.quickshell;
-      systemd = {
-        enable = true;             # Systemd service for auto-start
-        restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
-      };
-      # Core features
-      enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-      enableClipboardPaste = true;       # Clipboard pasting
-      enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-      enableAudioWavelength = true;      # Audio visualizer (cava)
-      enableCalendarEvents = true;       # Calendar integration (khal)
+      wrapperFeatures.gtk = true;
     };
   };
 
-  services.xserver = {
-    enable = true;
-
+  services = {
+    xserver.enable = true;
     displayManager.gdm = {
       enable = true;
     };
@@ -38,13 +19,6 @@
   security.pam.services.gdm.enableGnomeKeyring = true;
 
   environment = {
-    etc."xdg/wayland-sessions/niri.desktop".text = ''
-      [Desktop Entry]
-      Name=Niri
-      Comment=Scrollable tiling Wayland compositor
-      Exec=niri-session
-      Type=Application
-    '';
     sessionVariables = {
       PASSWORD_STORE = "gnome-keyring";
       QT_LOGGING_RULES = ''
@@ -55,8 +29,6 @@
       XCURSOR_SIZE = "28";
       XCURSOR_THEME = "Adwaita";
       XDG_SESSION_TYPE = "wayland";
-      XDG_CURRENT_DESKTOP = "niri";
-      XDG_SESSION_DESKTOP = "niri";
       NIXOS_OZONE_WL = "1";
       GNOME_KEYRING_CONTROL = "/run/user/1001/keyring";
       GNOME_KEYRING_PID = "1"; # A placeholder to trigger the check
@@ -75,10 +47,6 @@
         default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
         "org.freedesktop.impl.portal.FileChooser" = "gnome";
       };
-      niri = {
-        default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
-        "org.freedesktop.impl.portal.FileChooser" = "nautilus";
-      };
     };
     extraPortals = with pkgs; [
       xdg-desktop-portal-gnome
@@ -89,8 +57,16 @@
   };
 
   environment.systemPackages = with pkgs; [
-    niri
+    waybar
+    swaybg
+    swayidle
+    swaylock
     pass-wayland
+    wofi
+    cliphist
+    grim
+    slurp
+    mako
     wayland
     wl-clipboard
     xwayland-satellite

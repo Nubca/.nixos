@@ -1,0 +1,7 @@
+interface:
+  display_name: "nNix Host Maintenance"
+  short_description: "Host-first NixOS maintenance for nNix"
+  default_prompt: "Use $nix-host-maintenance to review or update nNix host configuration with host health, benchmark workflow, and high-risk system changes in mind."
+
+policy:
+  allow_implicit_invocation: true

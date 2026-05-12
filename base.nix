@@ -15,7 +15,8 @@
       efi.canTouchEfiVariables = true;
       generic-extlinux-compatible.configurationLimit = 10;
     };
-    extraModprobeConfig = '' # Prevent WiFi sleep
+    extraModprobeConfig = ''
+    # Prevent WiFi sleep
     options iwlwifi power_save=0
     options iwlmvm power_scheme=1
     # options usbcore autosuspend=-1
@@ -159,10 +160,10 @@
     udev = {
       packages = [ pkgs.yubikey-personalization ];
       extraRules = ''
-      # Prevent Moonlander keyboard from sleeping
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/control}="on"
-      # Also disable autosuspend for this device
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1969", ATTR{power/autosuspend}="-1"
+      # Prevent Moonlander keyboard from sleeping.
+      # Match only the parent usb_device event so power attributes exist.
+      ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", TEST=="power/control", ATTR{power/control}="on"
+      ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", TEST=="power/autosuspend", ATTR{power/autosuspend}="-1"
       '';
     };
 
@@ -319,6 +320,7 @@
     hfsprogs
     hplipWithPlugin
     inputs.nvim-flake.packages.${pkgs.stdenv.system}.neovim
+    inputs.codex-cli-nix.packages.${pkgs.stdenv.system}.default
     kitty
     lazygit
     libqalculate
@@ -342,6 +344,11 @@
     rofimoji
     sd
     seahorse
+    smartmontools
+    sysbench
+    fio
+    lm_sensors
+    nvme-cli
     tldr
     thunderbird
     tradingview

@@ -1,0 +1,234 @@
+== host benchmark ==
+hostname: nNix
+label: snapshot
+timestamp: 2026-05-11T17:33:07-05:00
+output_file: /home/ca/.nixos/docs/benchmarking/benchmark-nNix-snapshot-20260511-173306.txt
+
+== uname ==
+Linux nNix 7.0.2-xanmod1 #1-NixOS SMP PREEMPT_DYNAMIC Tue Jan  1 00:00:00 UTC 1980 x86_64 GNU/Linux
+
+== uptime ==
+ 17:33:07  up   6:54,  2 users,  load average: 0.53, 0.66, 0.67
+
+== cmdline ==
+initrd=\EFI\nixos\1szv8j69n6mgz0f9h0lhiy74ycfqpa45-initrd-linux-xanmod-7.0.2-initrd.efi init=/nix/store/xv5a2f346l445g8vw75zz1z68wi5wc47-nixos-system-nNix-26.05.20260505.549bd84/init intel_iommu=on iommu=pt vfio-pci.ids=10de:2182,10de:1aeb,10de:1aec,10de:1aed kvm.ignore_msrs=1 hugepagesz=2M hugepages=8192 transparent_hugepage=never irqaffinity=0-3,8-11 isolcpus=domain,managed_irq,4-7,12-15 nohz_full=4-7,12-15 rcu_nocbs=4-7,12-15 rcu_nocb_poll preempt=full resume=/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b resume_offset=34816 root=fstab resume=/dev/disk/by-uuid/af942b97-9d3f-44cb-888b-f74630cc601b loglevel=4 lsm=landlock,yama,bpf
+
+== cpupower frequency-info ==
+analyzing CPU 11:
+  driver: intel_pstate
+  CPUs which run at the same hardware frequency: 11
+  CPUs which need to have their frequency coordinated by software: 11
+  energy performance preference: performance
+  hardware limits: 800 MHz - 5.00 GHz
+  available cpufreq governors: performance powersave
+  current policy: frequency should be within 800 MHz and 5.00 GHz.
+                  The governor "performance" may decide which speed to use
+                  within this range.
+  current CPU frequency: Unable to call hardware
+  current CPU frequency: 4.98 GHz (asserted by call to kernel)
+  boost state support:
+    Supported: yes
+    Active: yes
+
+== cpupower idle-info ==
+CPUidle driver: intel_idle
+CPUidle governor: menu
+analyzing CPU 9:
+
+Number of idle states: 9
+Available idle states: POLL C1 C1E C3 C6 C7s C8 C9 C10
+POLL:
+Flags/Description: CPUIDLE CORE POLL IDLE
+Latency: 0
+Residency: 0
+Usage: 64258
+Duration: 733913
+C1:
+Flags/Description: MWAIT 0x00
+Latency: 2
+Residency: 2
+Usage: 706355
+Duration: 84718209
+C1E:
+Flags/Description: MWAIT 0x01
+Latency: 10
+Residency: 20
+Usage: 846869
+Duration: 199053040
+C3:
+Flags/Description: MWAIT 0x10
+Latency: 70
+Residency: 100
+Usage: 560519
+Duration: 120650085
+C6:
+Flags/Description: MWAIT 0x20
+Latency: 85
+Residency: 200
+Usage: 2567207
+Duration: 1436573183
+C7s:
+Flags/Description: MWAIT 0x33
+Latency: 124
+Residency: 800
+Usage: 0
+Duration: 0
+C8:
+Flags/Description: MWAIT 0x40
+Latency: 200
+Residency: 800
+Usage: 4358282
+Duration: 8048661598
+C9:
+Flags/Description: MWAIT 0x50
+Latency: 480
+Residency: 5000
+Usage: 49873
+Duration: 163837595
+C10:
+Flags/Description: MWAIT 0x60
+Latency: 890
+Residency: 5000
+Usage: 1545957
+Duration: 13991790626
+
+
+== sysbench cpu ==
+sysbench 1.0.20 (using system LuaJIT 2.1.1741730670)
+
+Running the test with following options:
+Number of threads: 16
+Initializing random number generator from current time
+
+
+Prime numbers limit: 10000
+
+Initializing worker threads...
+
+Threads started!
+
+CPU speed:
+    events per second: 10026.01
+
+General statistics:
+    total time:                          20.0016s
+    total number of events:              200545
+
+Latency (ms):
+         min:                                    0.66
+         avg:                                    1.60
+         max:                                   92.80
+         95th percentile:                        4.91
+         sum:                               319920.26
+
+Threads fairness:
+    events (avg/stddev):           12534.0625/970.58
+    execution time (avg/stddev):   19.9950/0.00
+
+
+== sysbench memory ==
+sysbench 1.0.20 (using system LuaJIT 2.1.1741730670)
+
+Running the test with following options:
+Number of threads: 16
+Initializing random number generator from current time
+
+
+Running memory speed test with the following options:
+  block size: 1KiB
+  total size: 102400MiB
+  operation: write
+  scope: global
+
+Initializing worker threads...
+
+Threads started!
+
+Total operations: 104857600 (18877370.29 per second)
+
+102400.00 MiB transferred (18434.93 MiB/sec)
+
+
+General statistics:
+    total time:                          5.5538s
+    total number of events:              104857600
+
+Latency (ms):
+         min:                                    0.00
+         avg:                                    0.00
+         max:                                   20.01
+         95th percentile:                        0.00
+         sum:                                62342.06
+
+Threads fairness:
+    events (avg/stddev):           6553600.0000/0.00
+    execution time (avg/stddev):   3.8964/0.35
+
+
+== fio randread ==
+randread: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=io_uring, iodepth=32
+fio-3.41
+Starting 1 process
+randread: Laying out IO file (1 file / 1024MiB)
+
+randread: (groupid=0, jobs=1): err= 0: pid=46800: Mon May 11 17:33:35 2026
+  read: IOPS=179k, BW=700MiB/s (734MB/s)(1024MiB/1462msec)
+    slat (nsec): min=1160, max=53607, avg=1736.25, stdev=1135.15
+    clat (usec): min=22, max=1248, avg=176.32, stdev=108.41
+     lat (usec): min=56, max=1249, avg=178.06, stdev=108.39
+    clat percentiles (usec):
+     |  1.00th=[   62],  5.00th=[   69], 10.00th=[   75], 20.00th=[   90],
+     | 30.00th=[  106], 40.00th=[  122], 50.00th=[  147], 60.00th=[  172],
+     | 70.00th=[  204], 80.00th=[  251], 90.00th=[  326], 95.00th=[  392],
+     | 99.00th=[  537], 99.50th=[  603], 99.90th=[  816], 99.95th=[  938],
+     | 99.99th=[ 1106]
+   bw (  KiB/s): min=727400, max=727424, per=100.00%, avg=727412.00, stdev=16.97, samples=2
+   iops        : min=181850, max=181856, avg=181853.00, stdev= 4.24, samples=2
+  lat (usec)   : 50=0.01%, 100=26.33%, 250=53.44%, 500=18.75%, 750=1.32%
+  lat (usec)   : 1000=0.13%
+  lat (msec)   : 2=0.03%
+  cpu          : usr=14.03%, sys=27.38%, ctx=64871, majf=0, minf=40
+  IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=100.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.1%, 64=0.0%, >=64=0.0%
+     issued rwts: total=262144,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=32
+
+Run status group 0 (all jobs):
+   READ: bw=700MiB/s (734MB/s), 700MiB/s-700MiB/s (734MB/s-734MB/s), io=1024MiB (1074MB), run=1462-1462msec
+
+Disk stats (read/write):
+  nvme0n1: ios=251826/1, sectors=2014608/80, merge=0/1, ticks=42673/0, in_queue=42673, util=67.20%
+
+== sensors ==
+acpitz-acpi-0
+Adapter: ACPI interface
+temp1:        +27.8°C  
+
+nvme-pci-0600
+Adapter: PCI adapter
+Composite:    +33.9°C  (low  = -20.1°C, high = +74.8°C)
+                       (crit = +79.8°C)
+
+coretemp-isa-0000
+Adapter: ISA adapter
+Package id 0:  +46.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 0:        +44.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 1:        +46.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 2:        +43.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 3:        +42.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 4:        +42.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 5:        +41.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 6:        +41.0°C  (high = +86.0°C, crit = +100.0°C)
+Core 7:        +40.0°C  (high = +86.0°C, crit = +100.0°C)
+
+amdgpu-pci-0300
+Adapter: PCI adapter
+vddgfx:      725.00 mV 
+fan1:         194 RPM  (min =    0 RPM, max = 3500 RPM)
+edge:         +52.0°C  (crit = +94.0°C, hyst = -273.1°C)
+PPT:           5.14 W  (cap = 120.00 W)
+pwm1:              0%
+sclk:         309 MHz 
+mclk:         300 MHz 
+

@@ -13,7 +13,7 @@
     ./sxhkd.nix
     ./vivaldi-theme.nix
     ./yazi.nix
-    ./zellij.nix
+    # ./zellij.nix
     # ./zoom-us.nix
   ];
 

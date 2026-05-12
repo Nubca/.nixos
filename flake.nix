@@ -13,14 +13,6 @@
       url = "github:Nubca/nvim-flake/working";
       inputs.nixpkgs.follows = "nixpkgs";
       };
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     qmk-firmware = {
       url = "github:qmk/qmk_firmware";
       flake = false;
@@ -30,6 +22,7 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
   };
 
   outputs = inputs: with inputs; {
