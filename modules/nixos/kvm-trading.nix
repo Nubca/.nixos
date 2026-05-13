@@ -22,7 +22,46 @@
     };
   };
 
-  networking.firewall.interfaces."virbr0" = {
+  # Bridge the trading VM directly onto the physical LAN instead of routing it
+  # through libvirt's default NAT network.
+  networking.networkmanager.ensureProfiles.profiles = {
+    "br0" = {
+      connection = {
+        id = "br0";
+        type = "bridge";
+        interface-name = "br0";
+        autoconnect = "yes";
+      };
+      bridge = {
+        stp = "false";
+      };
+      ipv4 = {
+        method = "auto";
+      };
+      ipv6 = {
+        method = "auto";
+      };
+    };
+
+    "br0-enp5s0" = {
+      connection = {
+        id = "br0-enp5s0";
+        type = "ethernet";
+        interface-name = "enp5s0";
+        master = "br0";
+        slave-type = "bridge";
+        autoconnect = "yes";
+      };
+      ipv4 = {
+        method = "disabled";
+      };
+      ipv6 = {
+        method = "ignore";
+      };
+    };
+  };
+
+  networking.firewall.interfaces."br0" = {
     allowedTCPPorts = [ 445 ];
     allowedUDPPorts = [ 4010 ];
   };
@@ -34,9 +73,9 @@
       global = {
         "server min protocol" = "SMB2";
         "server signing" = "mandatory";
-        "interfaces" = "lo virbr0";
+        "interfaces" = "lo br0";
         "bind interfaces only" = "yes";
-        "hosts allow" = "192.168.122. 127.";
+        "hosts allow" = "192.168.1. 127.";
         "hosts deny" = "0.0.0.0/0";
       };
       "vm-share" = {
@@ -196,6 +235,20 @@
     virtnodedevd  = { enable = true; wantedBy = [ "multi-user.target" ]; };
     virtinterfaced = { enable = true; wantedBy = [ "multi-user.target" ]; };
 
+    disable-direct-enp5s0-profile = {
+      description = "Disable direct NetworkManager profile for bridged VM LAN";
+      after = [ "NetworkManager-ensure-profiles.service" ];
+      wantedBy = [ "multi-user.target" ];
+      path = [ pkgs.networkmanager ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        nmcli connection modify "Wired connection 1" connection.autoconnect no || true
+      '';
+    };
+
     # Looking Glass shared memory — runs before VM starts
     prepare-looking-glass = {
       description = "Prepare Looking Glass shared memory";
@@ -224,13 +277,13 @@
     };
   };
 
-  # Host-side Scream receiver for the trading VM audio stream over libvirt.
+  # Host-side Scream receiver for the trading VM audio stream over br0.
   systemd.user.services.scream = {
     description = "Scream audio receiver";
     after = [ "pipewire.service" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.scream}/bin/scream -o pulse -u -p 4010";
+      ExecStart = "${pkgs.scream}/bin/scream -o pulse -u -i br0 -p 4010";
       Restart = "always";
       RestartSec = "3";
     };

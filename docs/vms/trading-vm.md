@@ -27,25 +27,30 @@ Do not use this document for:
 Scream is used for Windows guest audio from the trading VM back to the NixOS
 host.
 
+The current production path is network Scream over the bridged LAN, not
+ivshmem audio and not libvirt NAT.
+
 ### Host-side expectations
 
 - The receiver runs as a `systemd --user` service named `scream`.
 - The receiver listens on UDP port `4010`.
-- NixOS firewall access is opened only on the libvirt bridge `virbr0`.
+- The receiver is bound to `br0` with `scream -o pulse -u -i br0 -p 4010`.
+- NixOS firewall access is opened on the trading VM bridge `br0`.
 - The host-side receiver is defined in `modules/nixos/kvm-trading.nix`.
 
 ### Guest-side expectations
 
 - Use the Scream Windows virtual audio driver in the trading VM.
-- Configure the sender to use unicast UDP to `192.168.122.1:4010`.
-- Keep the VM attached to libvirt's default NAT network unless the host target
-  address is updated in both NixOS config and this document.
+- Configure the sender to use unicast UDP to the host's `br0` LAN address on
+  port `4010`.
+- The guest address is assigned by the physical LAN DHCP server. As of the
+  bridge migration session, the guest was observed at `192.168.1.41`.
 
 ### Windows guest setup checklist
 
 1. Install the Scream virtual audio driver in the VM.
 2. Install or configure the Scream sender or service for unicast UDP to
-   `192.168.122.1:4010`.
+   `<host-br0-ip>:4010`.
 3. Reboot the VM if the driver install requires it.
 4. In Windows Sound settings, select the Scream device as the default output
    while testing guest audio.
@@ -56,11 +61,35 @@ host.
 
 When audio is not working, verify the stack in this order:
 
-1. Confirm the VM is still using the expected libvirt network path.
-2. Confirm the Windows guest is targeting `192.168.122.1:4010`.
+1. Confirm the VM is still using the expected `br0` bridge network path.
+2. Confirm the Windows guest is targeting `<host-br0-ip>:4010`.
 3. Confirm the host `scream` user service is running.
 4. Confirm PipeWire audio on the host is otherwise healthy.
 5. Only after that, debug guest driver or Windows audio device selection.
+
+Useful host checks:
+
+```fish
+ip -br addr show br0
+systemctl --user status scream --no-pager
+ss -lunp | rg ':4010|scream'
+```
+
+Useful Windows checks:
+
+```powershell
+Test-NetConnection <host-br0-ip> -Port 4010 -InformationLevel Detailed
+```
+
+UDP audio will not prove delivery with a TCP-style connection result, but this
+still confirms that Windows is targeting the expected host address.
+
+### Secure Boot Note
+
+Secure Boot is normally enabled for `Win11-Trading`. It was temporarily disabled
+to install the Scream guest driver, then re-enabled in `vms/trading/config.xml`.
+Do not leave Secure Boot disabled unless a driver-install task explicitly needs
+that temporary state.
 
 ## Shared Host Folder
 
@@ -69,7 +98,7 @@ between the NixOS host and Windows guest:
 
 - Host path: `/home/ca/Downloads/vm-share`
 - Recommended guest drive label: `VMShare`
-- Windows path: `\\192.168.122.1\vm-share`
+- Windows path: `\\<host-br0-ip>\vm-share`
 
 Do not share the whole host Downloads directory by default. Keeping the VM share
 as a subfolder preserves the convenience of Downloads while avoiding accidental
@@ -79,23 +108,29 @@ guest access to unrelated downloaded files.
 
 - The shared directory is created by `modules/nixos/kvm-trading.nix` with owner
   `ca` and group `libvirtd`.
-- The host exports this folder with Samba over the libvirt bridge only.
-- NixOS firewall access for SMB is opened only on `virbr0`.
+- The host exports this folder with Samba over the trading VM bridge only.
+- NixOS firewall access for SMB is opened on `br0`.
+- Find the current host target address with `ip -br addr show br0`.
 
 ### Windows guest setup checklist
 
 1. Open File Explorer or PowerShell in the Windows guest.
-2. Connect to `\\192.168.122.1\vm-share`.
+2. Connect to `\\<host-br0-ip>\vm-share`.
 3. Authenticate as Samba user `ca`.
 4. Optionally map it to a stable drive letter such as `Z:`.
 5. Use that shared folder for installers, Scream files, VM notes, and Codex CLI
    handoff files.
 
-PowerShell mapping example:
+Persistent mapping example. Run this from the normal Windows user session, not
+an Administrator shell, so Explorer sees the same mapped drive:
 
 ```powershell
-New-PSDrive -Name Z -PSProvider FileSystem -Root '\\192.168.122.1\vm-share' -Credential (Get-Credential ca) -Persist
+cmdkey /add:<host-br0-ip> /user:ca /pass
+net use Z: \\<host-br0-ip>\vm-share /persistent:yes
 ```
+
+The `cmdkey` command prompts for the Samba password and stores it in Windows
+Credential Manager.
 
 The host needs a Samba password for `ca`:
 
@@ -118,11 +153,11 @@ or a changed Looking Glass memory path is tested and documented.
 
 If the share does not appear in Windows:
 
-1. Confirm the Windows guest is on libvirt's default NAT network.
-2. Confirm the guest can reach `192.168.122.1`.
+1. Confirm the Windows guest is on the `br0` bridge network.
+2. Confirm the guest can reach the host's `br0` LAN address.
 3. Confirm the NixOS Samba service is running on the host.
-4. Confirm TCP port `445` is allowed on `virbr0`.
-5. Connect directly to `\\192.168.122.1\vm-share`; do not rely on Windows
+4. Confirm TCP port `445` is allowed on `br0`.
+5. Connect directly to `\\<host-br0-ip>\vm-share`; do not rely on Windows
    network discovery.
 6. Confirm the `ca` Samba account exists if Windows rejects credentials.
 
@@ -134,12 +169,13 @@ sudo ss -ltnp | rg ':445'
 virsh --connect qemu:///system domifaddr Win11-Trading
 ```
 
-Useful Windows checks from an elevated PowerShell:
+Useful Windows checks from PowerShell:
 
 ```powershell
-Test-NetConnection 192.168.122.1 -Port 445
-Test-Path '\\192.168.122.1\vm-share'
-New-PSDrive -Name Z -PSProvider FileSystem -Root '\\192.168.122.1\vm-share' -Credential (Get-Credential ca) -Persist
+Test-NetConnection <host-br0-ip> -Port 445
+Test-Path '\\<host-br0-ip>\vm-share'
+net use
+cmdkey /list:<host-br0-ip>
 ```
 
 ## Related Host Components

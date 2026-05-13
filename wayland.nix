@@ -26,7 +26,7 @@
       qml.i3sock.warning=false;
       qml.swaysock.warning=false;
       '';
-      XCURSOR_SIZE = "28";
+      XCURSOR_SIZE = "36";
       XCURSOR_THEME = "Adwaita";
       XDG_SESSION_TYPE = "wayland";
       NIXOS_OZONE_WL = "1";

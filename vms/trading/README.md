@@ -9,6 +9,24 @@ trading VM on `nNix`.
 
 Operational notes live in `docs/vms/trading-vm.md`.
 
+## Current Network
+
+The VM is bridged onto the physical LAN through host bridge `br0`.
+
+- XML interface type: `bridge`
+- XML source: `br0`
+- guest NIC model: `virtio`
+- guest MAC: `52:54:00:a3:3d:9a`
+- host bridge address: check with `ip -br addr show br0`
+
+Do not change the VM back to libvirt's default NAT network for
+latency-sensitive trading traffic unless this is an explicit rollback.
+
+## Firmware State
+
+Secure Boot is enabled in the VM XML. It was temporarily disabled during the
+Scream guest driver installation, then restored.
+
 ## Workflow
 
 Edit `config.xml` first for persistent VM hardware/config changes. Then apply
@@ -39,17 +57,20 @@ runtime state.
 
 ## Current Shared Folder
 
-The VM uses an SMB share over the libvirt bridge:
+The VM uses an SMB share over the trading VM bridge:
 
 - host path: `/home/ca/Downloads/vm-share`
-- Windows path: `\\192.168.122.1\vm-share`
+- Windows path: `\\<host-br0-ip>\vm-share`
 - Samba user: `ca`
 
 The host directory is created by `modules/nixos/kvm-trading.nix`.
-The Samba service and `virbr0` firewall rule are also defined there.
+The Samba service and `br0` firewall rule are also defined there.
+
+Run this from the normal Windows user session, not an Administrator shell:
 
 ```powershell
-New-PSDrive -Name Z -PSProvider FileSystem -Root '\\192.168.122.1\vm-share' -Credential (Get-Credential ca) -Persist
+cmdkey /add:<host-br0-ip> /user:ca /pass
+net use Z: \\<host-br0-ip>\vm-share /persistent:yes
 ```
 
 The host needs a Samba password for `ca`:

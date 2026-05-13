@@ -150,9 +150,9 @@
     <controller type='sata' index='0'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1f' function='0x2'/>
     </controller>
-    <interface type='network'>
+    <interface type='bridge'>
       <mac address='52:54:00:a3:3d:9a'/>
-      <source network='default'/>
+      <source bridge='br0'/>
       <model type='virtio'/>
       <driver name='vhost' queues='4'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>

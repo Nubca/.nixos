@@ -146,6 +146,19 @@ Trading-VM-specific workflow and guest integration notes live in
 `docs/vms/trading-vm.md`. Keep repeatable Windows guest procedures there
 instead of adding them to this host-health context.
 
+Current durable VM architecture:
+
+- VM name: `Win11-Trading`
+- Persistent libvirt XML: `vms/trading/config.xml`
+- CPU: 8 vCPUs pinned to isolated host CPUs `4-7,12-15`
+- Emulator pinning: host CPUs `0-1`
+- IOThread pinning: host CPUs `2-3`
+- Memory: 16 GiB locked hugepages, ballooning disabled
+- Network: bridged to physical LAN through `br0`, not libvirt NAT
+- Audio: Scream network receiver on host `br0`, UDP port `4010`
+- Display/input: GPU passthrough plus Looking Glass/kvmfr with SPICE input
+- Firmware: Secure Boot enabled after temporary Scream driver installation
+
 ## Next Commands To Run
 
 Use Fish syntax.
