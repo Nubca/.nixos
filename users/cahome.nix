@@ -38,4 +38,29 @@
       nix-direnv.enable = true;
     };
   };
+
+  systemd.user.services.computer-backup = {
+    Unit = {
+      Description = "Computer rsync snapshot backup";
+      Documentation = "file:///home/ca/.nixos/backup-system/README.md";
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "/home/ca/.nixos/backup-system/bin/backup.sh";
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+  };
+
+  systemd.user.timers.computer-backup = {
+    Unit.Description = "Run computer backup daily";
+    Timer = {
+      OnCalendar = "*-*-* 16:00:00";
+      Persistent = true;
+      RandomizedDelaySec = "5m";
+      Unit = "computer-backup.service";
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
 }

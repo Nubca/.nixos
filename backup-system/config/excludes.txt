@@ -1,0 +1,34 @@
+# Caches and generated data
+.cache/
+.npm/
+.pnpm-store/
+.cargo/registry/
+.cargo/git/
+.rustup/toolchains/
+.gradle/caches/
+.local/share/Trash/
+.local/share/containers/storage/
+.local/share/libvirt/images/
+.var/app/*/cache/
+
+# Browser and app caches
+.mozilla/firefox/*/cache2/
+.config/google-chrome/*/Cache/
+.config/chromium/*/Cache/
+.config/vivaldi/*/Cache/
+.config/BraveSoftware/*/Cache/
+
+# Large volatile or mounted data
+VirtualBox VMs/
+*.qcow2
+*.raw
+*.vdi
+*.vhd
+*.vhdx
+*.iso
+
+# Backup destinations and temporary files
+/files2/backups/
+*.tmp
+*.swp
+*~

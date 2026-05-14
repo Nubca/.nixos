@@ -1,0 +1,11 @@
+[Unit]
+Description=Win11-Trading powered-off VM backup
+Documentation=file://__BACKUP_ROOT__/README.md
+After=virtqemud.service libvirtd.service
+
+[Service]
+Type=oneshot
+ExecStart=__BACKUP_ROOT__/bin/backup-vm.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

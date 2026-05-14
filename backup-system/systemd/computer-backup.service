@@ -1,0 +1,10 @@
+[Unit]
+Description=Computer rsync snapshot backup
+Documentation=file://__BACKUP_ROOT__/README.md
+
+[Service]
+Type=oneshot
+ExecStart=__BACKUP_ROOT__/bin/backup.sh
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7

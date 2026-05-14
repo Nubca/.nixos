@@ -1,6 +1,34 @@
 { config, inputs, lib, pkgs, ... }:
 
+let
+  xdpwChooser = pkgs.writeShellScript "xdpw-chooser" ''
+    log=/tmp/xdpw-chooser.log
+    input="$(cat)"
+
+    {
+      printf '%s\n' "--- $(${pkgs.coreutils}/bin/date --iso-8601=seconds) ---"
+      printf 'input:\n%s\n' "$input"
+    } >> "$log"
+
+    choice="$(printf '%s\n' "$input" | ${pkgs.wofi}/bin/wofi --dmenu --prompt Screenshare)" || exit 0
+
+    printf 'choice: %s\n' "$choice" >> "$log"
+    printf '%s\n' "$choice"
+  '';
+in
 {
+  nixpkgs.overlays = [
+    (final: prev: {
+      vesktop = prev.vesktop.overrideAttrs (old: {
+        postFixup = (old.postFixup or "") + ''
+          substituteInPlace $out/bin/vesktop \
+            --replace '--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true' \
+                      '--ozone-platform=wayland --enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer --enable-wayland-ime=true'
+        '';
+      });
+    })
+  ];
+
   programs = {
     dconf.enable = true;
     sway = {
@@ -44,16 +72,29 @@
     xdgOpenUsePortal = true;
     config = {
       common = {
-        default = lib.mkDefault [ "gnome" "gtk" "wlr" ];
-        "org.freedesktop.impl.portal.FileChooser" = "gnome";
+        default = lib.mkDefault [ "gtk" "wlr" ];
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+      };
+      sway = {
+        default = lib.mkDefault [ "gtk" ];
+        "org.freedesktop.impl.portal.Inhibit" = "none";
+        "org.freedesktop.impl.portal.Screenshot" = "wlr";
       };
     };
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
     ];
-    wlr.enable = true;
+    wlr = {
+      enable = true;
+      settings = {
+        screencast = {
+          chooser_type = "dmenu";
+          chooser_cmd = "${xdpwChooser}";
+          max_fps = 60;
+          force_mod_linear = true;
+        };
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [

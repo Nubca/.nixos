@@ -55,8 +55,14 @@ Nvidia GTX 1660 Ti:
 - Address: 0000:01:00.0
 - Driver: vfio-pci
 - LnkCap: 8GT/s, x16
-- LnkSta: 2.5GT/s, x16
-- Interpretation: x16 width is good. Gen1 speed may be idle/power-state related because card is bound to vfio-pci.
+- Host-side LnkSta/sysfs can report 2.5GT/s, x16 while the device is
+  bound to vfio-pci.
+- Windows guest telemetry is authoritative for active passthrough use:
+  `nvidia-smi` reported PCIe Gen3 x16 under guest ownership, and short
+  Direct3D/OCCT validation kept the link at Gen3 x16.
+- Interpretation: the passthrough GPU link is healthy. Do not treat the
+  host-side 2.5GT/s reading alone as evidence that the GTX 1660 Ti is stuck at
+  Gen1 while passed through.
 
 Nvidia functions also bound to vfio-pci:
 
@@ -126,7 +132,10 @@ Historical note:
 
 The GPUs do not currently look dead.
 
-The Nvidia card is not stuck at x8; it is x16 width. The current Gen1 speed may be because it is idle and bound to vfio-pci.
+The Nvidia passthrough card is not stuck at x8 or Gen1 from the guest's point
+of view. Windows guest `nvidia-smi` confirmed Gen3 x16, and guest graphics
+diagnostics showed the GPU boosting without NVIDIA display reset or WHEA
+errors.
 
 The AMD card is running Gen3 x4, which is expected in the second full-length slot on this board.
 
@@ -158,12 +167,3 @@ Current durable VM architecture:
 - Audio: Scream network receiver on host `br0`, UDP port `4010`
 - Display/input: GPU passthrough plus Looking Glass/kvmfr with SPICE input
 - Firmware: Secure Boot enabled after temporary Scream driver installation
-
-## Next Commands To Run
-
-Use Fish syntax.
-
-```fish
-sudo dmesg -T | grep -Ei "available PCIe bandwidth|limited by"
-sudo sed -n '1,40p' /etc/modprobe.d/nixos.conf
-sudo sed -n '1,80p' /etc/udev/rules.d/99-local.rules

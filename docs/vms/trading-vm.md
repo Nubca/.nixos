@@ -22,6 +22,98 @@ Do not use this document for:
 - host hardware diagnosis
 - benchmark result captures
 
+## Current Validated State
+
+- VM: Windows 11 Pro, `Win11-Trading`
+- Guest IP observed during validation: `192.168.1.41`
+- Trading app: NinjaTrader 8
+- Active platform path: `C:\Program Files\NinjaTrader 8\bin\NinjaTrader.exe`
+- Active workspace inspected: `QuadView.xml`
+- Primary display path appears to be Looking Glass / Virtual Display Driver
+  with the Nvidia GTX 1660 Ti passed through.
+- Current state is satisfactory. Avoid further aggressive tuning unless a real
+  market-open symptom appears.
+
+### NinjaTrader Workspace Notes
+
+`QuadView.xml` contains 4 charts and 1 SuperDOM for `MGC 06-26`.
+
+Known higher-frequency indicators are intentional:
+
+- `VOL` on 1m, 5m, and 30m: `OnEachTick`
+- `BetterBarTimer` on 1m, 5m, and 30m: `OnEachTick`
+- `DTOscillator` on 10m: `OnPriceChange`
+
+Guest-side helper files created during validation:
+
+- `C:\Users\ca\Desktop\Latency-Check.txt`
+- `C:\Users\ca\trading-workstation-sample.ps1`
+
+## Networking
+
+The trading VM uses bridged LAN networking, not libvirt NAT. The VirtIO NIC is
+active and stable.
+
+Current NIC tuning:
+
+- Large Send Offload V2 for IPv4 and IPv6: disabled
+- Recv Segment Coalescing for IPv4 and IPv6: disabled
+- UDP Segmentation Offload for IPv4 and IPv6: disabled
+- Maximum Number of RSS Queues: 4
+- `Init.MaxRxBuffers`: 2048
+- `Init.MaxTxBuffers`: 1024
+- Checksum offloads remain enabled.
+
+Validation notes:
+
+- Gateway ping under test showed 0% loss with max latency around 2 ms.
+- Guest packet errors: 0
+- Guest outbound errors: 0
+- Host `vnet1` path was clean.
+- Windows receive discards exist, but host counters and guest app behavior did
+  not show a real packet-loss problem. Do not tune further based only on that
+  Windows discard counter.
+- DPC time was near zero, interrupt time was low, and processor queue was 0.
+
+## GPU / PCIe Validation
+
+The Nvidia GTX 1660 Ti guest-side PCIe state is healthy. Windows guest
+`nvidia-smi` reported:
+
+- `pcie.link.gen.current = 3`
+- `pcie.link.gen.max = 3`
+- `pcie.link.width.current = 16`
+- `pcie.link.width.max = 16`
+
+This confirms the guest sees full PCIe Gen3 x16. Host-side sysfs or `lspci`
+may show 2.5GT/s while the device is bound to vfio-pci; do not treat that
+host-side reading alone as evidence that the passed-through GPU is stuck at
+Gen1.
+
+Baseline telemetry:
+
+- Idle/low state: P8
+- Idle temperature around 43-48 C
+- Idle power around 35-37 W
+
+Short WinSAT Direct3D diagnostic:
+
+- GPU ramped briefly to P0.
+- Graphics clock reached around 1500 MHz.
+- Memory clock reached around 6000 MHz.
+- Temperature rose only to around 47 C.
+- PCIe remained Gen3 x16.
+- No `nvlddmkm`, display reset, or WHEA errors were found.
+
+OCCT Personal was installed through winget:
+
+- Package: `OCBase.OCCT.Personal`
+- Executable under:
+  `C:\Users\ca\AppData\Local\Microsoft\WinGet\Packages\OCBase.OCCT.Personal_Microsoft.Winget.Source_8wekyb3d8bbwe\OCCT.exe`
+
+The user ran an OCCT GPU test manually and reported completion. Post-test
+Windows event-log checks found no NVIDIA, display, or WHEA errors.
+
 ## Scream Audio
 
 Scream is used for Windows guest audio from the trading VM back to the NixOS
@@ -41,8 +133,13 @@ ivshmem audio and not libvirt NAT.
 ### Guest-side expectations
 
 - Use the Scream Windows virtual audio driver in the trading VM.
+- The validated Windows device names were `Scream (WDM)` and
+  `Speakers (Scream (WDM))`.
 - Configure the sender to use unicast UDP to the host's `br0` LAN address on
   port `4010`.
+- Validated unicast settings:
+  - `UnicastIPv4`: `192.168.1.238`
+  - `UnicastPort`: `4010`
 - The guest address is assigned by the physical LAN DHCP server. As of the
   bridge migration session, the guest was observed at `192.168.1.41`.
 
@@ -90,6 +187,10 @@ Secure Boot is normally enabled for `Win11-Trading`. It was temporarily disabled
 to install the Scream guest driver, then re-enabled in `vms/trading/config.xml`.
 Do not leave Secure Boot disabled unless a driver-install task explicitly needs
 that temporary state.
+
+Before Scream driver test-signing work, BitLocker was checked in the guest and
+was fully decrypted with protection off and no key protectors. There was no
+BitLocker recovery risk from the Secure Boot/test-signing changes.
 
 ## Shared Host Folder
 
@@ -177,6 +278,14 @@ Test-Path '\\<host-br0-ip>\vm-share'
 net use
 cmdkey /list:<host-br0-ip>
 ```
+
+## Remaining Notes
+
+- A key repeat issue appears input-path related, not Windows repeat settings.
+  Windows keyboard repeat configuration looked normal. If it remains relevant,
+  review the host-side Looking Glass/SPICE/input path.
+- Do not keep tuning the VM based only on counters when NinjaTrader behavior is
+  clean and no real symptom is present.
 
 ## Related Host Components
 

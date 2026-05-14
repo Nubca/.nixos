@@ -322,6 +322,41 @@
     ];
   };
 
+  # Powered-off VM image backup. The script refuses to copy the VM disk while
+  # Win11-Trading is running, which avoids inconsistent raw-disk snapshots.
+  systemd.services."win11-trading-backup" = {
+    description = "Win11-Trading powered-off VM backup";
+    after = [ "virtqemud.service" ];
+    path = with pkgs; [
+      coreutils
+      findutils
+      gnugrep
+      gnused
+      libvirt
+      procps
+      rsync
+      util-linux
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "/home/ca/.nixos/backup-system/bin/backup-vm.sh";
+      Nice = 10;
+      IOSchedulingClass = "best-effort";
+      IOSchedulingPriority = 7;
+    };
+  };
+
+  systemd.timers."win11-trading-backup" = {
+    description = "Run Win11-Trading VM backup weekly when powered off";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "Sat *-*-* 14:00:00";
+      Persistent = true;
+      RandomizedDelaySec = "5m";
+      Unit = "win11-trading-backup.service";
+    };
+  };
+
   # ── User permissions ──────────────────────────────────────────────────────
   users.users.ca.extraGroups = [
     "libvirtd" "kvm" "input" "render" "video"
