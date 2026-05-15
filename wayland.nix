@@ -1,21 +1,5 @@
 { config, inputs, lib, pkgs, ... }:
 
-let
-  xdpwChooser = pkgs.writeShellScript "xdpw-chooser" ''
-    log=/tmp/xdpw-chooser.log
-    input="$(cat)"
-
-    {
-      printf '%s\n' "--- $(${pkgs.coreutils}/bin/date --iso-8601=seconds) ---"
-      printf 'input:\n%s\n' "$input"
-    } >> "$log"
-
-    choice="$(printf '%s\n' "$input" | ${pkgs.wofi}/bin/wofi --dmenu --prompt Screenshare)" || exit 0
-
-    printf 'choice: %s\n' "$choice" >> "$log"
-    printf '%s\n' "$choice"
-  '';
-in
 {
   nixpkgs.overlays = [
     (final: prev: {
@@ -64,6 +48,7 @@ in
       # Prevents Zoom Crashes
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QT_QPA_PLATFORM = "wayland;xcb";
+      WLR_DRM_NO_MODIFIERS = "1";
     };
   };
 
@@ -76,9 +61,10 @@ in
         "org.freedesktop.impl.portal.FileChooser" = "gtk";
       };
       sway = {
-        default = lib.mkDefault [ "gtk" ];
+        default = lib.mkDefault [ "wlr" "gtk" ];
         "org.freedesktop.impl.portal.Inhibit" = "none";
-        "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
       };
     };
     extraPortals = with pkgs; [
@@ -88,10 +74,7 @@ in
       enable = true;
       settings = {
         screencast = {
-          chooser_type = "dmenu";
-          chooser_cmd = "${xdpwChooser}";
           max_fps = 60;
-          force_mod_linear = true;
         };
       };
     };

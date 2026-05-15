@@ -303,6 +303,7 @@
     distrobox
     dosfstools
     dunst
+    equibop
     exiftool
     eza
     fastfetch

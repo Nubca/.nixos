@@ -149,6 +149,27 @@ The host slowness is more likely caused by one or more of:
 - kernel/config regression
 - possible physical motherboard/port damage
 
+## Desktop App Notes
+
+### Discord on Sway / Wayland
+
+The Sway, PipeWire, and xdg-desktop-portal path is functional for audio and
+screen sharing.
+
+Validated working combinations:
+
+- Zoom web: audio and screen sharing work.
+- Equibop: Discord audio and screen sharing work.
+
+Known problematic combinations:
+
+- Discord in Vivaldi: screen sharing works, but Discord RTC audio can fail.
+- Vesktop: Discord audio works, but screen sharing can fail.
+
+Current recommendation: use Equibop as the preferred Discord client on the
+Sway session. Do not treat the Discord/Vivaldi or Vesktop failures alone as a
+reason to leave Sway.
+
 ## Trading VM Operations
 
 Trading-VM-specific workflow and guest integration notes live in
