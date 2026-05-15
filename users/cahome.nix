@@ -43,6 +43,7 @@
     Unit = {
       Description = "Computer rsync snapshot backup";
       Documentation = "file:///home/ca/.nixos/backup-system/README.md";
+      OnFailure = [ "computer-backup-failure-notify.service" ];
     };
     Service = {
       Type = "oneshot";
@@ -58,6 +59,14 @@
       Nice = 10;
       IOSchedulingClass = "best-effort";
       IOSchedulingPriority = 7;
+    };
+  };
+
+  systemd.user.services.computer-backup-failure-notify = {
+    Unit.Description = "Notify when computer backup fails";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.libnotify}/bin/notify-send --urgency=critical 'Backup failed' 'Check journalctl --user -u computer-backup.service'";
     };
   };
 

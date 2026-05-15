@@ -16,6 +16,10 @@ It has two independent jobs:
 - Uses hard links against the previous snapshot, so unchanged files do not take
   full duplicate space.
 - Keeps the newest `RETAIN_SNAPSHOTS` snapshots.
+- Prunes old snapshots before each run so retention cleanup can free space
+  before `rsync` starts.
+- Refuses to start if the backup filesystem is below the configured free-space
+  threshold.
 - Runs user-data backups daily at about 16:00 Central through a systemd user timer
   after installation.
 - Keeps only two VM snapshots by default because the VM disk is large.
@@ -31,9 +35,17 @@ Important settings:
   `/files1/Documents`, `/files1/Sources`, `/files1/Pictures`, `/files1/Music`,
   and `/files1/Videos`.
 - `RETAIN_SNAPSHOTS`: number of snapshots to keep.
+- `MIN_FREE_SPACE`: minimum free space required before user backups start.
 - `EXCLUDE_FILE`: exclude patterns.
 
 The VM backup is configured in `config/vm-backup.conf`.
+
+Important VM settings:
+
+- `VM_RETAIN_SNAPSHOTS`: number of VM snapshots to keep.
+- `VM_MIN_FREE_SPACE`: minimum free space required before VM backups start.
+- `VM_DISK_FREE_MARGIN`: extra free-space margin required beyond the allocated
+  VM disk size.
 
 ## Run User Backup Once
 
@@ -85,6 +97,8 @@ View logs:
 journalctl --user -u computer-backup.service
 ```
 
+If a user backup fails, systemd triggers a desktop notification.
+
 The script also writes logs under:
 
 ```bash
@@ -120,6 +134,8 @@ Enable the weekly root-level VM timer on non-NixOS. It runs Saturday at about
 ```
 
 If the VM is running, the scheduled job logs a skip and leaves the VM alone.
+If the VM backup fails, systemd writes a high-priority journal message and a
+wall message.
 
 ## List Backups
 

@@ -327,6 +327,7 @@
   systemd.services."win11-trading-backup" = {
     description = "Win11-Trading powered-off VM backup";
     after = [ "virtqemud.service" ];
+    onFailure = [ "win11-trading-backup-failure-notify.service" ];
     path = with pkgs; [
       coreutils
       findutils
@@ -344,6 +345,19 @@
       Nice = 10;
       IOSchedulingClass = "best-effort";
       IOSchedulingPriority = 7;
+    };
+  };
+
+  systemd.services."win11-trading-backup-failure-notify" = {
+    description = "Notify when Win11-Trading VM backup fails";
+    path = with pkgs; [ systemd util-linux ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "win11-trading-backup-failure-notify" ''
+        message="Win11-Trading VM backup failed. Check: journalctl -u win11-trading-backup.service"
+        systemd-cat -p err -t win11-trading-backup -- "$message"
+        wall "$message" || true
+      '';
     };
   };
 

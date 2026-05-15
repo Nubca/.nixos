@@ -22,6 +22,8 @@ source "$CONFIG_FILE"
 : "${VM_BACKUP_DEST:?VM_BACKUP_DEST must be set}"
 : "${VM_RETAIN_SNAPSHOTS:=2}"
 : "${VM_SKIP_RUNNING:=true}"
+: "${VM_MIN_FREE_SPACE:=100G}"
+: "${VM_DISK_FREE_MARGIN:=50G}"
 
 (( EUID == 0 )) || die "run as root so VM disk and libvirt state are readable"
 
@@ -52,6 +54,65 @@ cleanup_partial() {
 }
 trap cleanup_partial ERR INT TERM
 
+size_to_bytes() {
+  local value="$1"
+  local number unit
+
+  number="${value%[KkMmGgTt]}"
+  unit="${value:${#number}}"
+  [[ "$number" =~ ^[0-9]+$ ]] || die "invalid size value: $value"
+
+  case "$unit" in
+    "") printf '%s\n' "$number" ;;
+    [Kk]) printf '%s\n' $((number * 1024)) ;;
+    [Mm]) printf '%s\n' $((number * 1024 * 1024)) ;;
+    [Gg]) printf '%s\n' $((number * 1024 * 1024 * 1024)) ;;
+    [Tt]) printf '%s\n' $((number * 1024 * 1024 * 1024 * 1024)) ;;
+    *) die "invalid size suffix in: $value" ;;
+  esac
+}
+
+available_bytes() {
+  local path="$1"
+  df --output=avail -B1 "$path" | tail -n 1 | tr -dc '0-9'
+}
+
+path_size_bytes() {
+  local path="$1"
+  du -s -B1 "$path" | cut -f1
+}
+
+prune_vm_snapshots() {
+  local reserve_new="${1:-0}"
+  local keep_count delete_count snapshot_count
+
+  keep_count=$((VM_RETAIN_SNAPSHOTS - reserve_new))
+  if (( keep_count < 0 )); then
+    keep_count=0
+  fi
+
+  mapfile -t snapshots < <(find "$SNAPSHOT_ROOT" -mindepth 1 -maxdepth 1 -type d ! -name '.partial-*' -printf '%f\n' | sort)
+  snapshot_count="${#snapshots[@]}"
+  if (( snapshot_count > keep_count )); then
+    delete_count=$((snapshot_count - keep_count))
+    log "pruning $delete_count old VM snapshot(s)"
+    for ((i = 0; i < delete_count; i++)); do
+      rm -rf -- "$SNAPSHOT_ROOT/${snapshots[$i]}"
+    done
+  fi
+}
+
+require_free_space() {
+  local required="$1"
+  local available
+
+  available="$(available_bytes "$VM_BACKUP_DEST")"
+  if (( available < required )); then
+    die "not enough free space at $VM_BACKUP_DEST: available ${available} bytes, required ${required} bytes"
+  fi
+  log "free space check passed at $VM_BACKUP_DEST: available ${available} bytes, required ${required} bytes"
+}
+
 vm_state="unknown"
 if command -v virsh >/dev/null 2>&1; then
   vm_state="$(virsh --connect qemu:///system domstate "$VM_NAME" 2>/dev/null || true)"
@@ -79,6 +140,18 @@ case "$vm_state" in
     die "$VM_NAME must be powered off; current state is '$vm_state'"
     ;;
 esac
+
+[[ -e "$VM_DISK" ]] || die "required path is missing: $VM_DISK"
+log "pre-run pruning"
+prune_vm_snapshots 1
+
+min_required="$(size_to_bytes "$VM_MIN_FREE_SPACE")"
+disk_required=$(( $(path_size_bytes "$VM_DISK") + $(size_to_bytes "$VM_DISK_FREE_MARGIN") ))
+if (( disk_required > min_required )); then
+  require_free_space "$disk_required"
+else
+  require_free_space "$min_required"
+fi
 
 mkdir -p "$PARTIAL_SNAPSHOT"
 
@@ -119,14 +192,6 @@ mv -- "$PARTIAL_SNAPSHOT" "$NEW_SNAPSHOT"
 ln -sfn -- "$NEW_SNAPSHOT" "$LATEST_LINK"
 log "VM snapshot complete: $NEW_SNAPSHOT"
 
-mapfile -t snapshots < <(find "$SNAPSHOT_ROOT" -mindepth 1 -maxdepth 1 -type d ! -name '.partial-*' -printf '%f\n' | sort)
-snapshot_count="${#snapshots[@]}"
-if (( snapshot_count > VM_RETAIN_SNAPSHOTS )); then
-  delete_count=$((snapshot_count - VM_RETAIN_SNAPSHOTS))
-  log "pruning $delete_count old VM snapshot(s)"
-  for ((i = 0; i < delete_count; i++)); do
-    rm -rf -- "$SNAPSHOT_ROOT/${snapshots[$i]}"
-  done
-fi
+prune_vm_snapshots 0
 
 log "VM backup finished"
