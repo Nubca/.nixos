@@ -164,11 +164,10 @@ Validated working combinations:
 Known problematic combinations:
 
 - Discord in Vivaldi: screen sharing works, but Discord RTC audio can fail.
-- Vesktop: Discord audio works, but screen sharing can fail.
 
 Current recommendation: use Equibop as the preferred Discord client on the
-Sway session. Do not treat the Discord/Vivaldi or Vesktop failures alone as a
-reason to leave Sway.
+Sway session. Do not treat the Discord/Vivaldi failure alone as a reason to
+leave Sway.
 
 ## Trading VM Operations
 

@@ -46,7 +46,15 @@
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "/home/ca/.nixos/backup-system/bin/backup.sh";
+      ExecStart = "${pkgs.bash}/bin/bash /home/ca/.nixos/backup-system/bin/backup.sh";
+      Environment = "PATH=${lib.makeBinPath [
+        pkgs.bash
+        pkgs.coreutils
+        pkgs.findutils
+        pkgs.gnused
+        pkgs.rsync
+        pkgs.util-linux
+      ]}";
       Nice = 10;
       IOSchedulingClass = "best-effort";
       IOSchedulingPriority = 7;

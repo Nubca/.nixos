@@ -4,7 +4,8 @@ Documentation=file://__BACKUP_ROOT__/README.md
 
 [Service]
 Type=oneshot
-ExecStart=__BACKUP_ROOT__/bin/backup.sh
+ExecStart=/run/current-system/sw/bin/bash __BACKUP_ROOT__/bin/backup.sh
+Environment=PATH=/run/current-system/sw/bin
 Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7

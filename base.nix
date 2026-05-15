@@ -359,7 +359,6 @@
     udiskie
     unzip
     usbutils
-    vesktop
     vivaldi
     vlc
     wget

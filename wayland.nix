@@ -1,18 +1,6 @@
 { config, inputs, lib, pkgs, ... }:
 
 {
-  nixpkgs.overlays = [
-    (final: prev: {
-      vesktop = prev.vesktop.overrideAttrs (old: {
-        postFixup = (old.postFixup or "") + ''
-          substituteInPlace $out/bin/vesktop \
-            --replace '--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true' \
-                      '--ozone-platform=wayland --enable-features=WaylandWindowDecorations,WebRTCPipeWireCapturer --enable-wayland-ime=true'
-        '';
-      });
-    })
-  ];
-
   programs = {
     dconf.enable = true;
     sway = {

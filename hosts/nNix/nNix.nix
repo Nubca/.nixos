@@ -16,12 +16,6 @@
 
   services = {
     xserver.videoDrivers = [ "amdgpu" ];
-    displayManager = {
-      autoLogin = {
-        enable = true;
-        user = "ca";
-      };
-    };
   };
 
   home-manager = {
